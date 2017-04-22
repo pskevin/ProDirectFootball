@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,shrink-to-fit=no">
+    <link rel="shortcut icon" href="../images/siteimages/global/wembley/pro.png">
+
+    <title>Boots</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+
+    <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../bower_components/bootstrap-material-design/dist/css/ripples.min.css">
+    <link rel="stylesheet" href="../bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
+    <style>
+        body{
+            background-image: url("../images/siteimages/global/wembley/spotlight.jpg");
+            color: white;
+        }
+        .sidebar{
+            color: white;
+            margin-right: 1%;
+
+        }
+        .cell{
+            border: 1px solid #2d2d2d;
+            box-shadow: 0 0 1px #000;
+            padding: 20px;
+        }
+        .listhead{
+            padding-bottom: 2%;
+        }
+        .pagebar{
+            background: black;
+            margin-top: 1%;
+            font-size: 20px;
+        }
+        .represent{
+            border: 1px solid #2d2d2d;
+            box-shadow: 0 0 1px #000;
+            padding: 20px;
+        }
+        .filter{
+            border: 1px solid #2d2d2d;
+            box-shadow: 0 0 1px #000;
+        }
+        .bootlist{
+            color: white;
+        }
+        .bootlist a{
+            color: white;
+        }
+        .imgholder{
+            margin: 0 0 15px 0;
+
+        }
+        .imgholder img{
+            width: 100%;
+        }
+        /* Style the buttons that are used to open and close the accordion panel */
+        button.accordion {
+            background-color: #eee;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
+        /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+        button.accordion.active, button.accordion:hover {
+            background-color: #ddd;
+        }
+
+        button.accordion:after {
+            content: '\002B';
+            color: #777;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+        button.accordion.active:after {
+            content: "\2212";
+        }
+        /* Style the accordion panel. Note: hidden by default */
+        div.panel {
+            margin: 0;
+            border: none;
+            border-radius: 0px;
+            color: #777;
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+        .panel.show {
+            opacity: 1;
+            max-height: 500px;
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 30px;
+            height: 14px;
+        }
+
+        .switch input {display:none;}
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 12px;
+            width: 12px;
+            left: 3px;
+            bottom: 1.325px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(12px);
+            -ms-transform: translateX(12px);
+            transform: translateX(12px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="row">
+    <div style="height: 100px"></div>
+</div>
+<div class="row">
+    <div class="col-sm-3 col-sm-offset-1 sidebar">
+        <div class="row">
+            <div class="col-sm-12 represent">
+                Top Chart
+            </div>
+            <div class="col-sm-12 filter">
+                <div style="padding: 20px;">
+                    <a>Reset Filters</a>
+                </div>
+                <div class="row">
+                    <button class="accordion">Brands</button>
+                    <div class="panel">
+                        <ul type="none">
+                            <li><label class="switch">
+                                <input type="checkbox" checked>
+                                <div class="slider round"></div>
+                            </label>
+                                adidas</li>
+                            <li>nike</li>
+                            <li>puma</li>
+                        </ul>
+                    </div>
+                    <button class="accordion">Collection</button>
+                    <div class="panel">
+                        dfsdfd
+                    </div>
+
+                    <button class="accordion">Model</button>
+                    <div class="panel">
+                        sdfs
+                    </div>
+
+                    <button class="accordion">Price Bands</button>
+                    <div class="panel">
+                        sdfs
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-7">
+        <div class="row listhead">
+            <div class="col-sm-12">
+                BreadCrumbs
+            </div>
+            <div class="col-sm-12">
+                <h1>Football Boots - The Best In The Market</h1>
+            </div>
+            <div class="col-sm-12 pagebar">
+                Pagination
+            </div>
+        </div>
+        <div class="row bootlist">
+            <div class="col-sm-3 cell">
+                <div class="imgholder">
+                    <a>
+                        <img src="../images/productImages/thumbs/144664.jpg" />
+                    </a>
+                </div>
+                <a>
+                    Them Boots
+                </a><br>
+                Price:
+                <span>$200</span>
+            </div>
+            <div class="col-sm-3 cell">
+                <div class="imgholder">
+                    <a>
+                        <img src="../images/productImages/thumbs/141363.jpg" />
+                    </a>
+                </div>
+                <a>
+                    Them Boots
+                </a><br>
+                Price:
+                <span>$200</span>
+            </div>
+            <div class="col-sm-3 cell">
+                <div class="imgholder">
+                    <a>
+                        <img src="../images/productImages/thumbs/144702.jpg" />
+                    </a>
+                </div>
+                <a>
+                    Them Boots
+                </a><br>
+                Price:
+                <span>$200</span>
+            </div>
+            <div class="col-sm-3 cell">
+                <div class="imgholder">
+                    <a>
+                        <img src="../images/productImages/thumbs/144494.jpg" />
+                    </a>
+                </div>
+                <a>
+                    Them Boots
+                </a><br>
+                Price:
+                <span>$200</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../bower_components/bootstrap-material-design/dist/js/ripples.min.js"></script>
+<script src="../bower_components/bootstrap-material-design/dist/js/material.min.js"></script>
+<script src="../javascripts/indexjs.js"></script>
+</body>
+</html>
