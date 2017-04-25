@@ -4,38 +4,33 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var orderHistory = new Schema({
   orderId:
   {
-    type : String,
+    type : String
 
   },
   bootId :
   {
     type: mongoose.Schema.Types.ObjectId,
-    ref : String
+    ref : 'boots'
   }
 });
 var dataSchema = new Schema(
   {
-    username:
-    {
-      type : String,
-      required : true,
-      unique : true
-    },
+    username: String,
     password: String,
     Fname :
     {
-      type : String,
-      //required : true
+      type : String
     },
     Mname :
     {
-      type : String,
-    //  required : true
+      type : String
     },
     Lname :
     {
-      type : String,
-    //  required : true
+      type : String
+    },
+    email:{
+      type: String
     },
     mobno:
     {
@@ -48,53 +43,45 @@ var dataSchema = new Schema(
          return /^([0-9]{10}$)/.test(v);
         }
       }
-      //required: true
     },
-    gender:
-    {
-      type: String,
-      required :true
-    },
-    creditNo:
-    {
-      type: Number,
-      validate:
-      {
-        validator: function(v)
-        {
-         return /^([0-9]{16}$)/.test(v);
-        }
-      },
-      required :true
-    },
-    cvv:
-    {
-      type: Number,
-      validate:
-      {
-        validator: function(v)
-        {
-         return /^([0-9]{3}$)/.test(v);
-        }
-      },
-      required :true
-    },
+    // creditNo:
+    // {
+    //   type: Number,
+    //   validate:
+    //   {
+    //     validator: function(v)
+    //     {
+    //      return /^([0-9]{16}$)/.test(v);
+    //     }
+    //   }
+    // },
+    // cvv:
+    // {
+    //   type: Number,
+    //   validate:
+    //   {
+    //     validator: function(v)
+    //     {
+    //      return /^([0-9]{3}$)/.test(v);
+    //     }
+    //   },
+    //   required :true
+    // },
     address:
     {
-      type: String,
-      required :true
+      type: String
     },
     admin:
     {
       type: Boolean,
       default: false
     },
-    orders : [orderHistory],
+    orders : [orderHistory]
   },
   {
     timestamps : true
   }
 );
 dataSchema.plugin(passportLocalMongoose);
-var Pro = mongoose.model('prodirect',dataSchema);
-module.exports=Pro
+var Pro = mongoose.model('user',dataSchema);
+module.exports=Pro;

@@ -12,7 +12,7 @@ var orderSchema = new Schema(
     productId:
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref : String,
+      ref : 'boot',
       required : true
     },
     deliveryDate:
@@ -32,5 +32,5 @@ var orderSchema = new Schema(
   }
 );
 orderSchema.plugin(passportLocalMongoose);
-var Pro = mongoose.model('prodirect',orderSchema);
-module.exports=Pro
+var Pro = mongoose.model('order',orderSchema);
+module.exports=Pro;

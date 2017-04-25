@@ -20,42 +20,40 @@ var CommentSchema = new Schema(
     postedBy: {
          type: mongoose.Schema.Types.ObjectId,
          ref: 'User'
-    },
-
+    }
   },
   {
     timestamps : true
   }
 );
-
+var imageSchema = new Schema({
+    name: String,
+    data: Buffer,
+    encoding: String,
+    mimetype: String
+});
 var bootSchema = new Schema(
   {
-    image :
+    image :[imageSchema],
+    bname :
     {
-      name : String,
-      data : Buffer,
-      encoding : String,
-      mimetype : String
+      type : String
     },
-    name :
+    brand:
     {
-      type : String,
-      required : true
+        type:String
     },
-    marks :
+    description:
     {
-      type : Number,
-      required : true
+        type:String
     },
     costprice :
     {
-      type : Currency,
-      required : true
+        type : Currency
     },
     saleprice :
     {
-      type : Currency,
-      required : true
+      type : Currency
     },
     comments : [CommentSchema]
   },
@@ -64,5 +62,5 @@ var bootSchema = new Schema(
   }
 );
 bootSchema.plugin(passportLocalMongoose);
-var Pro = mongoose.model('prodirect',bootSchema);
-module.exports=Pro
+var Pro = mongoose.model('boot',bootSchema);
+module.exports=Pro;

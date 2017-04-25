@@ -22,8 +22,11 @@
     "morgan": "~1.7.0",
     "nodemailer": "^4.0.1",
     "passport": "^0.3.2",
+    "passport-jwt": "^2.2.1",
+    "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
     "serve-favicon": "~2.3.2",
+    "textmagic-rest-client": "0.0.5",
     "xoauth2": "^1.2.0"
   }
 }

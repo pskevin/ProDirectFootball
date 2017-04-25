@@ -6,13 +6,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fileupload = require('express-fileupload');
 var passport = require('passport');
-//var register = require('./routes/register');
-//var announcement= require('./routes/announcement');
-//var dashboard = require('./routes/querydb.js');
-//var mail = require('./routes/mail.js');
 var app = express();
-var url = 'mongodb://localhost:27017/Aicte101';
+var user = require('./routes/users');
+var boot = require('./routes/boot');
+var url = 'mongodb://localhost:27017/Prodirect';
 var mongoose = require('mongoose'),
     assert = require('assert');
 mongoose.connect(url);
@@ -26,18 +25,18 @@ app.set('views', path.join(__dirname, 'views'));
 //===========================IMPLEMENTATION===========================================
 
 db.on('error',console.error.bind(console,'connection error:'));
-db.once('open',function () {
+db.once('open',function (){
     console.log('Connected to server Successfully');
 });
 
 app.use(favicon(path.join(__dirname,'/public/images/favicon.ico')));
 app.use(logger('dev'));
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.urlencoded({extended : false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-
+app.use(fileupload());
 app.all('*', function(req, res, next){
     console.log('req start: ',req.secure, req.hostname, req.url, app.get('port'));
     if (req.secure) {
@@ -45,9 +44,8 @@ app.all('*', function(req, res, next){
     }
     res.redirect('https://'+req.hostname+':'+app.get('secPort')+req.url);
 });
-app.get('*',onGetRequest);
-// app.all('*',onpdfRequest);
-// app.use('/dashboard', dashboard);
+app.use('/user',user);
+app.use('/boot',boot);
 // app.use('/mail',mail);
 // app.use('/announcement.html',announcement);
 // app.use(express.static(path.join(__dirname, 'PDF')));
