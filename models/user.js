@@ -76,6 +76,15 @@ var dataSchema = new Schema(
       type: Boolean,
       default: false
     },
+    verified :{
+      type :Boolean,
+      default : false
+    },
+    otp: Number,
+    logged:{
+      type :Boolean,
+      default: false
+    },
     orders : [orderHistory]
   },
   {
