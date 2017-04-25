@@ -16,7 +16,13 @@
     <style>
         body{
             background-image: url("../images/siteimages/global/wembley/spotlight.jpg");
+            background-repeat: no-repeat;
+            background-size: cover;
             color: white;
+        }
+        a, a:hover{
+            cursor: pointer;
+            text-decoration: none;
         }
         .sidebar{
             color: white;
@@ -51,12 +57,55 @@
         .bootlist a{
             color: white;
         }
+        .bootlist .bootdesc{
+          text-align: center;
+          font-size: 12px;
+        }
+        .bootlist p.typetext{
+            font-style: normal;
+            float: right;
+            color: rgba(255, 255, 255, 0.3);
+        }
+        .bootlist span.small-brand-logo{
+          background-image: url('../images/siteimages/global/wembley/small-brand-logo-sprite.png');
+          background-repeat: no-repeat;
+          float: left;
+          display: inline-block;
+          width: 30px;
+          height: 15px;
+          text-indent: -999em;
+          overflow: hidden;
+          background-position: -99999px 0;
+          margin-bottom: 5px;
+        }
+        .bootlist span.adidas {
+          background-position: 0 0;
+        }
         .imgholder{
             margin: 0 0 15px 0;
+            position: relative;
 
         }
         .imgholder img{
             width: 100%;
+            height: auto;
+            position: relative;
+        }
+        .imgholder span{
+          padding: 4px 8px;
+          text-transform: uppercase;
+          position: absolute;
+          bottom: 1px;
+          left: 0;
+          color: #fff;
+          font-size: 11px;
+        }
+        .imgholder span.new{
+          background-color: green;
+        }
+        .imgholder span.exclusive{
+          background-color: white;
+          color: black;
         }
         /* Style the buttons that are used to open and close the accordion panel */
         button.accordion {
@@ -89,7 +138,7 @@
         }
         /* Style the accordion panel. Note: hidden by default */
         div.panel {
-            margin: 0;
+            margin: 0px;
             border: none;
             border-radius: 0px;
             color: #777;
@@ -103,60 +152,80 @@
             opacity: 1;
             max-height: 500px;
         }
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 30px;
-            height: 14px;
+        .panel ul{
+            padding: 5px;
         }
-
-        .switch input {display:none;}
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            -webkit-transition: .4s;
-            transition: .4s;
+        .panel li a{
+            background: url('../images/siteimages/global/wembley/unchecked.png') no-repeat left;
+            background-size: 20px;
+            padding-left: 30px;
+            margin-right: 5px ;
+            margin-bottom: 5px ;
+            display: block;
+            color: black;
         }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 12px;
-            width: 12px;
-            left: 3px;
-            bottom: 1.325px;
-            background-color: white;
-            -webkit-transition: .4s;
-            transition: .4s;
+        .panel li a:hover{
+            background: url('../images/siteimages/global/wembley/checked.jpg') no-repeat left;
+            background-size: 20px;
+            padding-left: 30px;
+            margin-right: 5px ;
+            margin-bottom: 5px ;
+            display: block;
         }
-
-        input:checked + .slider {
-            background-color: #2196F3;
+        .panel li.selected a{
+            background: url('../images/siteimages/global/wembley/checked.jpg') no-repeat left;
+            background-color: black;
+            background-size: 20px;
+            padding-left: 30px;
+            margin-right: 5px ;
+            margin-bottom: 5px ;
+            display: block;
+            color: white;
         }
-
-        input:focus + .slider {
-            box-shadow: 0 0 1px #2196F3;
+        .panel li{
+            padding-right: 5px;
+            text-decoration: none;
         }
-
-        input:checked + .slider:before {
-            -webkit-transform: translateX(12px);
-            -ms-transform: translateX(12px);
-            transform: translateX(12px);
+        .pagination{
+          float: right;
+          margin: 0;
         }
-
-        /* Rounded sliders */
-        .slider.round {
-            border-radius: 34px;
+        .pagination li{
+          float: left;
         }
-
-        .slider.round:before {
-            border-radius: 50%;
+        .pagination .nextpage a{
+          background: url('../images/siteimages/global/wembley/sprite.png') no-repeat right;
+          background-position: -1186px 0;
+          text-indent: -999em;
+          overflow: hidden;
+          float: left;
+          width: 26px;
+          height: 37px;
+          border: 0;
+          border-left: solid 2px rgba(255, 255, 255, 0.3);
+          margin-left: 5px;
+        }
+        .pagination .nextpage a:hover{
+          background-color: rgba(255, 255, 255, 0.3);
+          border: 0;
+          border-left: solid 2px rgba(255, 255, 255, 0.3);
+        }
+        .pagination .prevpage a{
+          background: url('../images/siteimages/global/wembley/sprite.png') no-repeat right;
+          background-position: -1160px 0;
+          text-indent: -999em;
+          overflow: hidden;
+          float: left;
+          width: 26px;
+          height: 37px;
+          border: 0;
+          border-right: solid 2px rgba(255, 255, 255, 0.3);
+          margin-right: 5px;
+        }
+        .pagination .prevpage a:hover{
+          background-color: rgba(255, 255, 255, 0.3);
+          border: 0;
+          border-right: solid 2px rgba(255, 255, 255, 0.3);
         }
     </style>
 </head>
@@ -166,7 +235,7 @@
     <div style="height: 100px"></div>
 </div>
 <div class="row">
-    <div class="col-sm-3 col-sm-offset-1 sidebar">
+    <div class="col-sm-2 col-sm-offset-1 sidebar">
         <div class="row">
             <div class="col-sm-12 represent">
                 Top Chart
@@ -179,13 +248,9 @@
                     <button class="accordion">Brands</button>
                     <div class="panel">
                         <ul type="none">
-                            <li><label class="switch">
-                                <input type="checkbox" checked>
-                                <div class="slider round"></div>
-                            </label>
-                                adidas</li>
-                            <li>nike</li>
-                            <li>puma</li>
+                            <li class="selected"><a>adidas</a></li>
+                            <li><a>nike</a></li>
+                            <li><a>puma</a></li>
                         </ul>
                     </div>
                     <button class="accordion">Collection</button>
@@ -206,7 +271,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-7">
+    <div class="col-sm-7 col-sm-offset-1">
         <div class="row listhead">
             <div class="col-sm-12">
                 BreadCrumbs
@@ -214,58 +279,68 @@
             <div class="col-sm-12">
                 <h1>Football Boots - The Best In The Market</h1>
             </div>
-            <div class="col-sm-12 pagebar">
-                Pagination
+            <div class="col-sm-12 pagebar" style="padding: 0px">
+                <ul class="pagination">
+                    <li class="prevpage"><a>Previous Page</a></li>
+                    <li style="margin-top:5px;">Page <strong>1</strong> / 60</li>
+                    <li class="nextpage"><a>Next Page</a></li>
+                </ul>
             </div>
         </div>
         <div class="row bootlist">
             <div class="col-sm-3 cell">
+                <span class="small-brand-logo adidas">adidas</span>
+                <p class="typetext"><strong>COPA</strong></p>
                 <div class="imgholder">
                     <a>
                         <img src="../images/productImages/thumbs/144664.jpg" />
                     </a>
+                    <span class="new">New</span>
                 </div>
-                <a>
-                    Them Boots
-                </a><br>
-                Price:
-                <span>$200</span>
+                <div class="bootdesc">
+                  <a>Them Boots</a><br>
+                  Price:&nbsp<span style="font-size: 20px;">$200</span>
+                </div>
             </div>
             <div class="col-sm-3 cell">
+                <span class="small-brand-logo adidas">adidas</span>
+                <p class="typetext"><strong>COPA</strong></p>
                 <div class="imgholder">
                     <a>
                         <img src="../images/productImages/thumbs/141363.jpg" />
                     </a>
+                    <span class="exclusive">Exclusive</span>
                 </div>
-                <a>
-                    Them Boots
-                </a><br>
-                Price:
-                <span>$200</span>
+                <div class="bootdesc">
+                  <a>Them Boots</a><br>
+                  Price:&nbsp<span style="font-size: 20px;">$200</span>
+                </div>
             </div>
             <div class="col-sm-3 cell">
+                <span class="small-brand-logo adidas">adidas</span>
+                <p class="typetext"><strong>COPA</strong></p>
                 <div class="imgholder">
                     <a>
                         <img src="../images/productImages/thumbs/144702.jpg" />
                     </a>
                 </div>
-                <a>
-                    Them Boots
-                </a><br>
-                Price:
-                <span>$200</span>
+                <div class="bootdesc">
+                  <a>Them Boots</a><br>
+                  Price:&nbsp<span style="font-size: 20px;">$200</span>
+                </div>
             </div>
             <div class="col-sm-3 cell">
+                <span class="small-brand-logo adidas">adidas</span>
+                <p class="typetext"><strong>COPA</strong></p>
                 <div class="imgholder">
                     <a>
                         <img src="../images/productImages/thumbs/144494.jpg" />
                     </a>
                 </div>
-                <a>
-                    Them Boots
-                </a><br>
-                Price:
-                <span>$200</span>
+                <div class="bootdesc">
+                  <a>Them Boots</a><br>
+                  Price:&nbsp<span style="font-size: 20px;">$200</span>
+                </div>
             </div>
         </div>
     </div>
