@@ -1,6 +1,21 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+require('mongoose-currency').loadType(mongoose);
 var passportLocalMongoose = require('passport-local-mongoose');
+var Currency = mongoose.Types.Currency;
+var productSchema = new Schema(
+    {
+        productId:
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref : 'boot',
+                required : true
+            },
+        quantity: Number,
+        salecost : Currency,
+        profit : Currency
+    }
+);
 var orderSchema = new Schema(
   {
     userId:
@@ -9,12 +24,7 @@ var orderSchema = new Schema(
       ref : 'user',
       required : true
     },
-    productId:
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref : 'boot',
-      required : true
-    },
+    product : [productSchema],
     deliveryDate:
     {
       type : Date,
