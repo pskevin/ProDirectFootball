@@ -9,13 +9,15 @@ import { HomeComponent } from './home/home.component';
 import { AuthService } from './Shared/auth.service';
 import { AuthGuard } from './Shared/auth.guard';
 import { LocalStorageModule } from 'angular-2-local-storage';
-import { RouterModule } from "@angular/router";
+import { RouterModule } from '@angular/router';
+import { LoginComponent } from './Login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
