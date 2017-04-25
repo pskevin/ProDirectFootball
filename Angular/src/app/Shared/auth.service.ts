@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 import { LocalStorageService } from "angular-2-local-storage";
 
 @Injectable()
