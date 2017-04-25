@@ -33,6 +33,17 @@ router.post('/add',function(request,response){
                 else
                 {
                     console.log(data.image[0]);
+                    request.files.thumb.mv(path.join(__dirname, '../public/images/' + data.bname+"-thumb.jpg"), function (err,entry) {
+                        if (err)
+                            return response.status(500).send(err);
+                        else {
+                            console.log(entry);
+                            console.log(fs.existsSync(__dirname, '../public/images/' +data.bname+"-thumb.jpg"));
+                            var x=fs.readFileSync(path.join(__dirname,'../public/images/' +data.bname+"-thumb.jpg"));
+                            response.json(x.toString('base64'));
+                        }
+                    });
+
                 }
             });
 
