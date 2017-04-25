@@ -5,6 +5,8 @@ import { AdminComponent } from './admin.component';
 import { AdminStartComponent } from './admin-start.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { loginRoutes } from './login.routes';
+import { HttpService } from '../../Shared/http.service';
+import { AuthService } from '../../Shared/auth.service';
 
 @NgModule({
   imports: [
@@ -16,6 +18,10 @@ import { loginRoutes } from './login.routes';
     AdminComponent,
     AdminStartComponent
   ],
-  providers: []
+  providers: [
+    HttpService,
+    AuthService
+  ]
 })
+
 export class LoginModule { }

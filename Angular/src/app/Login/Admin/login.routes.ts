@@ -2,7 +2,7 @@ import {Routes, RouterModule} from '@angular/router';
 
 import {AdminStartComponent} from './admin-start.component';
 import {AdminComponent} from './admin.component';
-import { AuthGuard } from '../../Shared/Services/auth.guard';
+import { AuthGuard } from '../../Shared/auth.guard';
 
 
 const LOGIN_ROUTES: Routes = [
