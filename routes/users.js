@@ -3,13 +3,18 @@ var router = express();
 var http = require('http');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
+var dateformat = require('dateformat');
 var path = require('path');
 var fs = require('fs');
 var config = require('./config.js');
 var User = require('../models/user');
+var Boot = require('../models/boots');
+var Order = require('../models/order');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var Verify = require('./verify');
+var twilio = require('twilio');
+var client = new twilio.RestClient('AC7f3c18f7892caa2aaee44f474017e2c8','6ff1819b8dc09ebd338d35aafde0a76c');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : true}));
@@ -96,6 +101,79 @@ router.post('/login',function(request, response,next){
             });
         }
     })(request,response,next);
+});
+
+router.post('/purchase',function(request,response){
+    var token = request.body.token || request.query.token || request.headers['x-access-token'];
+    var decoded = jwt.decode(token);
+    var data =request.body;
+    var date = new Date();
+    date.setDate(date.getDate() + 6);
+    console.log(data.getDate());
+    User.find({"username":decoded.username},{"_id":"1"},function(err,user){
+        Order.create(user._id,function(err,order){
+            order.deliveryDate =dateformat(date,"dd:mm:yy");
+            for(var i=0;i<data.length;i++)
+            {
+                console.log(data[i]);
+                Boot.find({"bname":data[i].bname},{"_id":"1","costprice":"1","saleprice":"1"},function(err,result){
+                    var profit = result.costprice - (data[i].quantity*result.costprice);
+                    var j={"productId":result._id,"quantity":data[i].quantity,"salecost":data[i].salecost,"profit":profit};
+                    order.product.push(j);
+                });
+            }
+            order.save(function (err,res){
+               if(err)
+                   response.json(err);
+                else
+                    response.json(res);
+            });
+        });
+    });
+ });
+
+router.post('/generateOtpPayment',function(request,response){
+    var x= Math.random()*(9999 - 1000)+1000;
+    x= parseInt(x);
+    console.log(x);
+   // var decoded = jwt.decode(token);
+   //  User.find({"username":decoded.username},function(err,data){
+   //      if(err)
+   //          response.json(err);
+   //      else {
+   //          data.otp=x;
+   //          data.save(function (err,result){
+   //              if(err)
+   //                  response.json(err);
+   //              else{
+                        client.sms.messages.create({
+                        to: "+919820727713",
+                        from: '+12053796263',
+                        body: '\nPRODIRECT FOOTBALL PAYMENT GATEWAY.\nYour One Time Password(OTP) :' + x
+                    }, function (error, message) {
+                        if (!error) {
+                            console.log('Success! The SID for this SMS message is:');
+                            console.log(message.sid);
+                            console.log('Message sent on:');
+                            console.log(message.dateCreated);
+                            response.json(message);
+                        } else {
+                            console.log('Oops! There was an error.' + err);
+                        }
+                    });
+    //             }
+    //         });
+    //     }
+    // });
+});
+router.post('/comment',function(request,response){
+
+});
+router.post('/f',function(request,response){
+    var date = new Date();
+    date.setDate(date.getDate() + 6);
+    response.json(dateformat(date,"dd:mm:yy"));
+
 });
 
 router.get('/logout',function(request, response){
