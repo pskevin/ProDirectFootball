@@ -124,11 +124,8 @@ router.post('/purchase',Verify.verifyLoggedUser,function(request,response){
     var decoded = jwt.decode(token);
     var data =request.body;
     var date = new Date();
-    date.setDate(date.getDate() + 6);
-    console.log(data.getDate());
     User.findOne({"username":decoded.data.username},{"_id":"1"},function(err,user){
         Order.create(user._id,function(err,order){
-            order.deliveryDate =dateformat(date,"dd:mm:yy");
             for(var i=0;i<data.length;i++)
             {
                 console.log(data[i]);
@@ -280,8 +277,13 @@ router.post('/comment',function(request,response){
 });
 
 router.get('/orders',Verify.verifyLoggedUser,function(request,response){
-
-
+    var token = request.body.token || request.query.token || request.headers['x-access-token'];
+    var decoded = jwt.decode(token);
+    User.findOne({"username":decoded.data.username}, {"_id": "1"}, function (err, result) {
+        Order.find({"userId":result._id},{"profit":"0"},function(err,data){
+           response.json(data);
+        });
+    });
 });
 router.post('/f',function(request,response){
     var date = new Date();
