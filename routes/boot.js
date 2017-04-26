@@ -17,42 +17,38 @@ router.get('/',function(request,response){
 });
 router.post('/add',function(request,response){
     console.log(request.body);
-    //console.log(request.files.file);
     Boot.create(request.body,function (err,data){
         if(err)
             console.log(err);
         else
         {
-            data.image.push(request.files.thumb);
-            data.image.push(request.files.left);
-            data.image.push(request.files.over);
-            data.image.push(request.files.right);
+            console.log(data);
+            var bname =data.bname;
+            var j ={name:bname+"-thumb","data":request.files.thumb.data.toString('base64')};
+            data.image.push(j);
+            // j ={name:bname+"-left","data":request.files.left.data.toString('base64')};
+            // data.image.push(j);
+            // j ={name:bname+"-over","data":request.files.over.data.toString('base64')};
+            // data.image.push(j);
+            // j ={name:bname+"-right","data":request.files.right.data.toString('base64')};
+            // data.image.push(j);
             data.save(function(err,result){
                 if(err)
                     response.json(err);
                 else
                 {
                     console.log(data.image[0]);
-                    request.files.thumb.mv(path.join(__dirname, '../public/images/' + data.bname+"-thumb.jpg"), function (err,entry) {
-                        if (err)
-                            return response.status(500).send(err);
-                        else {
-                            console.log(entry);
-                            console.log(fs.existsSync(__dirname, '../public/images/' +data.bname+"-thumb.jpg"));
-                            var x=fs.readFileSync(path.join(__dirname,'../public/images/' +data.bname+"-thumb.jpg"));
-                            response.json(x.toString('base64'));
-                        }
-                    });
+                    response.json(data.image[0]);
+
 
                 }
             });
-
         }
     });
 
 });
 router.post('/',function(request,response){
-    Boot.find({}).populate('postedBy').exec(function (err,data){
+    Boot.find({}).skip(20*request.body.offset).find(20).populate('postedBy').exec(function (err,data){
         if(err)
             response.json(err);
         else
