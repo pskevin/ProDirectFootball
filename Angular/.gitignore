@@ -42,5 +42,4 @@ testem.log
 Thumbs.db
 
 /src/assets/bower_components
-
 ./idea

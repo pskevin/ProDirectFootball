@@ -1,5 +1,6 @@
 //========================IMPORTS=======================================
-var express = require('express');
+var express = require('express'),
+    cors = require('cors');
 var path = require('path');
 var fs = require('fs');
 var favicon = require('serve-favicon');
@@ -19,6 +20,7 @@ var db = mongoose.connection;
 
 // view engine setup
 app.set('view engine', 'ejs');
+app.use(cors());
 app.set('views', path.join(__dirname, 'views'));
 
 //====================================================================================

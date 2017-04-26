@@ -16,7 +16,6 @@ import { HttpService } from "../../Shared/http.service";
       console.log(this.auth.isLoggedIn());
       this.logout = this.auth.isLoggedIn();
     }
-    
     onLogout() {
       this.http.logOut(this.auth.getToken()).subscribe(
         (response) => {
