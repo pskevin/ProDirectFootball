@@ -24,18 +24,7 @@ var orderSchema = new Schema(
       ref : 'user',
       required : true
     },
-    product : [productSchema],
-    deliveryDate:
-    {
-      type : Date,
-      required : true
-    },
-    status :
-    {
-      type : Boolean,
-      default : false,
-      required : true
-    }
+    product : [productSchema]
   },
   {
     timestamps : true
