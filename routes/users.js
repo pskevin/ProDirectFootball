@@ -14,6 +14,9 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var Verify = require('./verify');
 var twilio = require('twilio');
+var api_key = 'key-3817130671e1c1f13919a3469f5e1386';
+var domain = 'sandbox127c4a0962454b07a273d25721d8887d.mailgun.org';
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 var client = new twilio.RestClient('AC7f3c18f7892caa2aaee44f474017e2c8','6ff1819b8dc09ebd338d35aafde0a76c');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 router.use(bodyParser.json());
@@ -68,7 +71,7 @@ router.post('/register',Verify.verifyUsername,function(request, response){
         });
     });
 });
-router.post('/login',Verify.verifyLoggedUser,function(request, response,next){
+router.post('/login',function(request, response,next){
     passport.authenticate("local",function(err,user){
         console.log("\n\n\n\n");
         console.log(user);
@@ -81,7 +84,13 @@ router.post('/login',Verify.verifyLoggedUser,function(request, response,next){
             response.json("Unauthorized");
         }
         else
+        if(user.verified!=true)
         {
+            response.json("Unverified account!");
+        }
+        else
+        {
+
             console.log("In");
             request.logIn(user, function (err) {
                 if (err) {
@@ -117,7 +126,7 @@ router.post('/purchase',Verify.verifyLoggedUser,function(request,response){
     var date = new Date();
     date.setDate(date.getDate() + 6);
     console.log(data.getDate());
-    User.find({"username":decoded.data.username},{"_id":"1"},function(err,user){
+    User.findOne({"username":decoded.data.username},{"_id":"1"},function(err,user){
         Order.create(user._id,function(err,order){
             order.deliveryDate =dateformat(date,"dd:mm:yy");
             for(var i=0;i<data.length;i++)
@@ -125,7 +134,7 @@ router.post('/purchase',Verify.verifyLoggedUser,function(request,response){
                 console.log(data[i]);
                 Boot.find({"bname":data[i].bname},{"_id":"1","costprice":"1","saleprice":"1"},function(err,result){
                     var profit = result.costprice - (data[i].quantity*result.costprice);
-                    var j={"productId":result._id,"quantity":data[i].quantity,"salecost":data[i].salecost,"profit":profit};
+                    var j={productId:result._id,quantity:data[i].quantity,salecost:data[i].salecost,profit:profit};
                     order.product.push(j);
                 });
             }
@@ -139,13 +148,13 @@ router.post('/purchase',Verify.verifyLoggedUser,function(request,response){
     });
  });
 
-router.post('/generateOtpPayment',Verify.verifyLoggedUser,function(request,response){
+router.post('/generateOtp',Verify.verifyLoggedUser,function(request,response){
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
     var x= Math.random()*(9999 - 1000)+1000;
     x= parseInt(x);
     console.log(x);
     var decoded = jwt.decode(token);
-    User.find({"username":decoded.username},function(err,data){
+    User.findOne({"username":decoded.username},function(err,data){
         if(err)
             response.json(err);
         else {
@@ -154,10 +163,16 @@ router.post('/generateOtpPayment',Verify.verifyLoggedUser,function(request,respo
                 if(err)
                     response.json(err);
                 else{
-                        client.sms.messages.create({
+                        var text;
+                        if(request.body.flag==1)
+                            text='\nPRODIRECT FOOTBALL PAYMENT GATEWAY.\nYour One Time Password(OTP) :'+x;
+                        else
+                            text='\nPRODIRECT FOOTBALL USER REGISTERATION VERIFICATION.\nYour One Time Password(OTP) :'+x;
+
+                    client.sms.messages.create({
                         to: "+91"+data.mobno,
                         from: '+12053796263',
-                        body: '\nPRODIRECT FOOTBALL PAYMENT GATEWAY.\nYour One Time Password(OTP) :' + x
+                        body: text
                     }, function (error, message) {
                         if (!error) {
                             console.log('Success! The SID for this SMS message is:');
@@ -174,31 +189,99 @@ router.post('/generateOtpPayment',Verify.verifyLoggedUser,function(request,respo
         }
     });
 });
+
+router.post('/verifyOtp',Verify.verifyLoggedUser,function(request,response){
+    var decoded = jwt.decode(token);
+    User.findOne({"username":decoded.username},function(err,data) {
+        if (err)
+            response.json(err);
+        else {
+            if(data.otp==request.body.otp) {
+                if(request.body.flag==1)// Payment Successful
+                {
+                    var data = {
+                        from: 'ProDirect Customer services <postmaster@sandbox127c4a0962454b07a273d25721d8887d.mailgun.org>',
+                        to:data.email,
+                        subject: 'Hello',
+                        text: 'Hello '+data.firstname+",\nYour transaction has been successfully completed. The cost of $"+request.body.total+" has been deducted from your account.Thank you for using Prodirect Football.\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tThanking You,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAkshat"
+                    };
+                    mailgun.messages().send(data, function (error, body) {
+                        if(error)
+                            response.json(error);
+                        else {
+                            console.log(body);
+                        }
+                    });
+                    client.sms.messages.create({
+                        to: "+91"+data.mobno,
+                        from: '+12053796263',
+                        body: '\nPRODIRECT FOOTBALL CUSTOMER SERVICE\nHello '+data.firstname+",\nYour transaction has been successfully completed. The cost of $"+request.body.total+" has been deducted from your account.Thank you for using Prodirect Football."
+                    }, function (error, message) {
+                        if (!error) {
+                            console.log('Success! The SID for this SMS message is:');
+                            console.log(message.sid);
+                            console.log('Message sent on:');
+                            console.log(message.dateCreated);
+                        } else {
+                            response.json('Oops! There was an error.' + err);
+                        }
+                    });
+                response.json("Successful Transaction!");
+
+                }
+                else{
+                    data.verified=true;
+                    data.save(function (err,result){
+                        if(err)
+                            response.json(err);
+                        else
+                            response.json("Account successfully verified!");
+
+                    })
+                }
+            }
+            else
+            {
+                response.json("OTP match failed. Enter correct OTP.");
+            }
+        }
+    });
+        });
+
 router.post('/comment',function(request,response){
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
     var decoded = jwt.decode(token);
-    Boot.find(result.body.bname,function(err,boot){
-        var j = {rating :
-            {
-                type : Number,
-                min : 1,
-                max : 5,
-                required : true
-            },
-            remarks :
-                {
-                    type : String,
-                    required : true
-                },
-            postedBy: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User'
-            }}
+    Boot.findOne({"bname":request.body.bname},function(err,boot){
+        if(err)
+            response.json(err);
+        else {
+            console.log(boot);
+            User.findOne({"username":decoded.data.username}, {"_id": "1"}, function (err, result) {
+                if (err)
+                    response.json(err);
+                else {
+                    console.log(result);
+                    var j = {rating: request.body.rating, remarks: request.body.remarks, postedBy: result._id};
+                    console.log(j);
+                    boot.comments.push(j);
+                    boot.save(function (err, data) {
+                        if (err)
+                            response.json(err);
+                        else {
+                            console.log(data);
+                            response.json("successfully added comment!")
+                        }
+                    });
+                }
+            });
+        }
 
     });
-    User.find(decoded.data.username,function(err,result){
+});
 
-    });
+router.get('/orders',Verify.verifyLoggedUser,function(request,response){
+
+
 });
 router.post('/f',function(request,response){
     var date = new Date();
