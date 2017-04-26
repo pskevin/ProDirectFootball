@@ -28,9 +28,7 @@ var CommentSchema = new Schema(
 );
 var imageSchema = new Schema({
     name: String,
-    data: Buffer,
-    encoding: String,
-    mimetype: String
+    data: String
 });
 var bootSchema = new Schema(
   {
