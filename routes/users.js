@@ -68,7 +68,7 @@ router.post('/register',Verify.verifyUsername,function(request, response){
         });
     });
 });
-router.post('/login',function(request, response,next){
+router.post('/login',Verify.verifyLoggedUser,function(request, response,next){
     passport.authenticate("local",function(err,user){
         console.log("\n\n\n\n");
         console.log(user);
@@ -89,28 +89,35 @@ router.post('/login',function(request, response,next){
                 }
                 else
                 {
-                    console.log("In");
-                    var t = Verify.getToken(user);
-                    console.log("Successs!!!!" + user.admin + "   \n" + user);
-                    response.status(200).json({
-                        status: 'Login successful!',
-                        success: true,
-                        token: t
-                        });
+                    user.logged = true;
+                    user.save(function (err, new_data) {
+                        if (err)
+                            response.json(err);
+                        else {
+                            console.log(new_data);
+                            var t = Verify.getToken(user);
+                            console.log("Success!!!!" + user.admin + "   \n" + user);
+                            response.status(200).json({
+                                status: 'Login successful!',
+                                success: true,
+                                token: t
+                            });
+                        }
+                    });
                 }
             });
         }
     })(request,response,next);
 });
 
-router.post('/purchase',function(request,response){
+router.post('/purchase',Verify.verifyLoggedUser,function(request,response){
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
     var decoded = jwt.decode(token);
     var data =request.body;
     var date = new Date();
     date.setDate(date.getDate() + 6);
     console.log(data.getDate());
-    User.find({"username":decoded.username},{"_id":"1"},function(err,user){
+    User.find({"username":decoded.data.username},{"_id":"1"},function(err,user){
         Order.create(user._id,function(err,order){
             order.deliveryDate =dateformat(date,"dd:mm:yy");
             for(var i=0;i<data.length;i++)
@@ -132,22 +139,23 @@ router.post('/purchase',function(request,response){
     });
  });
 
-router.post('/generateOtpPayment',function(request,response){
+router.post('/generateOtpPayment',Verify.verifyLoggedUser,function(request,response){
+    var token = request.body.token || request.query.token || request.headers['x-access-token'];
     var x= Math.random()*(9999 - 1000)+1000;
     x= parseInt(x);
     console.log(x);
-   // var decoded = jwt.decode(token);
-   //  User.find({"username":decoded.username},function(err,data){
-   //      if(err)
-   //          response.json(err);
-   //      else {
-   //          data.otp=x;
-   //          data.save(function (err,result){
-   //              if(err)
-   //                  response.json(err);
-   //              else{
+    var decoded = jwt.decode(token);
+    User.find({"username":decoded.username},function(err,data){
+        if(err)
+            response.json(err);
+        else {
+            data.otp=x;
+            data.save(function (err,result){
+                if(err)
+                    response.json(err);
+                else{
                         client.sms.messages.create({
-                        to: "+919820727713",
+                        to: "+91"+data.mobno,
                         from: '+12053796263',
                         body: '\nPRODIRECT FOOTBALL PAYMENT GATEWAY.\nYour One Time Password(OTP) :' + x
                     }, function (error, message) {
@@ -161,13 +169,36 @@ router.post('/generateOtpPayment',function(request,response){
                             console.log('Oops! There was an error.' + err);
                         }
                     });
-    //             }
-    //         });
-    //     }
-    // });
+                }
+            });
+        }
+    });
 });
 router.post('/comment',function(request,response){
+    var token = request.body.token || request.query.token || request.headers['x-access-token'];
+    var decoded = jwt.decode(token);
+    Boot.find(result.body.bname,function(err,boot){
+        var j = {rating :
+            {
+                type : Number,
+                min : 1,
+                max : 5,
+                required : true
+            },
+            remarks :
+                {
+                    type : String,
+                    required : true
+                },
+            postedBy: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            }}
 
+    });
+    User.find(decoded.data.username,function(err,result){
+
+    });
 });
 router.post('/f',function(request,response){
     var date = new Date();
