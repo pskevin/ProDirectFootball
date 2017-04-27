@@ -84,6 +84,10 @@ router.post('/login',function(request, response,next){
             response.json("Unauthorized");
         }
         else
+        if (user.logged==true) {
+            response.json("Already logged in");
+        }
+        else
         if(user.verified!=true)
         {
             response.json("Unverified account!");
