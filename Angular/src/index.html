@@ -6,15 +6,37 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <!--<link rel="stylesheet" href="./assets/bower_components/bootstrap/dist/css/bootstrap.min.css">-->
-  <link rel="stylesheet" href="./assets/bower_components/bootstrap-material-design/dist/bootstrap-material-design.min.css">
-  <script src="./assets/indexjs.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Fira+Sans|Roboto" rel="stylesheet">
+
+  <link rel="stylesheet" href="./assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./assets/bower_components/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="./assets/bower_components/bootstrap-material-design/dist/css/ripples.min.css">
+  <link rel="stylesheet" href="./assets/bower_components/bootstrap-material-design/dist/css/bootstrap-material-design.min.css">
+  <!--<link rel="stylesheet" href="../stylesheets/styles1.css">-->
+  <!--<script src="assets/javascripts/indexjs.js"></script>-->
 </head>
 <body>
 <pdf-root>Loading...</pdf-root>
+<script>
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+  for (i = 0; i < acc.length; i++) {
+    acc[i].onclick = function() {
+      this.classList.toggle("active");
+      var panel = this.nextElementSibling;
+      if (panel.style.maxHeight){
+        panel.style.maxHeight = null;
+      }
+      else {
+        panel.style.maxHeight = panel.scrollHeight + "px";
+      }
+    };
+  }
+</script>
 <script src="./assets/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="./assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="./assets/bower_components/bootstrap-material-design/dist/js/ripples.min.js"></script>
+<script src="./assets/bower_components/bootstrap-material-design/dist/js/material.min.js"></script>
 <script src="./assets/bower_components/tether/dist/js/tether.min.js"></script>
-<script src="./assets/bower_components/bootstrap-material-design/dist/bootstrap-material-design.iife.min.js"></script>
 </body>
 </html>
