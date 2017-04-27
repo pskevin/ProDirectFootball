@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from "../Shared/http.service";
+import { HttpService } from '../Shared/http.service';
 
 @Component({
   selector: 'pdf-product',
@@ -8,8 +8,16 @@ import { HttpService } from "../Shared/http.service";
   providers: [ HttpService ]
 })
 export class ProductComponent implements OnInit {
-  img:any;
-  constructor(private http : HttpService) {
+  img: any;
+  brand_logo: string = `puma`;
+  collection: string = `<strong>COPA</strong>`;
+  imgsrc: string = `../../assets/images/productImages/thumbs/144664.jpg`;
+  overlayclass: string = `new`;
+  overlaytext: string = `New`;
+  bootname: string = `them boots`;
+  bootprice: string = `200`;
+
+  constructor(private http: HttpService) {
     this.http.startBoots()
       .subscribe(
         (x) => {
@@ -18,7 +26,6 @@ export class ProductComponent implements OnInit {
         }
       );
   }
-
   ngOnInit() {
 
   }

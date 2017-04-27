@@ -43,9 +43,6 @@
   <div class="col-sm-7">
     <div class="row listhead">
       <div class="col-sm-12">
-        BreadCrumbs
-      </div>
-      <div class="col-sm-12">
         <h1>Football Boots - The Best In The Market</h1>
       </div>
       <div class="col-sm-12 pagebar" style="padding: 0px">
@@ -58,19 +55,20 @@
     </div>
     <div class="row bootlist">
       <div class="col-sm-3 cell">
-        <span class="small-brand-logo adidas">adidas</span>
-        <p class="typetext"><strong>COPA</strong></p>
+        <span class="small-brand-logo {{brand_logo}}">adidas</span>
+        <p class="typetext" innerHTML="{{collection}}"></p>
         <div class="imgholder">
           <a>
-            <img src="../../assets/images/productImages/thumbs/144664.jpg" />
+            <img src="{{imgsrc}}" />
           </a>
-          <span class="new">New</span>
+          <span class="{{overlayclass}}" innerHTML="{{overlaytext}}"></span>
         </div>
         <div class="bootdesc">
-          <a>Them Boots</a><br>
-          Price:&nbsp<span style="font-size: 20px;">$200</span>
+          <a>{{bootname}}</a><br>
+          Price:&nbsp<span style="font-size: 20px;">${{bootprice}}</span>
         </div>
       </div>
+      <!--
       <div class="col-sm-3 cell">
         <span class="small-brand-logo adidas">adidas</span>
         <p class="typetext"><strong>COPA</strong></p>
@@ -110,7 +108,7 @@
           <a>Them Boots</a><br>
           Price:&nbsp<span style="font-size: 20px;">$200</span>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </div>
