@@ -34,39 +34,8 @@ var dataSchema = new Schema(
     },
     mobno:
     {
-      type:String,
-      unique:true,
-      validate:
-      {
-        validator: function(v)
-        {
-         return /^([0-9]{10}$)/.test(v);
-        }
-      }
+      type:String
     },
-    // creditNo:
-    // {
-    //   type: Number,
-    //   validate:
-    //   {
-    //     validator: function(v)
-    //     {
-    //      return /^([0-9]{16}$)/.test(v);
-    //     }
-    //   }
-    // },
-    // cvv:
-    // {
-    //   type: Number,
-    //   validate:
-    //   {
-    //     validator: function(v)
-    //     {
-    //      return /^([0-9]{3}$)/.test(v);
-    //     }
-    //   },
-    //   required :true
-    // },
     address:
     {
       type: String
