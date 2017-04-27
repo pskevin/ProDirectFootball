@@ -8,8 +8,7 @@ var productSchema = new Schema(
         productId:
             {
                 type: mongoose.Schema.Types.ObjectId,
-                ref : 'boot',
-                required : true
+                ref : 'boot'
             },
         quantity: Number,
         salecost : Currency,
@@ -21,8 +20,7 @@ var orderSchema = new Schema(
     userId:
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref : 'user',
-      required : true
+      ref : 'user'
     },
     product : [productSchema]
   },
