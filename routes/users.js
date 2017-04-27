@@ -386,11 +386,30 @@ router.post('/f',function(request,response){
 
 });
 
-router.get('/logout',function(request, response){
-    console.log("\n\n\nINSIDE!!!\n\n");
-    request.logout();
-    response.status(200).json({
-    status: 'Bye!'
+router.get('/logout',Verify.verifyAdmin,function(request, response){
+    var token = request.body.token || request.query.token || request.headers['x-access-token'];
+    jwt.verify(token, config.secretKey, function(err, decoded){
+        if (err) {
+            response.json(err);
+        }
+        else
+        {
+            decoded.data.logged = false;
+            console.log(decoded.data);
+            User.findByIdAndUpdate(decoded.data._id,{$set : decoded.data},
+                { new : true},function(error,new_data){
+                if(error)
+                    response.json(error);
+                else
+                {
+                    console.log(new_data);
+                    request.logout();
+                    response.status(200).json({
+                        status: 'Bye!'
+                    });
+                }
+            });
+        }
     });
 });
 //====================================================================================

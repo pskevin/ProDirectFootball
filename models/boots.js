@@ -1,8 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-require('mongoose-currency').loadType(mongoose);
 var passportLocalMongoose = require('passport-local-mongoose');
-var Currency = mongoose.Types.Currency;
 var CommentSchema = new Schema(
   {
     rating :
@@ -49,15 +47,16 @@ var bootSchema = new Schema(
     },
     costprice :
     {
-        type : Currency
+        type : Number
     },
     saleprice :
     {
-      type : Currency
+      type : Number
     },
     comments : {
         type :[CommentSchema],
-        required : false
+        required : false,
+        unique : false
     }
   },
   {

@@ -7,6 +7,7 @@ var Boot = require('../models/boots');
 var bodyParser = require('body-parser');
 var mime=require('mime');
 var _ = require('underscore');
+var Verify = require('./verify');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : false}));
 
@@ -51,20 +52,29 @@ router.post('/add',function(request,response){
 router.post('/',function(request,response){
     if(request.body.offset)
         var x=request.body.offset;
-    else {
+    else
         var x = Math.random();
-        }
-    Boot.find({},{"coll":"1","brand":"1","_id":"0"}).populate('postedBy').exec(function (err,data){
+    var query = Verify.trim_nulls(request.body.query);
+    // response.json(query);
+    Boot.find(query,{"coll":"1","brand":"1","_id":"0"}).populate('postedBy').exec(function (err,data){
         if(err)
             response.json(err);
         else
         {
             var y =_.uniq(_.pluck(_.flatten(data), "coll"));
             var w =_.uniq(_.pluck(_.flatten(data), "brand"));
-            Boot.find({}).skip(20*x).find(20).exec(function(err,res){
+            Boot.find(query).skip(20*x).find(20).exec(function(err,res){
                 if(err)
                     response.json(err);
                 else {
+                    var a;
+                    // for(var e in res)
+                    // {
+                    //     a=res[e];
+                    //     console.log(a.costprice);
+                    //     console.log(a.costprice.toFixed(0.2));
+                    //
+                    // }
                     var z = {"collection": y, "brand": w, "data": res};
                     response.json(z);
                 }
