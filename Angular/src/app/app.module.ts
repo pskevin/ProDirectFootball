@@ -12,13 +12,19 @@ import { LocalStorageModule } from 'angular-2-local-storage';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './Login/login.component';
 import { HttpService } from "./Shared/http.service";
+import { ProductComponent } from './Product/product.component';
+import { BootsComponent } from './Boots/boots.component';
+import { BallsComponent } from './Balls/balls.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    ProductComponent,
+    BootsComponent,
+    BallsComponent
   ],
   imports: [
     BrowserModule,
