@@ -1,3 +1,4 @@
+//-----------------------------------------------------------
 var express = require('express');
 var router =express();
 var fs = require('fs');
@@ -45,6 +46,7 @@ router.post('/add',function(request,response){
     });
 
 });
+
 router.post('/',function(request,response){
     Boot.find({}).skip(20*request.body.offset).find(20).populate('postedBy').exec(function (err,data){
         if(err)
