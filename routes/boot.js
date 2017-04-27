@@ -6,6 +6,7 @@ var path = require('path');
 var Boot = require('../models/boots');
 var bodyParser = require('body-parser');
 var mime=require('mime');
+var _ = require('underscore');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : false}));
 
@@ -39,7 +40,7 @@ router.post('/add',function(request,response){
                 else
                 {
                     console.log(data.image[0]);
-                    response.json(data.image[0]);
+                    response.json(data);
                 }
             });
         }
@@ -48,12 +49,19 @@ router.post('/add',function(request,response){
 });
 
 router.post('/',function(request,response){
-    Boot.find({}).skip(20*request.body.offset).find(20).populate('postedBy').exec(function (err,data){
+    if(request.body.offset)
+        var x=request.body.offset;
+    else
+        var x= Math.random();
+    Boot.find({}).skip(20*x).find(20).populate('postedBy').exec(function (err,data){
         if(err)
             response.json(err);
         else
         {
-            response.json(data);
+            var y =_.uniq(_.pluck(_.flatten(data), "coll"));
+            var w =_.uniq(_.pluck(_.flatten(data), "brand"));
+            var z={"collection":y,"brand":w,"data":data};
+            response.json(z);
         }
     });
 });
