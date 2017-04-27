@@ -1,12 +1,23 @@
 .logo {
   width: 190px;
-  height: 21px;
+  height: 19px;
   overflow: hidden;
   text-indent: -999em;
   background: url('../../assets/images/siteimages/global/wembley/sprite.png') no-repeat -307px 0;
   float: left;
-  margin: 13px 0 11px 6px;
+  margin: 18px 6px 0px 6px;
 }
-/*.modal {*/
-  /*color: black;*/
-/*}*/
+
+.navbar {
+  color: white;
+  background-color: black;
+}
+
+.nav>li:hover {
+    background-color: white;
+  color: black;
+}
+
+.modal {
+  color: black;
+}

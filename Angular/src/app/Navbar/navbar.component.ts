@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
     this.myForm = formBuilder.group({
       'username': ['',[Validators.required]],
       'password': ['',[Validators.required]],
-      'rememberme': ['false']
+      'rememberme': [false]
     });
     this.myForm.valueChanges.subscribe(data => console.log('Form changes', data));
     this.valid = {

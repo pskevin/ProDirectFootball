@@ -1,6 +1,6 @@
 
 <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
-  <div>
+  <div class = navbar-header>
     <a class="navbar-brand logo" [routerLink]="['./home']"></a>
   </div>
   <ul class="nav navbar-nav">
@@ -11,7 +11,7 @@
       <a class="nav-link" [routerLink]="['./about']">About</a>
     </li>
   </ul>
-  <div class="pull-xs-right">
+  <div class="nav navbar-nav navbar-right">
     <!-- Button trigger modal -->
     <button
       type="button"
@@ -20,7 +20,7 @@
       <span class="badge">{{ cartcontents }}</span>
     </button>
     <button
-      class="btn btn-outline-success"
+      class="btn btn-primary"
       data-toggle="modal"
       data-target="#myModal"
       type="submit"
