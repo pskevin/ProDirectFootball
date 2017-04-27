@@ -70,6 +70,8 @@ router.post('/',function(request,response){
                     var a;
                     // for(var e in res)
                     // {
+                    // {
+                    // {
                     //     a=res[e];
                     //     console.log(a.costprice);
                     //     console.log(a.costprice.toFixed(0.2));

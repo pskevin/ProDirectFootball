@@ -386,7 +386,7 @@ router.post('/f',function(request,response){
 
 });
 
-router.get('/logout',Verify.verifyAdmin,function(request, response){
+router.get('/logout',Verify.verifyLoggedUser,function(request, response){
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
     jwt.verify(token, config.secretKey, function(err, decoded){
         if (err) {

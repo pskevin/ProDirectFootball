@@ -15,6 +15,7 @@ import { HttpService } from "./Shared/http.service";
 import { ProductComponent } from './Product/product.component';
 import { BootsComponent } from './Boots/boots.component';
 import { BallsComponent } from './Balls/balls.component';
+import { ROUTES } from "./app.routing";
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { BallsComponent } from './Balls/balls.component';
     BrowserModule,
     FormsModule,
     HttpModule,
+    ROUTES,
     RouterModule,
     ReactiveFormsModule,
     LocalStorageModule.withConfig({

@@ -10,12 +10,17 @@ export class HttpService {
   constructor(private http: Http/*, private auth: AuthService*/) {
   }
   
-  demo() {
+  data =  {
+    offset: "0"
+  };
+  
+  startBoots() {
     console.log("HERE");
-    const body = JSON.stringify("");
+    const body = this.data;//JSON.stringify(this.data);
+    console.log(body);
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('https://localhost:3443/boot/im', body)
+    return this.http.post('https://localhost:3443/boot', body)
       .map((response: Response) => response.json());
   }
   

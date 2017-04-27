@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BootsComponent implements OnInit {
 
-  constructor() { }
+  constructor() { console.log("BOOTS");}
 
   ngOnInit() {
   }
