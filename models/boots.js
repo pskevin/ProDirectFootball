@@ -9,13 +9,11 @@ var CommentSchema = new Schema(
     {
       type : Number,
       min : 1,
-      max : 5,
-      required : true
+      max : 5
     },
     remarks :
     {
-      type : String,
-      required : true
+      type : String
     },
     postedBy: {
          type: mongoose.Schema.Types.ObjectId,
@@ -41,6 +39,10 @@ var bootSchema = new Schema(
     {
         type:String
     },
+    coll:
+    {
+     type : String
+    },
     description:
     {
         type:String
@@ -53,7 +55,10 @@ var bootSchema = new Schema(
     {
       type : Currency
     },
-    comments : [CommentSchema]
+    comments : {
+        type :[CommentSchema],
+        required : false
+    }
   },
   {
     timestamps : true
