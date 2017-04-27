@@ -26,12 +26,12 @@ router.post('/add',function(request,response){
             var bname =data.bname;
             var j ={name:bname+"-thumb","data":request.files.thumb.data.toString('base64')};
             data.image.push(j);
-            // j ={name:bname+"-left","data":request.files.left.data.toString('base64')};
-            // data.image.push(j);
-            // j ={name:bname+"-over","data":request.files.over.data.toString('base64')};
-            // data.image.push(j);
-            // j ={name:bname+"-right","data":request.files.right.data.toString('base64')};
-            // data.image.push(j);
+             j ={name:bname+"-left","data":request.files.left.data.toString('base64')};
+             data.image.push(j);
+            j ={name:bname+"-over","data":request.files.over.data.toString('base64')};
+            data.image.push(j);
+            j ={name:bname+"-right","data":request.files.right.data.toString('base64')};
+            data.image.push(j);
             data.save(function(err,result){
                 if(err)
                     response.json(err);
@@ -39,8 +39,6 @@ router.post('/add',function(request,response){
                 {
                     console.log(data.image[0]);
                     response.json(data.image[0]);
-
-
                 }
             });
         }
