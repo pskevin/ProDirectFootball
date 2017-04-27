@@ -55,7 +55,6 @@ router.post('/',function(request,response){
     else
         var x = Math.random();
     var query = Verify.trim_nulls(request.body.query);
-    // response.json(query);
     Boot.find(query,{"coll":"1","brand":"1","_id":"0"}).populate('postedBy').exec(function (err,data){
         if(err)
             response.json(err);
@@ -63,20 +62,14 @@ router.post('/',function(request,response){
         {
             var y =_.uniq(_.pluck(_.flatten(data), "coll"));
             var w =_.uniq(_.pluck(_.flatten(data), "brand"));
-            Boot.find(query).skip(20*x).find(20).exec(function(err,res){
+            Boot.find(query,{"_id":"0","bname":"1","coll":"1"}).skip(20*x).find(20).select("image").exec(function(err,res){
                 if(err)
                     response.json(err);
                 else {
-                    var a;
-                    // for(var e in res)
-                    // {
-                    // {
-                    // {
-                    //     a=res[e];
-                    //     console.log(a.costprice);
-                    //     console.log(a.costprice.toFixed(0.2));
-                    //
-                    // }
+                    for(var e in res)
+                    {
+                        res[e].image= _.first(res[e].image,1);
+                    }
                     var z = {"collection": y, "brand": w, "data": res};
                     response.json(z);
                 }
@@ -84,4 +77,19 @@ router.post('/',function(request,response){
         }
     });
 });
+
+router.post('/landing',function(request,response){
+    var query = Verify.trim_nulls(request.body);
+    Boot.findOne(query,{"bname":"1","description":"1","coll":"1","brand":"1","saleprice":"0","image":"1"}).populate('postedBy').exec(function (err,res){
+        if(err)
+            response.json(err);
+        else
+        {
+            res.image= _.last(res.image,3);
+            response.json(res);
+        }
+    });
+});
+
+
 module.exports= router;
