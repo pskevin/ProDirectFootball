@@ -1,0 +1,10 @@
+.totalprice{
+  background: #2e2e2e;
+  text-transform: uppercase;
+  text-align: right;
+  padding: 10px 20px;
+  overflow: hidden;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 20px;
+}

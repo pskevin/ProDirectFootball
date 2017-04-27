@@ -232,7 +232,7 @@ form .continue:hover{
     background-color: white;
     color: black;
 }
-form .checkout{
+form .checkout, .checkout{
     width: 150px;
     height: 40px;
     float: right;
@@ -242,7 +242,7 @@ form .checkout{
     border-width: 0;
     border-radius: 5px;
 }
-form .checkout:hover{
+form .checkout:hover, .checkout:hover{
     background-color: #4b9b2b;
 }
 table.order{
@@ -398,3 +398,40 @@ table.order tr td ul li span{
     text-align: center;
     text-transform: uppercase;
 }
+h1.itemname{
+    font-size: 20px;
+    line-height: 1.2;
+}
+p.itemcollection{
+    font-size: 20px;
+}
+p.itemp{
+    padding: 0;
+    margin: 0;
+    font-size: 11px;
+}
+p.itemprice{
+    padding: 0;
+    margin: 0;
+    font-size: 25px;
+}
+.rightcol .checkout{
+    float: none;
+    width: 100%;
+}
+.groundicon{
+    width: 40px;
+    height: 54px;
+    display: block;
+    text-align: center;
+    line-height: 1.6;
+    margin: 0 0 15px 10px;
+    background: url('../images/siteimages/global/wembley/sprite.png') no-repeat -1946px 11px;
+    color: #000;
+    font-size: 22px;
+    font-weight: 600;
+    overflow: hidden;
+    position: relative;
+    padding: 14px 0 0;
+}
+
