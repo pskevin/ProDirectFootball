@@ -20,9 +20,10 @@ export class HttpService {
   }
   
   logOut(token: string) {
+    console.log("Trying lgout");
     let headers = new Headers();
     headers.append('x-access-token', token);
-    return this.http.get('https://localhost:8000/users/logout', {headers})
+    return this.http.get('https://localhost:3443/user/logout', {headers})
       .map((response: Response) => response.json());
   }
   

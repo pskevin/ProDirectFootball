@@ -11,7 +11,7 @@ export class AuthService {
   constructor(private local: LocalStorageService) {
     //localStorage.setItem('cookie',this.cookie);
   }
-
+  
   
   isLoggedIn() {
     console.log("CHECKING");
@@ -44,6 +44,10 @@ export class AuthService {
     return localStorage.getItem('token');
   }
   
+  getName() {
+    return localStorage.getItem('name');
+  }
+  
   loggedOut() {
     localStorage.setItem('log','false');
     this.log = false;
@@ -60,8 +64,8 @@ export class AuthService {
   
   clear() {
     console.log("REMOVING");
-    console.log(localStorage);
     localStorage.removeItem('name');
     localStorage.removeItem('token');
+    console.log(localStorage);
   }
 }

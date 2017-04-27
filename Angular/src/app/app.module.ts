@@ -4,8 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { HomeComponent } from './home/home.component';
+import { NavbarComponent } from './Navbar/navbar.component';
+import { HomeComponent } from './Home/home.component';
 import { AuthService } from './Shared/auth.service';
 import { AuthGuard } from './Shared/auth.guard';
 import { LocalStorageModule } from 'angular-2-local-storage';

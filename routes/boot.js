@@ -60,7 +60,7 @@ router.post('/',function(request,response){
         {
             var y =_.uniq(_.pluck(_.flatten(data), "coll"));
             var w =_.uniq(_.pluck(_.flatten(data), "brand"));
-            var z={"collection":y,"brand":w,"data":data};
+            var z={"collection":y,"brand":w};
             response.json(z);
         }
     });

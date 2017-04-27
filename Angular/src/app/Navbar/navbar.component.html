@@ -19,14 +19,22 @@
       type="button"
       class="btn btn-primary">
       <i class="material-icons">shopping_cart</i>
-      <span class="badge">3</span>
+      <span class="badge">{{ cartcontents }}</span>
     </button>
     <button
       class="btn btn-outline-success"
       data-toggle="modal"
       data-target="#myModal"
-      type="submit">
-      Login
+      type="submit"
+      *ngIf = "!loggedIn">
+      {{ logButton }}
+    </button>
+    <button
+      class="btn btn-outline-danger"
+      type="submit"
+      (click) = "logout()"
+      *ngIf = "loggedIn">
+      {{ logButton }}
     </button>
   </div>
 </nav>
@@ -42,45 +50,59 @@
         <h4 class="modal-title" id="myModalLabel">Login</h4>
       </div>
       <div class="modal-body">
-        <form class="form-inline" [formGroup]="myForm" (ngSubmit)="onSubmit(myForm.value)">
-          <div class="form-group">
-            <label class="sr-only" for="username">Username</label>
-            <input
-              type="email"
-              class="form-control"
-              id="username"
-              placeholder="Enter email"
-              formControlName="username">
-          </div>
-          <div class="form-group">
-            <label class="sr-only" for="password">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="password"
-              placeholder="Password"
-              formControlName="password">
-          </div>
-          <div class="form-check">
-            <label class="form-check-label">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                formControlName="rememberme">
-              Remember me
-            </label>
+        <form
+          class="form-inline"
+          [formGroup]="myForm"
+          (ngSubmit)="onSubmit(myForm.value)"
+          *ngIf = "!loggedIn">
+          <div class = "row">
+            <div class="col-xs-2"></div>
+            <div class = "col-xs-4">
+              <div class="form-group">
+                <label class="sr-only" for="username">Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  placeholder="Enter Username"
+                  formControlName="username">
+              </div>
+              <div class="form-group">
+                <label class="sr-only" for="password">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="Password"
+                  formControlName="password">
+              </div>
+              <div class="form-group">
+                <label class="form-check-label">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    formControlName="rememberme">
+                  Remember me
+                </label>
+              </div>
+            </div>
+            <div class = "col-xs-4">
+              <button
+                type="submit"
+                class="
+                     btn btn-primary
+                     text-center">Sign in
+              </button>
+            </div>
           </div>
         </form>
-      </div>
-      <div class="modal-footer">
-        <div *ngIf="!valid.check" class="text-warning">
-          {{ valid.response }}
+        <div class = "text-xs-center">
+          <div *ngIf="!valid.check" class="text-warning">
+            {{ valid.response }}
+          </div>
         </div>
-        <button
-          type="submit"
-          class="btn btn-primary pull-lg-left pull-md-left pull-xs-left">
-          Sign in
-        </button>
+      </div>
+      <div class="modal-footer text-center">
         <span> Not a member?
           <button class="btn btn-primary">Register</button>
         </span>
@@ -88,3 +110,6 @@
     </div>
   </div>
 </div>
+
+
+

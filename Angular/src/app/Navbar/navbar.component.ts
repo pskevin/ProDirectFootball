@@ -9,11 +9,14 @@ import { AuthService } from '../Shared/auth.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
+
 export class NavbarComponent implements OnInit {
   // Declaring variables
   myForm: FormGroup;
   request: any;
   valid: {response: string, check: boolean} ;
+  logButton: string;
+  loggedIn : boolean = false;
   
   constructor(
     private http: HttpService,
@@ -23,7 +26,7 @@ export class NavbarComponent implements OnInit {
     this.myForm = formBuilder.group({
       'username': ['',[Validators.required]],
       'password': ['',[Validators.required]],
-      'rememberme': ['']
+      'rememberme': ['false']
     });
     this.myForm.valueChanges.subscribe(data => console.log('Form changes', data));
     this.valid = {
@@ -32,14 +35,20 @@ export class NavbarComponent implements OnInit {
     };
   }
   
-  ngOnInit(){
+  ngOnInit() {
     if(this.auth.isLoggedIn()) {
+      this.loggedIn = true;
+      this.logButton = "Logout";
       console.log("LOGGED IN ALREADY BHAI");
       console.log(this.auth.isLoggedIn());
+    }
+    else {
+      this.logButton = "Login";
     }
   }
   
   onSubmit(data: any) {
+    console.log("COMES HERE");
     this.request = {
       username: data.username,
       password: data.password
@@ -61,7 +70,7 @@ export class NavbarComponent implements OnInit {
           if(data === "Unauthorized"){
             console.log("Unauthorized");
             this.valid.check = false;
-            this.valid.response = "Unauthorized attempt!";
+            this.valid.response = "Wrong Username or Password!";
           }
           else
           if(data === "Unverified"){
@@ -74,9 +83,22 @@ export class NavbarComponent implements OnInit {
             console.log("ASDAD");
             this.valid.check = true;
             this.valid.response = "Valid User!";
+            this.loggedIn = true;
+            this.logButton = "Logout";
             this.auth.loggedIn({name: this.request.username, userdata: data});
           }
         }
       );
+  }
+  
+  logout(){
+    this.http.logOut(this.auth.getToken()).subscribe(
+       (response) => {
+         console.log(response);
+         this.auth.loggedOut();
+         this.loggedIn = false;
+         this.logButton = "Login";
+       }
+     );
   }
 }
