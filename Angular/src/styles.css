@@ -1,307 +1,400 @@
-/* You can add global styles to this file, and also import other style files */
 body{
-  background: url('./assets/images/siteimages/global/wembley/spotlight.jpg') no-repeat;
+  background-image: url("./assets/images/siteimages/global/wembley/spotlight.jpg");
+  /*background-repeat: no-repeat;*/
   background-size: cover;
-  /*color: white;*/
+  color: white;
 }
-
 a, a:hover{
-    cursor: pointer;
-    text-decoration: none;
+  cursor: pointer;
+  text-decoration: none;
 }
 .sidebar{
-    color: white;
-    margin-right: 1%;
+  color: white;
+  margin-right: 1%;
 
 }
 .cell{
-    border: 1px solid #2d2d2d;
-    box-shadow: 0 0 1px #000;
-    padding: 20px;
+  border: 1px solid #2d2d2d;
+  box-shadow: 0 0 1px #000;
+  padding: 20px;
 }
 .listhead{
-    padding-bottom: 2%;
+  padding-bottom: 2%;
 }
 .pagebar{
-    background: black;
-    margin-top: 1%;
-    font-size: 20px;
+  background: black;
+  margin-top: 1%;
+  font-size: 20px;
 }
 .represent{
-    border: 1px solid #2d2d2d;
-    box-shadow: 0 0 1px #000;
-    padding: 20px;
+  border: 1px solid #2d2d2d;
+  box-shadow: 0 0 1px #000;
+  padding: 20px;
 }
 .filter{
-    border: 1px solid #2d2d2d;
-    box-shadow: 0 0 1px #000;
+  border: 1px solid #2d2d2d;
+  box-shadow: 0 0 1px #000;
 }
 .bootlist{
-    color: white;
+  color: white;
 }
 .bootlist a{
-    color: white;
+  color: white;
 }
 .bootlist .bootdesc{
-    text-align: center;
-    font-size: 12px;
+  text-align: center;
+  font-size: 12px;
 }
 .bootlist p.typetext{
-    font-style: normal;
-    float: right;
-    color: rgba(255, 255, 255, 0.3);
+  font-style: normal;
+  float: right;
+  color: rgba(255, 255, 255, 0.3);
 }
 .bootlist span.small-brand-logo{
-    /*background-image: url('../images/siteimages/global/wembley/small-brand-logo-sprite.png');*/
-    background-repeat: no-repeat;
-    float: left;
-    display: inline-block;
-    width: 30px;
-    height: 15px;
-    text-indent: -999em;
-    overflow: hidden;
-    background-position: -99999px 0;
-    margin-bottom: 5px;
+  background-image: url('./assets/images/siteimages/global/wembley/small-brand-logo-sprite.png');
+  background-repeat: no-repeat;
+  float: left;
+  display: inline-block;
+  width: 30px;
+  height: 15px;
+  text-indent: -999em;
+  overflow: hidden;
+  background-position: -99999px 0;
+  margin-bottom: 5px;
 }
 .bootlist span.adidas {
-    background-position: 0 0;
+  background-position: 0 0;
 }
 .imgholder{
-    margin: 0 0 15px 0;
-    position: relative;
+  margin: 0 0 15px 0;
+  position: relative;
 
 }
 .imgholder img{
-    width: 100%;
-    height: auto;
-    position: relative;
+  width: 100%;
+  height: auto;
+  position: relative;
 }
 .imgholder span{
-    padding: 4px 8px;
-    text-transform: uppercase;
-    position: absolute;
-    bottom: 1px;
-    left: 0;
-    color: #fff;
-    font-size: 11px;
+  padding: 4px 8px;
+  text-transform: uppercase;
+  position: absolute;
+  bottom: 1px;
+  left: 0;
+  color: #fff;
+  font-size: 11px;
 }
 .imgholder span.new{
-    background-color: green;
+  background-color: green;
 }
 .imgholder span.exclusive{
-    background-color: white;
-    color: black;
+  background-color: white;
+  color: black;
 }
 /* Style the buttons that are used to open and close the accordion panel */
 button.accordion {
-    background-color: #eee;
-    color: #444;
-    cursor: pointer;
-    padding: 18px;
-    width: 100%;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 15px;
-    transition: 0.4s;
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
 }
 /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
 button.accordion.active, button.accordion:hover {
-    background-color: #ddd;
+  background-color: #ddd;
 }
 
 button.accordion:after {
-    content: '\002B';
-    color: #777;
-    font-weight: bold;
-    float: right;
-    margin-left: 5px;
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
 }
 
 button.accordion.active:after {
-    content: "\2212";
+  content: "\2212";
 }
 /* Style the accordion panel. Note: hidden by default */
 div.panel {
-    margin: 0px;
-    border: none;
-    border-radius: 0px;
-    color: #777;
-    padding: 0 18px;
-    background-color: white;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
+  margin: 0px;
+  border: none;
+  border-radius: 0px;
+  color: #777;
+  padding: 0 18px;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 }
 .panel.show {
-    opacity: 1;
-    max-height: 500px;
+  opacity: 1;
+  max-height: 500px;
 }
 .panel ul{
-    padding: 5px;
+  padding: 5px;
 }
 .panel li a{
-    /*background: url('../images/siteimages/global/wembley/unchecked.png') no-repeat left;*/
-    background-size: 20px;
-    padding-left: 30px;
-    margin-right: 5px ;
-    margin-bottom: 5px ;
-    display: block;
-    color: black;
+  background: url('./assets/images/siteimages/global/wembley/unchecked.png') no-repeat left;
+  background-size: 20px;
+  padding-left: 30px;
+  margin-right: 5px ;
+  margin-bottom: 5px ;
+  display: block;
+  color: black;
 }
 .panel li a:hover{
-    /*background: url('../images/siteimages/global/wembley/checked.jpg') no-repeat left;*/
-    background-size: 20px;
-    padding-left: 30px;
-    margin-right: 5px ;
-    margin-bottom: 5px ;
-    display: block;
+  background: url('./assets/images/siteimages/global/wembley/checked.jpg') no-repeat left;
+  background-size: 20px;
+  padding-left: 30px;
+  margin-right: 5px ;
+  margin-bottom: 5px ;
+  display: block;
 }
 .panel li.selected a{
-    /*background: url('../images/siteimages/global/wembley/checked.jpg') no-repeat left;*/
-    background-color: black;
-    background-size: 20px;
-    padding-left: 30px;
-    margin-right: 5px ;
-    margin-bottom: 5px ;
-    display: block;
-    color: white;
+  background: url('./assets/images/siteimages/global/wembley/checked.jpg') no-repeat left;
+  background-color: black;
+  background-size: 20px;
+  padding-left: 30px;
+  margin-right: 5px ;
+  margin-bottom: 5px ;
+  display: block;
+  color: white;
 }
 .panel li{
-    padding-right: 5px;
-    text-decoration: none;
+  padding-right: 5px;
+  text-decoration: none;
 }
 .pagination{
-    float: right;
-    margin: 0;
+  float: right;
+  margin: 0;
 }
 .pagination li{
-    float: left;
+  float: left;
 }
 .pagination .nextpage a{
-    /*background: url('../images/siteimages/global/wembley/sprite.png') no-repeat right;*/
-    background-position: -1186px 0;
-    text-indent: -999em;
-    overflow: hidden;
-    float: left;
-    width: 26px;
-    height: 37px;
-    border: 0;
-    border-left: solid 2px rgba(255, 255, 255, 0.3);
-    margin-left: 5px;
+  background: url('./assets/images/siteimages/global/wembley/sprite.png') no-repeat right;
+  background-position: -1186px 0;
+  text-indent: -999em;
+  overflow: hidden;
+  float: left;
+  width: 26px;
+  height: 37px;
+  border: 0;
+  border-left: solid 2px rgba(255, 255, 255, 0.3);
+  margin-left: 5px;
 }
 .pagination .nextpage a:hover{
-    background-color: rgba(255, 255, 255, 0.3);
-    border: 0;
-    border-left: solid 2px rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 0;
+  border-left: solid 2px rgba(255, 255, 255, 0.3);
 }
 .pagination .prevpage a{
-    /*background: url('../images/siteimages/global/wembley/sprite.png') no-repeat right;*/
-    background-position: -1160px 0;
-    text-indent: -999em;
-    overflow: hidden;
-    float: left;
-    width: 26px;
-    height: 37px;
-    border: 0;
-    border-right: solid 2px rgba(255, 255, 255, 0.3);
-    margin-right: 5px;
+  background: url('./assets/images/siteimages/global/wembley/sprite.png') no-repeat right;
+  background-position: -1160px 0;
+  text-indent: -999em;
+  overflow: hidden;
+  float: left;
+  width: 26px;
+  height: 37px;
+  border: 0;
+  border-right: solid 2px rgba(255, 255, 255, 0.3);
+  margin-right: 5px;
 }
 .pagination .prevpage a:hover{
-    background-color: rgba(255, 255, 255, 0.3);
-    border: 0;
-    border-right: solid 2px rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.3);
+  border: 0;
+  border-right: solid 2px rgba(255, 255, 255, 0.3);
 }
 
 form .buttonholder{
-    display: inline-block;
+  display: inline-block;
 }
 form .bottomtab{
-    margin-top: 10px;
+  margin-top: 10px;
 }
 form .continue{
-    width: 150px;
-    height: 40px;
-    float: left;
-    background-color: transparent;
-    color: #fff;
-    border: 1px solid #fff;
-    font-size: 15px;
-    border-radius: 5px;
+  width: 150px;
+  height: 40px;
+  float: left;
+  background-color: transparent;
+  color: #fff;
+  border: 1px solid #fff;
+  font-size: 15px;
+  border-radius: 5px;
 }
 form .continue:hover{
-    background-color: white;
-    color: black;
+  background-color: white;
+  color: black;
 }
 form .checkout{
-    width: 150px;
-    height: 40px;
-    float: right;
-    background-color: #3d891f;
-    color: #fff;
-    font-size: 15px;
-    border-width: 0;
-    border-radius: 5px;
+  width: 150px;
+  height: 40px;
+  float: right;
+  background-color: #3d891f;
+  color: #fff;
+  font-size: 15px;
+  border-width: 0;
+  border-radius: 5px;
 }
 form .checkout:hover{
-    background-color: #4b9b2b;
+  background-color: #4b9b2b;
 }
 table.order{
-    margin-top: 10px;
-    box-shadow: 0 0 1px #000;
-    -moz-box-shadow: 0 0 1px #000;
-    -webkit-box-shadow: 0 0 1px #000;
-    font-size: 12px;
-    border: 1px solid #2d2d2d;
+  margin-top: 10px;
+  box-shadow: 0 0 1px #000;
+  -moz-box-shadow: 0 0 1px #000;
+  -webkit-box-shadow: 0 0 1px #000;
+  font-size: 12px;
+  border: 1px solid #2d2d2d;
 }
 table.order th{
-    background: #2e2e2e;
-    padding: 10px;
-    font-size: 20px;
+  background: #2e2e2e;
+  padding: 10px;
+  font-size: 20px;
 }
 table.order td{
-    padding: 10px;
-    border: 1px solid #2d2d2d;
-    border-right: 0;
-    border-top: 0;
+  padding: 10px;
+  border: 1px solid #2d2d2d;
+  border-right: 0;
+  border-top: 0;
 }
 
 table.order tr td .imgholder{
-    width: 20%;
-    float: left;
-    margin: 10px;
+  width: 20%;
+  float: left;
+  margin: 10px;
 }
 table.order tr td .textholder{
 
-    margin: 10px;
-    margin-left: 15%;
-    position: absolute;
+  margin: 10px;
+  margin-left: 15%;
+  position: absolute;
 }
 table.order tr td ul{
-    list-style-type: none;
-    margin: 0;
-    margin-top: -5px;
-    padding: 0;
-    position: relative;
+  list-style-type: none;
+  margin: 0;
+  margin-top: -5px;
+  padding: 0;
+  position: relative;
 }
 table.order tr td ul li span{
 
-    float: right;
+  float: right;
 }
 .textholder a{
-    color: white;
+  color: white;
 }
 .textholder button{
-    margin: 10px 0;
-    display: block;
-    font-weight: 400;
-    color: #fff;
-    /*background: transparent url('../images/siteimages/global/wembley/remove-icon.png') no-repeat left;*/
-    padding: 2px 0 2px 16px;
-    line-height: 1;
-    font-size: 11px;
-    text-transform: lowercase;
-    letter-spacing: 0;
-    width: auto;
-    border: none;
+  margin: 10px 0;
+  display: block;
+  font-weight: 400;
+  color: #fff;
+  background: transparent url('./assets/images/siteimages/global/wembley/remove-icon.png') no-repeat left;
+  padding: 2px 0 2px 16px;
+  line-height: 1;
+  font-size: 11px;
+  text-transform: lowercase;
+  letter-spacing: 0;
+  width: auto;
+  border: none;
+}
+
+.innerpage{
+  background: url('./assets/images/siteimages/framework/backgrounds/wembley/background-4.jpg') no-repeat top center;
+  background-size: cover;
+  width: 100%;
+  margin: 0 auto;
+  text-align: left;
+}
+.innercontent{
+  background: #000;
+  border: solid black 1px;
+  box-shadow: 0 0 60px 20px black;
+}
+.carouselholder{
+  max-width: 100%;
+  margin: 0;
+  margin-bottom: 10px;
+}
+.carousel-inner img{
+  min-width: 100%;
+}
+.msg{
+  display: block;
+  background: #a3a3a3;
+  color: #3d3d3d;
+  text-transform: uppercase;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+.boxholder{
+  margin: 1px;
+}
+.boxcontainer {
+  position: relative;
+  width: 49%;
+  padding: 0;
+}
+
+.image {
+  display: block;
+  /*max-width: 327px;*/
+  width: 100%;
+
+}
+
+.overlay {
+  position: absolute;
+  bottom: 100%;
+  top: 0;
+  left: 0;
+  height: 0;
+  right: 0;
+  background-color: #191919;
+  overflow: hidden;
+  transition: .5s ease;
+}
+.boxcaption{
+  padding: 2px;
+  text-align: center;
+  background-color: #191919;
+}
+.boxcaption p{
+  text-align: center;
+  text-transform: uppercase;
+}
+.boxcontainer:hover .overlay {
+  top: 0;
+  height: 100%;
+}
+
+.text {
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #2d2d2d;
+  white-space: nowrap;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: inherit;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  margin: 6% 4%;
+  font-size: 11px;
+}
+.text p{
+  border-top: 1px solid #2d2d2d;
+  border-bottom: 1px solid #000;
+  margin: 0;
+  padding: 7px 0px 7px 0px;
+  text-align: center;
+  text-transform: uppercase;
 }
