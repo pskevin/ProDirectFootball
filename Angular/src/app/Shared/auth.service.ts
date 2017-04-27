@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { LocalStorageService } from "angular-2-local-storage";
 
 @Injectable()
@@ -9,14 +8,10 @@ export class AuthService {
   name: string;
   token: any;
   
-  constructor(private router: Router, private local: LocalStorageService) {
+  constructor(private local: LocalStorageService) {
     //localStorage.setItem('cookie',this.cookie);
   }
 
-  navigateTo(url: string) {
-    console.log("ZABARDASTI");
-    this.router.navigate(['./login'+url]);
-  }
   
   isLoggedIn() {
     console.log("CHECKING");
@@ -53,7 +48,6 @@ export class AuthService {
     localStorage.setItem('log','false');
     this.log = false;
     this.clear();
-    this.navigateTo('');
   }
   
   setCookie() {

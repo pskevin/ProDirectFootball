@@ -9,8 +9,8 @@ router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : false}));
 
 router.get('/',function(request,response){
-    var link="/home/vn_shetty/Pictures/git/ProDirectFootball/public/html/upload.html";
-    link = path.normalize(link);
+    var link="../public/html/upload.html";
+    link = path.join(__dirname,link);
     console.log(link+"-"+fs.existsSync(link));
     var stream=fs.createReadStream(link);
     stream.pipe(response);

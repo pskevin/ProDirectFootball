@@ -1,23 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpService } from './Shared/http.service';
 
 @Component({
   selector: 'pdf-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  providers: [HttpService]
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
   spaceScreens: any;
   
-  constructor(private http: HttpService) { }
+  constructor() { }
   
   ngOnInit() {
-    this.http.demo()
+   /* this.http.demo()
       .subscribe(res => {
         this.spaceScreens = res;
         console.log("UHH");
         console.log(this.spaceScreens);
-      });
+      });*/
   }
 }

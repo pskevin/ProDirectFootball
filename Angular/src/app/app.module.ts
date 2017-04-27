@@ -11,6 +11,7 @@ import { AuthGuard } from './Shared/auth.guard';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './Login/login.component';
+import { HttpService } from "./Shared/http.service";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { LoginComponent } from './Login/login.component';
       storageType: 'localStorage'
     })
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AuthService, AuthGuard, HttpService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

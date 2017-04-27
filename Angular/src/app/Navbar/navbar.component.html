@@ -73,6 +73,9 @@
         </form>
       </div>
       <div class="modal-footer">
+        <div *ngIf="!valid.check" class="text-warning">
+          {{ valid.response }}
+        </div>
         <button
           type="submit"
           class="btn btn-primary pull-lg-left pull-md-left pull-xs-left">
