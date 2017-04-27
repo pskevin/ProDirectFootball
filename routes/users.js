@@ -145,7 +145,7 @@ router.post('/purchase',Verify.verifyLoggedUser,function(request,response){
     });
  });
 
-router.post('/generateOtp',Verify.verifyLoggedUser,function(request,response){
+router.post('/generateOtpPayment',Verify.verifyLoggedUser,function(request,response){
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
     var x= Math.random()*(9999 - 1000)+1000;
     x= parseInt(x);
@@ -160,11 +160,7 @@ router.post('/generateOtp',Verify.verifyLoggedUser,function(request,response){
                 if(err)
                     response.json(err);
                 else{
-                        var text;
-                        if(request.body.flag==1)
-                            text='\nPRODIRECT FOOTBALL PAYMENT GATEWAY.\nYour One Time Password(OTP) :'+x;
-                        else
-                            text='\nPRODIRECT FOOTBALL USER REGISTERATION VERIFICATION.\nYour One Time Password(OTP) :'+x;
+                        var text='\nPRODIRECT FOOTBALL PAYMENT GATEWAY.\nYour One Time Password(OTP) :'+x;
 
                     client.sms.messages.create({
                         to: "+91"+data.mobno,
@@ -187,20 +183,64 @@ router.post('/generateOtp',Verify.verifyLoggedUser,function(request,response){
     });
 });
 
-router.post('/verifyOtp',Verify.verifyLoggedUser,function(request,response){
-    var decoded = jwt.decode(token);
-    User.findOne({"username":decoded.username},function(err,data) {
-        if (err)
+
+router.post('/generateOtpVerifyMessage',function(request,response){
+    var x= Math.random()*(9999 - 1000)+1000;
+    x= parseInt(x);
+    console.log(x);
+    User.findOne({"username":request.body.username},function(err,data){
+        if(err)
             response.json(err);
         else {
-            if(data.otp==request.body.otp) {
-                if(request.body.flag==1)// Payment Successful
-                {
+            data.otp=x;
+            data.save(function (err,result){
+                if(err)
+                    response.json(err);
+                else{
+                    var text="\nPRODIRECT FOOTBALL CUSTOMER SERVICE\nHello "+data.Fname+",\nYour One Time Password(OTP) :"+x;
+
+                    client.sms.messages.create({
+                        to: "+91"+data.mobno,
+                        from: '+12053796263',
+                        body: text
+                    }, function (error, message) {
+                        if (!error) {
+                            console.log('Success! The SID for this SMS message is:');
+                            console.log(message.sid);
+                            console.log('Message sent on:');
+                            console.log(message.dateCreated);
+                            response.json(message);
+                        } else {
+                            console.log('Oops! There was an error.' + err);
+                        }
+                    });
+                }
+            });
+        }
+    });
+});
+
+
+router.post('/generateOtpVerifyMail',function(request,response){
+    var x= Math.random()*(9999 - 1000)+1000;
+    x= parseInt(x);
+    console.log(x);
+    User.findOne({"username":request.body.username},function(err,data){
+        if(err)
+            response.json(err);
+        else {
+            data.otp=x;
+            data.save(function (err,result){
+                if(err)
+                    response.json(err);
+                else{
+                    var text='\nPRODIRECT FOOTBALL CUSTOMER SERVICES.\nYour One Time Password(OTP) :'+x;
+
                     var data = {
                         from: 'ProDirect Customer services <postmaster@sandbox127c4a0962454b07a273d25721d8887d.mailgun.org>',
                         to:data.email,
                         subject: 'Hello',
-                        text: 'Hello '+data.firstname+",\nYour transaction has been successfully completed. The cost of $"+request.body.total+" has been deducted from your account.Thank you for using Prodirect Football.\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tThanking You,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAkshat"
+                        text: 'Hello '+data.Fname+",\nYour One Time Password(OTP) :"+x+"Thank you for using Prodirect Football.\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tThanking You,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAkshat"
                     };
                     mailgun.messages().send(data, function (error, body) {
                         if(error)
@@ -209,33 +249,28 @@ router.post('/verifyOtp',Verify.verifyLoggedUser,function(request,response){
                             console.log(body);
                         }
                     });
-                    client.sms.messages.create({
-                        to: "+91"+data.mobno,
-                        from: '+12053796263',
-                        body: '\nPRODIRECT FOOTBALL CUSTOMER SERVICE\nHello '+data.firstname+",\nYour transaction has been successfully completed. The cost of $"+request.body.total+" has been deducted from your account.Thank you for using Prodirect Football."
-                    }, function (error, message) {
-                        if (!error) {
-                            console.log('Success! The SID for this SMS message is:');
-                            console.log(message.sid);
-                            console.log('Message sent on:');
-                            console.log(message.dateCreated);
-                        } else {
-                            response.json('Oops! There was an error.' + err);
-                        }
-                    });
-                response.json("Successful Transaction!");
 
                 }
-                else{
-                    data.verified=true;
-                    data.save(function (err,result){
-                        if(err)
-                            response.json(err);
-                        else
-                            response.json("Account successfully verified!");
+            });
+        }
+    });
+});
 
-                    })
-                }
+
+router.post('/verifyOtpAccount',function(request,response){
+    User.findOne({"username":request.body.username},function(err,data) {
+        if (err)
+            response.json(err);
+        else {
+            if(data.otp==request.body.otp) {
+                data.verified=true;
+                data.save(function (err,result){
+                if(err)
+                    response.json(err);
+                    else
+                    response.json("Account successfully verified!");
+
+                })
             }
             else
             {
@@ -243,7 +278,51 @@ router.post('/verifyOtp',Verify.verifyLoggedUser,function(request,response){
             }
         }
     });
-        });
+});
+
+router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,response){
+    var decoded = jwt.decode(token);
+    User.findOne({"username":decoded.username},function(err,data) {
+        if (err)
+            response.json(err);
+        else {
+            if(data.otp==request.body.otp) {
+                var data = {
+                    from: 'ProDirect Customer services <postmaster@sandbox127c4a0962454b07a273d25721d8887d.mailgun.org>',
+                    to:data.email,
+                    subject: 'Hello',
+                    text: 'Hello '+data.Fname+",\nYour transaction has been successfully completed. The cost of $"+request.body.total+" has been deducted from your account.Thank you for using Prodirect Football.\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tThanking You,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAkshat"
+                };
+                mailgun.messages().send(data, function (error, body) {
+                    if(error)
+                        response.json(error);
+                    else {
+                        console.log(body);
+                    }
+                });
+                client.sms.messages.create({
+                    to: "+91"+data.mobno,
+                    from: '+12053796263',
+                    body: '\nPRODIRECT FOOTBALL CUSTOMER SERVICE\nHello '+data.Fname+",\nYour transaction has been successfully completed. The cost of $"+request.body.total+" has been deducted from your account.Thank you for using Prodirect Football."
+                }, function (error, message) {
+                    if (!error) {
+                        console.log('Success! The SID for this SMS message is:');
+                        console.log(message.sid);
+                        console.log('Message sent on:');
+                        console.log(message.dateCreated);
+                    } else {
+                        response.json('Oops! There was an error.' + err);
+                    }
+                });
+                response.json("Successful Transaction!");
+            }
+            else
+            {
+                response.json("OTP match failed. Enter correct OTP.");
+            }
+        }
+    });
+});
 
 router.post('/comment',function(request,response){
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
@@ -257,6 +336,17 @@ router.post('/comment',function(request,response){
                 if (err)
                     response.json(err);
                 else {
+                    boot.comments.find({"postedBy":data._id},function(err,res){
+                       if(err)
+                           response.json(err);
+                       else
+                       {
+                           if(res)
+                           {
+                               boot.comments.id(res._id).remove();
+                           }
+                       }
+                    });
                     console.log(result);
                     var j = {rating: request.body.rating, remarks: request.body.remarks, postedBy: result._id};
                     console.log(j);
