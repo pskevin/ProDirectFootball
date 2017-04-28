@@ -49,13 +49,24 @@ router.post('/add',function(request,response){
 
 });
 
+router.post('/set',function(result,response){
+   Boot.update({},{"status":"none"},{"multi":true},function(err,data){
+      if(err)
+          response.json(err);
+      else
+          response.json(data);
+   });
+
+});
+
+
 router.post('/',function(request,response){
     if(request.body.offset)
         var x=request.body.offset;
     else
         var x = Math.random();
     var query = Verify.trim_nulls(request.body.query);
-            Boot.find(query,{"_id":"0","bname":"1","coll":"1","brand":"1","saleprice":"1"}).select("image").exec(function(err,res){
+            Boot.find(query,{"_id":"0","bname":"1","coll":"1","brand":"1","saleprice":"1","status":"1"}).select("image").exec(function(err,res){
                 var y =_.uniq(_.pluck(_.flatten(res), "coll"));
                 var w =_.uniq(_.pluck(_.flatten(res), "brand"));
                 if(err)
