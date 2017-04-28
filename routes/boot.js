@@ -62,7 +62,7 @@ router.post('/',function(request,response){
         {
             var y =_.uniq(_.pluck(_.flatten(data), "coll"));
             var w =_.uniq(_.pluck(_.flatten(data), "brand"));
-            Boot.find(query,{"_id":"0","bname":"1","coll":"1"}).skip(20*x).find(20).select("image").exec(function(err,res){
+            Boot.find(query,{"_id":"0","bname":"1","coll":"1","brand":"1","saleprice":"1"}).skip(20*x).find(20).select("image").exec(function(err,res){
                 if(err)
                     response.json(err);
                 else {
