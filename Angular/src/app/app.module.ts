@@ -11,13 +11,14 @@ import { AuthGuard } from './Shared/auth.guard';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './Login/login.component';
-import { HttpService } from "./Shared/http.service";
+import { HttpService } from './Shared/http.service';
 import { ProductComponent } from './Product/product.component';
 import { BootsComponent } from './Boots/boots.component';
 import { BallsComponent } from './Balls/balls.component';
-import { ROUTES } from "./app.routing";
+import { ROUTES } from './app.routing';
 import { TerminalComponent } from './Terminal/terminal.component';
 import { BasketComponent } from './BasketPage/basket.component';
+import { RegisterpComponent } from './Register/registerp.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { BasketComponent } from './BasketPage/basket.component';
     BootsComponent,
     BallsComponent,
     TerminalComponent,
-    BasketComponent
+    BasketComponent,
+    RegisterpComponent
   ],
   imports: [
     BrowserModule,
