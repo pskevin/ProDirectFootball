@@ -1,21 +1,32 @@
 import { Injectable } from '@angular/core';
+
+import { Router } from "@angular/router";
 import { LocalStorageService } from "angular-2-local-storage";
 
 @Injectable()
 export class AuthService {
-  //Declaring local service variables
+  
+  constructor(
+    private router: Router,
+    private local: LocalStorageService
+  ) {}
+  
+  /*---> USER RELATED STORAGE SERVICES <---*/
+  //Declaring user service variables
   log: boolean = false;
   name: string;
   token: any;
-  
-  constructor(private local: LocalStorageService) {
-    //localStorage.setItem('cookie',this.cookie);
-  }
-  
-  
   isLoggedIn() {
     console.log("CHECKING");
     return this.bool(localStorage.getItem('log'));
+  }
+  
+  loggedIn(data: any) {
+    console.log("LOGGED IN");
+    this.storeLocally(data);
+    this.name = data.userdata.username;
+    this.token = data.userdata.token;
+    this.log = true;
   }
   
   storeLocally(data: any) {
@@ -32,20 +43,8 @@ export class AuthService {
       return false;
   }
   
-  loggedIn(data: any) {
-    console.log("LOGGED IN");
-    this.storeLocally(data);
-    this.name = data.userdata.username;
-    this.token = data.userdata.token;
-    this.log = true;
-  }
-  
   getToken() {
     return localStorage.getItem('token');
-  }
-  
-  getName() {
-    return localStorage.getItem('name');
   }
   
   loggedOut() {
@@ -54,18 +53,28 @@ export class AuthService {
     this.clear();
   }
   
-  setCookie() {
-    localStorage.setItem('cookie','true');
-  }
-  
-  getCookie() {
-    return this.bool(localStorage.getItem('cookie'));
-  }
-  
   clear() {
     console.log("REMOVING");
     localStorage.removeItem('name');
     localStorage.removeItem('token');
     console.log(localStorage);
+  }
+  
+  /*---> BOOT RELATED STORAGE SERVICES <---*/
+  //Declaring boot service variables
+  bootid: string;
+  
+  fetchBoot(id){
+    this.bootid = id;
+    this.navigateTo("terminal");
+  }
+  
+  getBootID(){
+    return this.bootid;
+  }
+  
+  navigateTo(url: string) {
+    console.log("ZABARDASTI");
+    this.router.navigate(['./'+url]);
   }
 }

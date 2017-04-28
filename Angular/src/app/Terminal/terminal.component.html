@@ -13,23 +13,21 @@
           <!-- Wrapper for slides -->
           <div class="carousel-inner">
             <div class="item active">
-              <img src="{{img1src}}" alt="Chania">
+              <img [src]="'data:image/jpg;base64,'+img1src"/>
               <div class="carousel-caption">
                 <h3></h3>
                 <p></p>
               </div>
             </div>
-
             <div class="item">
-              <img src="{{img2src}}" alt="Chicago">
+              <img [src]="'data:image/jpg;base64,'+img2src"/>
               <div class="carousel-caption">
                 <h3></h3>
                 <p></p>
               </div>
             </div>
-
             <div class="item">
-              <img src="{{img3src}}" alt="New York">
+              <img [src]="'data:image/jpg;base64,'+img3src"/>
               <div class="carousel-caption">
                 <h3></h3>
                 <p></p>
@@ -52,10 +50,10 @@
   </div>
   <div class="col-sm-3">
     <div class="rightcol">
-      <h1 class="itemname">{{boottitle}}</h1>
-      <p class="itemcollection">{{bootcollection}}</p>
+      <h1 class="itemname">{{ name }}</h1>
+      <p class="itemcollection">{{ collection }}</p>
       <p class="itemp">Price</p>
-      <p class="itemprice">{{bootprice}}</p><br><br>
+      <p class="itemprice">{{ price }}</p><br><br>
       <button href="" class="checkout">Checkout</button>
       <div class="msg" style="margin-top: 30px;">Delivery within 4-5 days.</div><br>
       <div class="msg">Money back guarantee.</div><br>
@@ -65,7 +63,7 @@
   <div class="col-sm-offset-2 col-sm-5">
     <div class="leftcol"><br>
       <div class="msg">Product Details</div><br>
-        <p innerHTML="{{bootdetails}}"></p>
+      <p innerHTML="{{ desc }}"></p>
     </div>
   </div>
   <div class="col-sm-3">

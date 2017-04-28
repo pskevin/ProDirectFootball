@@ -15,25 +15,39 @@
         <div class="row">
           <button class="accordion">Brands</button>
           <div class="panel">
-            <ul type="none">
-              <li class="selected"><a>adidas</a></li>
-              <li><a>nike</a></li>
-              <li><a>puma</a></li>
+            <ul
+              type="none"
+              *ngFor="let brand of brands; let b = index">
+              <li
+                (click)="toggleBrand(b)"
+                [ngClass]="{'selected': isBrandSelected[b]}">
+                <a>{{ brand }}</a>
+              </li>
             </ul>
           </div>
           <button class="accordion">Collection</button>
           <div class="panel">
-            dfsdfd
+            <ul
+              type="none"
+              *ngFor="let collection of collections; let c = index">
+              <li
+                (click)="toggleCollection(c)"
+                [ngClass]="{'selected': isCollectionSelected[c]}">
+                <a>{{ collection }}</a>
+              </li>
+            </ul>
           </div>
-
-          <button class="accordion">Model</button>
-          <div class="panel">
-            sdfs
-          </div>
-
           <button class="accordion">Price Bands</button>
           <div class="panel">
-            sdfs
+            <ul
+              type="none"
+              *ngFor="let price of prices; let p = index">
+              <li
+                (click)="togglePrice(p)"
+                [ngClass]="{'selected': isPriceSelected[p]}">
+                <a>{{ price }}</a>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
@@ -54,18 +68,20 @@
       </div>
     </div>
     <div class="row bootlist">
-      <div class="col-sm-3 cell">
-        <span class="small-brand-logo {{brand_logo}}">adidas</span>
-        <p class="typetext" innerHTML="{{collection}}"></p>
+      <div
+        class="col-sm-3 cell"
+        *ngFor = "let boot of boots; let i = index">
+        <span class="small-brand-logo {{boot.brand}}">{{ boot.brand }}</span>
+        <p class="typetext" innerHTML="{{boot.collection}}"></p>
         <div class="imgholder">
-          <a>
-            <img src="{{imgsrc}}" />
+          <a (click)="fetchBoot(i)">
+            <img [src]="'data:image/jpg;base64,'+boot.img"/>
           </a>
           <span class="{{overlayclass}}" innerHTML="{{overlaytext}}"></span>
         </div>
         <div class="bootdesc">
-          <a>{{bootname}}</a><br>
-          Price:&nbsp<span style="font-size: 20px;">${{bootprice}}</span>
+          <a (click)="fetchBoot(i)">{{boot.name}}</a><br>
+          Price:&nbsp<span style="font-size: 20px;">${{boot.price}}</span>
         </div>
 
       </div>

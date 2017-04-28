@@ -10,10 +10,16 @@ export class HttpService {
   constructor(private http: Http/*, private auth: AuthService*/) {
   }
   
-  data =  {
-    offset: "0"
-  };
+  data =  {};
   
+  fetchBoot(query: any){
+    const body = query;
+    console.log(body);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('https://localhost:3443/boot/landing', body)
+      .map((response: Response) => response.json());
+  }
   startBoots() {
     console.log("HERE");
     const body = this.data;//JSON.stringify(this.data);
