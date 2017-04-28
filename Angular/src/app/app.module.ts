@@ -16,6 +16,8 @@ import { ProductComponent } from './Product/product.component';
 import { BootsComponent } from './Boots/boots.component';
 import { BallsComponent } from './Balls/balls.component';
 import { ROUTES } from "./app.routing";
+import { TerminalComponent } from './Terminal/terminal.component';
+import { BasketComponent } from './BasketPage/basket.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { ROUTES } from "./app.routing";
     LoginComponent,
     ProductComponent,
     BootsComponent,
-    BallsComponent
+    BallsComponent,
+    TerminalComponent,
+    BasketComponent
   ],
   imports: [
     BrowserModule,

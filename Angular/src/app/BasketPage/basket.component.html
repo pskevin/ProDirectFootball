@@ -1,0 +1,49 @@
+<div class="row" style="margin-bottom: 20px; "></div>
+<form method="post" class="row">
+  <div class="col-sm-8 col-sm-offset-2 buttonholder">
+    <span style="font-size: 30px;">Your Basket :</span><span style="margin-left: 10px;">{{no_of_orders}} item(s)</span>
+    <button href="" class="checkout">Checkout</button>
+  </div>
+  <table class="col-sm-8 col-sm-offset-2 order">
+    <tr>
+      <th>Item</th>
+      <th>Options</th>
+      <th>Price</th>
+    </tr>
+    <tr>
+      <td>
+        <div class="imgholder">
+          <a>
+            <img src="{{bootimg}}" />
+          </a>
+        </div>
+        <div class="textholder">
+          <p>
+            <a>{{bootname}}</a><br>
+            <button type="submit">remove</button>
+          </p>
+        </div>
+      </td>
+      <td>
+        <ul>
+          <li>
+            <p>Size:<span>{{bootsize}}</span></p>
+          </li>
+          <li>
+            <p>Quantity:<span>{{bootquantity}}</span></p>
+          </li>
+        </ul>
+      </td>
+      <td>
+        <h3 style="text-align: center;">{{bootprice}}</h3>
+      </td>
+    <tr>
+  </table>
+  <div class="col-sm-8 col-sm-offset-2 bottomtab">
+    <div class="totalprice">
+      <p>Total:<strong>{{totalamount}}</strong></p>
+    </div>
+    <button href="" class="continue">Continue Shopping</button>
+    <button href="" class="checkout">Checkout</button>
+  </div>
+</form>
