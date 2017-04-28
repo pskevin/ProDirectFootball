@@ -49,6 +49,7 @@ var bootSchema = new Schema(
     {
         type : Number
     },
+    status:String,
     saleprice :
     {
       type : Number
