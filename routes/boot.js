@@ -55,27 +55,32 @@ router.post('/',function(request,response){
     else
         var x = Math.random();
     var query = Verify.trim_nulls(request.body.query);
-    Boot.find(query,{"coll":"1","brand":"1","_id":"0"}).populate('postedBy').exec(function (err,data){
-        if(err)
-            response.json(err);
-        else
-        {
-            var y =_.uniq(_.pluck(_.flatten(data), "coll"));
-            var w =_.uniq(_.pluck(_.flatten(data), "brand"));
-            Boot.find(query,{"_id":"0","bname":"1","coll":"1","brand":"1","saleprice":"1"}).skip(20*x).find(20).select("image").exec(function(err,res){
+            Boot.find(query,{"_id":"0","bname":"1","coll":"1","brand":"1","saleprice":"1"}).select("image").exec(function(err,res){
+                var y =_.uniq(_.pluck(_.flatten(res), "coll"));
+                var w =_.uniq(_.pluck(_.flatten(res), "brand"));
                 if(err)
                     response.json(err);
                 else {
+
+                    var s = _.countBy(res,function(num){
+                        return 'count';
+                    });
+                    console.log(s);
+                    res= _.filter(res,function(num){
+                        if(res.indexOf(num)>=(20*x))
+                           return num;
+                    });
+                    //console.log(s);
+                    res = _.first(res,20);
                     for(var e in res)
                     {
                         res[e].image= _.first(res[e].image,1);
                     }
-                    var z = {"collection": y, "brand": w, "data": res};
+                    var p = Math.ceil(s.count/10);
+                    var z = {"count":s.count,"pages":p,"collection": y, "brand": w, "data": res};
                     response.json(z);
                 }
             });
-        }
-    });
 });
 
 router.post('/landing',function(request,response){
