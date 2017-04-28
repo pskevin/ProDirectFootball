@@ -127,7 +127,6 @@ router.post('/purchase',Verify.verifyLoggedUser,function(request,response){
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
     var decoded = jwt.decode(token);
     var data =request.body;
-    var date = new Date();
     User.findOne({"username":decoded.data.username},{"_id":"1"},function(err,user){
         Order.create(user._id,function(err,order){
             for(var i=0;i<data.length;i++)
@@ -349,6 +348,8 @@ router.post('/comment',function(request,response){
                            {
                                boot.comments.id(res._id).remove();
                            }
+                           var y= {postedBy:result._id,rating:request.body.rating};
+                           boots.comments.push(y);
                        }
                     });
                     console.log(result);
