@@ -1,0 +1,11 @@
+.right-block{
+  margin-top: 30px;
+  line-height: 200%;
+  font-size: 180%;
+}
+.form-control{
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 20px;
+}

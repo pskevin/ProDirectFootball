@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row">
+    <form [formGroup]="myForm" action="" method="post" (ngSubmit)="onSubmit(myForm.value)">
+      <div class="left-block col-md-6">
+        <h3>REGISTER</h3>
+        <div class="form-group">
+          <p><input class="form-control" formControlName="first_name" placeholder="First Name" name="fname" required="" type="text"></p>
+          <p><input class="form-control" formControlName="last_name" placeholder="Last Name" name="lname" required="" type="text"></p>
+          <p><input class="form-control" formControlName="email_id" placeholder="Email-Id" name="email" required="" type="email"></p>
+          <p><input class="form-control" formControlName="user_name" placeholder="Username" name="username" required="" type="text"></p>
+          <p><input class="form-control" formControlName="pass_word" placeholder="Password" name="pass" required="" type="password"></p>
+          <p><input class="form-control" formControlName="re_pass" placeholder="Re-confirm Password" name="repass" required="" type="password"></p>
+          <button *ngIf="0" type="submit" class="checkout">Register</button>
+          <div *ngIf="1">
+            <button type="submit" class="checkout" style="float: left;">Verify via Mobile</button>
+            <button type="submit" class="checkout" style="float: right;">Verify via Mail</button>
+          </div>
+        </div>
+      </div>
+      <div class="right-block col-md-6">
+        <div class="row">
+          <br>
+          <p class="col-sm-12"><textarea placeholder="Address" name="address" class="form-control" rows="8" cols="40"></textarea></p>
+        </div><br>
+        <div *ngIf="1" class="msg">Enter received OTP</div>
+        <p *ngIf="1" style="margin-top: 15px;"><input class="form-control" formControlName="otp_num" placeholder="Enter most recent OTP" name="otp" required="" type="text"></p>
+      </div>
+    </form>
+  </div>
+</div>
