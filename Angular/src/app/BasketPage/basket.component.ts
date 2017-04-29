@@ -19,8 +19,7 @@ export class BasketComponent implements OnInit {
   
   constructor(
     private http: HttpService,
-    private auth: AuthService,
-    private event: EventService
+    private auth: AuthService
   ) {
     if(!this.auth.checkCache()) {
       this.isCartEmpty = true;
@@ -33,17 +32,28 @@ export class BasketComponent implements OnInit {
     }
     this.total();
   }
-
+  
   ngOnInit() {
   }
-
+  
   total() {
-    for(let boot of this.boots) {
-      this.totalamount += (+boot.price);
+    for(let i in this.boots) {
+      this.totalamount += ((+this.boots[i].price)*(+this.bootsQuantity[i]));
     }
   }
   
-  routeToBoots(){
+  routeToBoots() {
     this.auth.navigateTo('boots');
+  }
+  
+  removeBoot(i) {
+    this.boots.splice(i,1);
+    this.bootsQuantity.splice(i,1);
+    this.auth.removeFromCart(this.boots,this.bootsQuantity);
+    this.total();
+    if(!this.auth.checkCache()) {
+      this.isCartEmpty = true;
+    }
+    
   }
 }

@@ -97,11 +97,17 @@ export class AuthService {
   
   checkCache() {
     if(localStorage.getItem('boots') && localStorage.getItem('quantity')){
-      this.boots = JSON.parse(localStorage.getItem('boots'));
-      this.bootQuantity = JSON.parse(localStorage.getItem(('quantity')));
-      console.log(JSON.parse(localStorage.getItem(('quantity'))));
+      this.boots = JSON.parse (localStorage.getItem ('boots'));
+      this.bootQuantity = JSON.parse (localStorage.getItem (('quantity')));
+      console.log (JSON.parse (localStorage.getItem (('quantity'))));
       this.cartContents = this.boots.length;
-      return true;
+      if((this.boots.length >= 1) && (this.bootQuantity.length >= 1)) {
+        return true;
+      }
+      else {
+        console.log("EMPTY");
+        return false;
+      }
     }
     else {
       return false;
@@ -122,11 +128,11 @@ export class AuthService {
     this.emitChange(this.cartContents);
   }
   
-  removeFromCart() {
+  removeFromCart(boots: Boot[], quantity: number[]) {
     this.checkCache();
     this.cartContents -= 1;
-    this.boots.shift();
-    this.bootQuantity.shift();
+    this.boots = boots;
+    this.bootQuantity = quantity;
     if(this.cartContents > 0) {
       localStorage.removeItem('boots');
       localStorage.removeItem('quantity');

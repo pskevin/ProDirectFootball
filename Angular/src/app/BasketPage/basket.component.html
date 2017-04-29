@@ -31,7 +31,7 @@
         <div class="textholder">
           <p>
             <a>{{ boot.name }}</a><br>
-            <button type="submit">Remove</button>
+            <button type="button" (click)="removeBoot(i)">Remove</button>
           </p>
         </div>
       </td>
@@ -59,7 +59,7 @@
   <div
     *ngIf = "isCartEmpty"
     class="col-sm-8 col-sm-offset-2 bottomtab">
-    <button href="" class="continue">Continue Shopping</button>
+    <button (click)="routeToBoots()" class="continue">Continue Shopping</button>
   </div>
 </form>
 </div>

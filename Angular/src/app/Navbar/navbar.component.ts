@@ -26,7 +26,12 @@ export class NavbarComponent implements OnInit {
     private auth: AuthService
   ) {
     if(this.auth.checkCache()){
-      this.cartContents = JSON.stringify(this.auth.getCartContents());
+      if(this.auth.getCartContents() === 0){
+        this.cartContents = "";
+      }
+      else {
+        this.cartContents = JSON.stringify(this.auth.getCartContents());
+      }
     }
     this.myForm = formBuilder.group({
       'username': ['',[Validators.required]],
@@ -35,7 +40,12 @@ export class NavbarComponent implements OnInit {
     });
     this.auth.changeEmitted$.subscribe(
       cart => {
-        this.cartContents = cart;
+        if(cart === 0){
+          this.cartContents = "";
+        }
+        else {
+          this.cartContents = cart;
+        }
       });
     this.myForm.valueChanges.subscribe(data => console.log('Form changes', data));
     this.valid = {
