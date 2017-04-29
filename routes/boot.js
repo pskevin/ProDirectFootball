@@ -49,14 +49,13 @@ router.post('/add',function(request,response){
 
 });
 
-router.post('/set',function(result,response){
+router.post('/set',Verify.verifyLoggedUser,Verify.verifyAdmin,function(result,response){
    Boot.update({},{"status":"none"},{"multi":true},function(err,data){
       if(err)
           response.json(err);
       else
           response.json(data);
    });
-
 });
 
 
@@ -81,7 +80,6 @@ router.post('/',function(request,response){
                         if(res.indexOf(num)>=(20*x))
                            return num;
                     });
-                    //console.log(s);
                     res = _.first(res,20);
                     for(var e in res)
                     {
