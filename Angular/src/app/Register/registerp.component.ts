@@ -9,11 +9,12 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class RegisterpComponent implements OnInit {
   // Form Variables
   myForm: FormGroup;
-  userData: FormGroup;
+  myOtp: FormGroup;
   request: any;
   valid: {response: string, check: boolean} ;
+  k: any;
 
-  constructor(private formBuilder: FormBuilder){
+  constructor(private formBuilder: FormBuilder) {
     // Form controls
     this.myForm = formBuilder.group({
       'first_name': ['',[Validators.required]],
@@ -22,6 +23,9 @@ export class RegisterpComponent implements OnInit {
       'email_id': ['',[Validators.required]],
       'pass_word': ['',[Validators.required]],
       're_pass': ['',[Validators.required]],
+      'add_ress': ['',[Validators.required]]
+    });
+    this.myOtp = formBuilder.group({
       'otp_num': ['',[Validators.required]]
     });
     // this.valid = {
@@ -30,20 +34,40 @@ export class RegisterpComponent implements OnInit {
     // };
   }
 
-  ngOnInit(){
+  ngOnInit() {
 
   }
 
-  onSubmit(data: any) {
-    this.request = {
-      username: data.username,
-      password: data.password
-    };
-    this.verifyUser(this.request);
+  onSubmit(data: any, k: any) {
+    if (k !== -1) {
+      this.request = {
+        username: data.username,
+        password: data.password,
+      };
+      this.verifyUser(this.request);
+    }
+    else {
+      this.request = {
+        otp: data.otp_num,
+      };
+      this.verifyOtp(this.request);
+    }
   }
 
-  verifyUser(request: any){
+  verifyUser(request: any) {
+    console.log(request);
+  }
+
+  generateOtpMsg() {
 
   }
+
+  generateOtpMail() {
+
+  }
+  verifyOtp(request: any) {
+    console.log(request);
+  }
+
 
 }

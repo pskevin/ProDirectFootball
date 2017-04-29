@@ -6,7 +6,8 @@ body{
 }
 footer{
   background-color: black;
-  position: static;
+
+
 }
 footer li{
   border-right: 1px solid white;
@@ -449,4 +450,11 @@ p.itemprice{
   overflow: hidden;
   position: relative;
   padding: 14px 0 0;
+}
+
+.form-control{
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 20px;
 }

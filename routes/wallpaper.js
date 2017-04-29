@@ -29,9 +29,9 @@ router.post('/',function(request,response){
                 return 'count';
             });
             console.log(s.count);
-            var x = Math.random() * s.count;
-            console.log(x);
-            response.json(data[x]);
+            var x = Math.ceil(Math.random() * s.count);
+            console.log(x-1);
+            response.json(data[x-1]);
         }
     });
 

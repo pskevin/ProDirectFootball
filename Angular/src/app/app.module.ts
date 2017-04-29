@@ -20,6 +20,7 @@ import { TerminalComponent } from './Terminal/terminal.component';
 import { BasketComponent } from './BasketPage/basket.component';
 import { RegisterpComponent } from './Register/registerp.component';
 import { EventService } from './Shared/event.service';
+import { PaymentComponent } from './Payment Page/payment.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { EventService } from './Shared/event.service';
     BallsComponent,
     TerminalComponent,
     BasketComponent,
-    RegisterpComponent
+    RegisterpComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,

@@ -12,6 +12,7 @@ var passport = require('passport');
 var app = express();
 var user = require('./routes/users');
 var boot = require('./routes/boot');
+var wallpaper = require('./routes/wallpaper');
 var url = 'mongodb://localhost:27017/Prodirect';
 var mongoose = require('mongoose'),
     assert = require('assert');
@@ -48,6 +49,7 @@ app.all('*', function(req, res, next){
 });
 app.use('/user',user);
 app.use('/boot',boot);
+app.use('/wallpaper',wallpaper);
 // app.use('/mail',mail);
 // app.use('/announcement.html',announcement);
 // app.use(express.static(path.join(__dirname, 'PDF')));
