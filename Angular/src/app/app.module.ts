@@ -19,7 +19,7 @@ import { ROUTES } from './app.routing';
 import { TerminalComponent } from './Terminal/terminal.component';
 import { BasketComponent } from './BasketPage/basket.component';
 import { RegisterpComponent } from './Register/registerp.component';
-import { EventService } from "./Shared/event.service";
+import { EventService } from './Shared/event.service';
 
 @NgModule({
   declarations: [

@@ -10,10 +10,16 @@ export class HttpService {
   constructor(private http: Http/*, private auth: AuthService*/) {
   }
 
-  data =  {
-    offset: "0"
-  };
+  data =  {};
 
+  fetchBoot(query: any){
+    const body = query;
+    console.log(body);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('https://localhost:3443/boot/landing', body)
+      .map((response: Response) => response.json());
+  }
   startBoots() {
     console.log("HERE");
     const body = this.data;//JSON.stringify(this.data);
@@ -41,14 +47,6 @@ export class HttpService {
       .map((response: Response) => response.json());
   }
 
-  registerUser(data: any){
-    console.log("INSIDE");
-    const body = data;
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    return this.http.post('https://localhost:3443/user/register', body, {headers})
-      .map((response: Response) => response.json());
-  }
   /*
    startDashboard() {
    console.log("HTTP");
@@ -66,7 +64,14 @@ export class HttpService {
 
 
 
-
+   registerUser(token: string, request: any){
+   console.log("INSIDE");
+   const body =(request);
+   let headers = new Headers();
+   headers.append('x-access-token', token);
+   return this.http.post('https://localhost:8000/users/register', body, {headers})
+   .map((response: Response) => response.json());
+   }
 
    addInstitute(token:string, request:any) {
    const body =(request);

@@ -1,30 +1,30 @@
+<div class="content">
 <div class="container">
   <div class="msg">Registration Page</div><br>
   <div class="row">
-    <form [formGroup]="myForm" action="" method="post" (ngSubmit)="onSubmit(myForm.value)">
+    <form [formGroup]="myForm" action="" method="post" (ngSubmit)="onSubmit(myForm.value, k);k = 1">
         <div class="left-block col-md-6">
-          <p><input class="form-control" formControlName="first_name" placeholder="First Name" name="fname" required="" type="text"></p>
-          <p><input class="form-control" formControlName="last_name" placeholder="Last Name" name="lname" required="" type="text"></p>
-          <p><textarea placeholder="Address" name="address" class="form-control" formControlName="add_ress" rows="7" cols="40"></textarea></p>
+          <p>First Name<input class="form-control" formControlName="first_name" placeholder="First Name" name="fname" required="" type="text"></p>
+          <p>Last Name<input class="form-control" formControlName="last_name" placeholder="Last Name" name="lname" required="" type="text"></p>
+          <p>Address<textarea placeholder="Address" name="address" class="form-control" formControlName="add_ress" rows="7" cols="40"></textarea></p>
         </div>
-        <div class="right-block col-md-6" style="margin-top: 0px">
-          <p><input class="form-control" formControlName="email_id" placeholder="Email-Id" name="email" required="" type="email"></p>
-          <p><input class="form-control" formControlName="user_name" placeholder="Username" name="username" required="" type="text"></p>
-          <p><input class="form-control" formControlName="pass_word" placeholder="Password" name="pass" required="" type="password"></p>
-          <p><input class="form-control" formControlName="re_pass" placeholder="Re-confirm Password" name="repass" required="" type="password"></p>
-          <button *ngIf="0" type="submit" class="checkout">Register</button>
-          <button *ngIf="1" type="button" (click)="generateOtpMsg()" class="checkout" style="float: left;height: 50px;">Send OTP via Mobile</button>&nbsp;
-          <button *ngIf="1" type="button" (click)="generateOtpMail()" class="checkout" style="float: right;height: 50px;">Send OTP via Mail</button>
+        <div class="right-block col-md-6" style="margin-top: 0px; font-size: 100%">
+          <p>Email-Id<input class="form-control" formControlName="email_id" placeholder="Email-Id" name="email" required="" type="email"></p>
+          <p>Usrname<input class="form-control" formControlName="user_name" placeholder="Username" name="username" required="" type="text"></p>
+          <p>Password<input class="form-control" formControlName="pass_word" placeholder="Password" name="pass" required="" type="password"></p>
+          <p>Confirm Password<input class="form-control" formControlName="re_pass" placeholder="Re-confirm Password" name="repass" required="" type="password"></p>
+          <button *ngIf="k==-1" type="submit" class="btn checkout" style="float: right;background-color: #3d891f !important; " [disabled]="!myForm.valid">Submit</button>
+          <button *ngIf="k==1" type="button" (click)="generateOtpMsg()" class="checkout" style="float: left;height: 50px;">Send OTP via Mobile</button>&nbsp;
+          <button *ngIf="k==1" type="button" (click)="generateOtpMail()" class="checkout" style="float: right;height: 50px;">Send OTP via Mail</button>
         </div>
     </form>
-  </div>
-  <div *ngIf="0" class="row">
-      <form class="col-md-7" [formGroup]="myOtp" action="" method="post" (ngSubmit)="onSubmit(myOtp.value)">
+  </div><br>
+  <div *ngIf="k==1" class="row">
+      <form class="col-md-7" [formGroup]="myOtp" action="" method="post" (ngSubmit)="onSubmit(myOtp.value, k)">
         <input class="col-md-4 form-control"  formControlName="otp_num" placeholder="Enter most recent OTP" name="otp" required="" type="text">
         <button type="submit" class="checkout" style="float: left">Submit</button>
       </form>
-
   </div>
 </div>
-
+</div>
 

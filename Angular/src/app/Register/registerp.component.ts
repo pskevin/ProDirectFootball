@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {HttpService} from '../Shared/http.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'pdf-registerp',
@@ -10,13 +9,11 @@ import {HttpService} from '../Shared/http.service';
 export class RegisterpComponent implements OnInit {
   // Form Variables
   myForm: FormGroup;
-  myOtp: FormGroup;
+  userData: FormGroup;
   request: any;
   valid: {response: string, check: boolean} ;
 
-  constructor(
-    private http: HttpService,
-    private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder){
     // Form controls
     this.myForm = formBuilder.group({
       'first_name': ['',[Validators.required]],
@@ -24,10 +21,7 @@ export class RegisterpComponent implements OnInit {
       'user_name': ['',[Validators.required]],
       'email_id': ['',[Validators.required]],
       'pass_word': ['',[Validators.required]],
-      're_pass': ['',[Validators.required /*this.exampleValidator*/]],
-      'add_ress': ['',[Validators.required]]
-    });
-    this.myOtp = formBuilder.group({
+      're_pass': ['',[Validators.required]],
       'otp_num': ['',[Validators.required]]
     });
     // this.valid = {
@@ -36,60 +30,20 @@ export class RegisterpComponent implements OnInit {
     // };
   }
 
-  ngOnInit() {
+  ngOnInit(){
 
-  }
-  exampleValidator(control): {[s: string]: boolean} {
-    if ( /*password and confirm match*/) {
-      return null;
-    }
-    else {
-      return {example: true};
-    }
   }
 
   onSubmit(data: any) {
-    if (data.length === 7) {
-      this.request = {
-        firstname: data.first_name,
-        lastname: data.last_name,
-        username: data.user_name,
-        emailid: data.email_id,
-        password: data.pass_word,
-        address: data.add_ress
-      };
-      this.registerUser(this.request);
-    }
-    else {
-      this.request = {
-        otp: data.otp_num
-      };
-      this.verifyOtp(this.request);
-    }
+    this.request = {
+      username: data.username,
+      password: data.password
+    };
+    this.verifyUser(this.request);
   }
 
-  registerUser(request: any) {
-    this.http.registerUser(request)
-      .subscribe(
-        (data) => {
-          console.log(data);
-        }
-      );
-  }
-
-  verifyOtp(request: any) {
-    this.http.verifyOtp(request)
-      .subscribe(
-        (data) => {
-          console.log(data);
-        }
-      );
-  }
-
-  generateOtpMail() {
+  verifyUser(request: any){
 
   }
-  generateOtpMsg() {
 
-  }
 }

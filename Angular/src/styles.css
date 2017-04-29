@@ -4,6 +4,21 @@ body{
   background-size: cover;
   color: white;
 }
+footer{
+  background-color: black;
+  position: static;
+}
+footer li{
+  border-right: 1px solid white;
+  color: #9d9d9d;
+}
+footer li:hover{
+  color: white;
+}
+.content{
+  margin-top: 30px;
+  margin-bottom: 10px;
+}
 a, a:hover{
   cursor: pointer;
   text-decoration: none;
@@ -64,12 +79,6 @@ a, a:hover{
 }
 .bootlist span.adidas {
   background-position: 0 0;
-}
-.bootlist span.puma{
-  background-position: -240px 0;
-}
-.bootlist span.nike {
-  background-position: -150px 0;
 }
 .imgholder{
   margin: 0 0 15px 0;
@@ -441,4 +450,3 @@ p.itemprice{
   position: relative;
   padding: 14px 0 0;
 }
-
