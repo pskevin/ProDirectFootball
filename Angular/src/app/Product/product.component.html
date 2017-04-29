@@ -1,5 +1,6 @@
 <div class="content">
-<div class="row">
+<div
+  class="row">
   <div class="col-sm-1"></div>
   <div class="col-sm-2 sidebar">
     <div class="row">
@@ -52,7 +53,8 @@
     </div>
   </div>
   <div class = "col-sm-1"></div>
-  <div class="col-sm-7">
+  <div
+    class="col-sm-7">
     <div class="row listhead">
       <div class="col-sm-12">
         <h1>Football Boots - The Best In The Market</h1>
@@ -77,7 +79,7 @@
           <a (click)="fetchBoot(i)">
             <img [src]="'data:image/jpg;base64,'+boot.img"/>
           </a>
-          <span class="{{overlayclass}}" [innerHTML]="overlaytext"></span>
+          <span class="{{ boot.status }}" [innerHTML]="boot.status"></span>
         </div>
         <div class="bootdesc">
           <a (click)="fetchBoot(i)">{{boot.name}}</a><br>
