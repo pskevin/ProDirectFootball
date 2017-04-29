@@ -96,12 +96,11 @@ router.post('/',function(request,response){
 
 router.post('/landing',function(request,response){
     var query = Verify.trim_nulls(request.body);
-    Boot.findOne(query,{"bname":"1","description":"1","coll":"1","brand":"1","saleprice":"1","image":"1"}).populate('postedBy').exec(function (err,res){
+    Boot.findOne(query,{"bname":"1","description":"1","coll":"1","brand":"1","saleprice":"1","status":"1","image":"1"}).populate('postedBy').exec(function (err,res){
         if(err)
             response.json(err);
         else
         {
-            res.image= _.last(res.image,3);
             response.json(res);
         }
     });

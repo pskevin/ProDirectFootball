@@ -19,6 +19,7 @@ import { ROUTES } from './app.routing';
 import { TerminalComponent } from './Terminal/terminal.component';
 import { BasketComponent } from './BasketPage/basket.component';
 import { RegisterpComponent } from './Register/registerp.component';
+import { EventService } from "./Shared/event.service";
 
 @NgModule({
   declarations: [
@@ -45,7 +46,12 @@ import { RegisterpComponent } from './Register/registerp.component';
       storageType: 'localStorage'
     })
   ],
-  providers: [AuthService, AuthGuard, HttpService ],
+  providers: [
+    AuthService,
+    AuthGuard,
+    HttpService,
+    EventService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

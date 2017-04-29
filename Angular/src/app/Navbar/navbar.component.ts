@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from '../Shared/http.service';
 import { AuthService } from '../Shared/auth.service';
+import { EventService } from "../Shared/event.service";
 
 @Component({
   selector: 'pdf-navbar',
@@ -17,17 +18,23 @@ export class NavbarComponent implements OnInit {
   valid: {response: string, check: boolean} ;
   logButton: string;
   loggedIn : boolean = false;
+  cartContents: string = "";
   
   constructor(
     private http: HttpService,
     private formBuilder: FormBuilder,
-    private auth: AuthService
+    private auth: AuthService,
+    private event: EventService
   ) {
     this.myForm = formBuilder.group({
       'username': ['',[Validators.required]],
       'password': ['',[Validators.required]],
       'rememberme': [false]
     });
+    event.changeEmitted$.subscribe(
+      cart => {
+        this.cartContents = cart;
+      });
     this.myForm.valueChanges.subscribe(data => console.log('Form changes', data));
     this.valid = {
       response: '',
@@ -93,12 +100,12 @@ export class NavbarComponent implements OnInit {
   
   logout(){
     this.http.logOut(this.auth.getToken()).subscribe(
-       (response) => {
-         console.log(response);
-         this.auth.loggedOut();
-         this.loggedIn = false;
-         this.logButton = "Login";
-       }
-     );
+      (response) => {
+        console.log(response);
+        this.auth.loggedOut();
+        this.loggedIn = false;
+        this.logButton = "Login";
+      }
+    );
   }
 }
