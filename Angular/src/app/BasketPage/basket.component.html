@@ -30,7 +30,7 @@
         </div>
         <div class="textholder">
           <p>
-            <a>{{boot.name}}</a><br>
+            <a>{{ boot.name }}</a><br>
             <button type="submit">Remove</button>
           </p>
         </div>
@@ -38,12 +38,12 @@
       <td>
         <ul>
           <li>
-            <p>Quantity - <span>{{bootquantity}}</span></p>
+            <p>Quantity - <span>{{ bootsQuantity[i] }}</span></p>
           </li>
         </ul>
       </td>
       <td>
-        <h3 style="text-align: center;">{{bootprice}}</h3>
+        <h3 style="text-align: center;">{{ boot.price }}</h3>
       </td>
     </tr>
   </table>
@@ -51,9 +51,9 @@
     *ngIf = "!isCartEmpty"
     class="col-sm-8 col-sm-offset-2 bottomtab">
     <div class="totalprice">
-      <p>Total:<strong>{{totalamount}}</strong></p>
+      <p>Total - <strong>{{ totalamount }}</strong></p>
     </div>
-    <button href="" class="continue">Continue Shopping</button>
+    <button (click)="routeToBoots()" class="continue">Continue Shopping</button>
     <button href="" class="checkout">Checkout</button>
   </div>
   <div

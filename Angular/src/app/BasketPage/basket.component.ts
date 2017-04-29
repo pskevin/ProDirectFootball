@@ -11,29 +11,39 @@ import { Boot } from "../Shared/boot.model";
 })
 export class BasketComponent implements OnInit {
   no_of_orders: number = 0;
-  bootimg: string= `../../assets/images/productImages/thumbs/144664.jpg`;
-  bootname: string= `Them Boots`;
-  bootsize: string= `UK: 10`;
-  bootquantity: string= `2`;
-  bootprice: string= `$200`;
-  totalamount: string= `$400`;
+  totalamount: number = 0;
   isCartEmpty: boolean = false
   boots: Boot[] = [];
+  bootsQuantity: number[] = [];
+  cart: any;
   
   constructor(
     private http: HttpService,
     private auth: AuthService,
     private event: EventService
   ) {
-    if(this.auth.cartContents === 0){
+    if(!this.auth.checkCache()) {
       this.isCartEmpty = true;
     }
     else {
-      this.boots = this.auth.getCart();
+      this.cart = this.auth.getCart();
+      this.boots = this.cart.boots;
+      this.bootsQuantity = this.cart.quantity;
+      this.no_of_orders = this.boots.length;
     }
+    this.total();
   }
 
   ngOnInit() {
   }
 
+  total() {
+    for(let boot of this.boots) {
+      this.totalamount += (+boot.price);
+    }
+  }
+  
+  routeToBoots(){
+    this.auth.navigateTo('boots');
+  }
 }
