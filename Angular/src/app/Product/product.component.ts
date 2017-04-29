@@ -31,6 +31,7 @@ export class ProductComponent implements OnInit {
   qprice: number = 0;
   page: number = 0;
   query: Query;
+  queryStack: QueryStack[] = [];
   
   constructor(
     private http: HttpService,
@@ -58,6 +59,7 @@ export class ProductComponent implements OnInit {
     this.http.startBoots()
       .subscribe(
         (x) => {
+          console.log(x);
           this.makePage(x);
         }
       );
@@ -97,6 +99,7 @@ export class ProductComponent implements OnInit {
     else {
       this.isBrandSelected[i] = true;
     }
+    this.queryStack.push(new QueryStack("brand",this.brands[i]));
     this.fireQuery();
   }
   
@@ -107,6 +110,7 @@ export class ProductComponent implements OnInit {
     else {
       this.isCollectionSelected[i] = true;
     }
+    this.queryStack.push(new QueryStack("collections",this.collections[i]));
     this.fireQuery();
   }
   
@@ -123,10 +127,12 @@ export class ProductComponent implements OnInit {
         this.isPriceSelected [ index ] = false;
       }
     }
+    this.queryStack.push(new QueryStack("price",this.prices[i]));
     this.fireQuery();
   }
   
   fireQuery() {
+    console.log(this.queryStack);
     this.clearQueryVariables();
     for(let i in this.isBrandSelected) {
       if(this.isBrandSelected[i]) {
@@ -193,3 +199,16 @@ export class ProductComponent implements OnInit {
     }
   }
 }
+
+export class QueryStack {
+  clicked: string;
+  selected: string;
+  constructor(
+    clicked: string,
+    selected: string
+  ) {
+    this.clicked = clicked;
+    this.selected = selected;
+  }
+}
+

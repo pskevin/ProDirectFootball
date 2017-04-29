@@ -62,7 +62,7 @@ router.post('/set',Verify.verifyLoggedUser,Verify.verifyAdmin,function(result,re
 router.post('/',function(request,response){
     var x;
     console.log(request.body.offset);
-	if(request.body.offset!="undefined")
+	if(request.body.offset!=undefined)
          x=request.body.offset;
     else
          x = Math.random();
