@@ -100,6 +100,15 @@ export class ProductComponent implements OnInit {
     }
   }
   
+  togglePrice(i) {
+      if(this.isPriceSelected[i]){
+        this.isPriceSelected[i] = false;
+      }
+      else {
+        this.isPriceSelected[i] = true;
+      }
+    }
+  
   fetchBoot(i){
     console.log("FETCH BOOT" + this.boots[i].id);
     this.auth.fetchBoot(this.boots[i].id);

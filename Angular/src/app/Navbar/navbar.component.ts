@@ -23,17 +23,29 @@ export class NavbarComponent implements OnInit {
   constructor(
     private http: HttpService,
     private formBuilder: FormBuilder,
-    private auth: AuthService,
-    private event: EventService
+    private auth: AuthService
   ) {
+    if(this.auth.checkCache()){
+      if(this.auth.getCartContents() === 0){
+        this.cartContents = "";
+      }
+      else {
+        this.cartContents = JSON.stringify(this.auth.getCartContents());
+      }
+    }
     this.myForm = formBuilder.group({
       'username': ['',[Validators.required]],
       'password': ['',[Validators.required]],
       'rememberme': [false]
     });
-    event.changeEmitted$.subscribe(
+    this.auth.changeEmitted$.subscribe(
       cart => {
-        this.cartContents = cart;
+        if(cart === 0){
+          this.cartContents = "";
+        }
+        else {
+          this.cartContents = cart;
+        }
       });
     this.myForm.valueChanges.subscribe(data => console.log('Form changes', data));
     this.valid = {

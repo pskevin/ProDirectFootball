@@ -72,12 +72,12 @@
         (@bootState.done) = "bootAnimated($event,i)"
         *ngFor = "let boot of displayedBoots; let i = index">
         <span class="small-brand-logo {{boot.brand}}">{{ boot.brand }}</span>
-        <p class="typetext" innerHTML="{{boot.collection}}"></p>
+        <p class="typetext" [innerHTML]="boot.collection"></p>
         <div class="imgholder">
           <a (click)="fetchBoot(i)">
             <img [src]="'data:image/jpg;base64,'+boot.img"/>
           </a>
-          <span class="{{overlayclass}}" innerHTML="{{overlaytext}}"></span>
+          <span class="{{overlayclass}}" [innerHTML]="overlaytext"></span>
         </div>
         <div class="bootdesc">
           <a (click)="fetchBoot(i)">{{boot.name}}</a><br>

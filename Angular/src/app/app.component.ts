@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from "./Shared/auth.service";
 
 @Component({
   selector: 'pdf-root',
@@ -8,14 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
   spaceScreens: any;
   
-  constructor() { }
+  constructor() {}
   
   ngOnInit() {
-   /* this.http.demo()
-      .subscribe(res => {
-        this.spaceScreens = res;
-        console.log("UHH");
-        console.log(this.spaceScreens);
-      });*/
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { Subject } from "rxjs/Subject";
 import { Router } from "@angular/router";
 import { LocalStorageService } from "angular-2-local-storage";
 import { Boot } from "./boot.model";
@@ -68,6 +68,18 @@ export class AuthService {
   boots: Boot[] = [];
   bootQuantity: number[] = [];
   cartContents: number = 0;
+  cart : any;
+  
+  // Observable string sources
+  private emitChangeSource = new Subject<any>();
+  
+  // Observable string streams
+  changeEmitted$ = this.emitChangeSource.asObservable();
+  
+  // Service message commands
+  emitChange(change: any) {
+    this.emitChangeSource.next(change);
+  }
   
   fetchBoot(id){
     this.bootid = id;
@@ -83,19 +95,63 @@ export class AuthService {
     this.router.navigate(['./'+url]);
   }
   
+  checkCache() {
+    if(localStorage.getItem('boots') && localStorage.getItem('quantity')){
+      this.boots = JSON.parse (localStorage.getItem ('boots'));
+      this.bootQuantity = JSON.parse (localStorage.getItem (('quantity')));
+      console.log (JSON.parse (localStorage.getItem (('quantity'))));
+      this.cartContents = this.boots.length;
+      if((this.boots.length >= 1) && (this.bootQuantity.length >= 1)) {
+        return true;
+      }
+      else {
+        console.log("EMPTY");
+        return false;
+      }
+    }
+    else {
+      return false;
+    }
+  }
+  
   addToCart(boot: Boot, quantity: number) {
+    this.checkCache();
     this.cartContents += 1;
     this.boots.unshift(boot);
     this.bootQuantity.unshift(quantity);
+    if(this.cartContents > 1) {
+      localStorage.removeItem('boots');
+      localStorage.removeItem('quantity');
+    }
+    localStorage.setItem('boots',JSON.stringify(this.boots));
+    localStorage.setItem('quantity',JSON.stringify(this.bootQuantity));
+    this.emitChange(this.cartContents);
   }
   
-  removeFromCart() {
+  removeFromCart(boots: Boot[], quantity: number[]) {
+    this.checkCache();
     this.cartContents -= 1;
-    this.boots.shift();
-    this.bootQuantity.shift();
+    this.boots = boots;
+    this.bootQuantity = quantity;
+    if(this.cartContents > 0) {
+      localStorage.removeItem('boots');
+      localStorage.removeItem('quantity');
+    }
+    localStorage.setItem('boots',JSON.stringify(this.boots));
+    localStorage.setItem('quantity',JSON.stringify(this.bootQuantity));
+    this.emitChange(this.cartContents);
   }
   
   getCart() {
-    return this.boots;
+    this.cart = {
+      boots: this.boots,
+      quantity: this.bootQuantity
+    };
+    return this.cart ;
+  }
+  
+  getCartContents(){
+    this.checkCache();
+    return this.boots.length;
   }
 }

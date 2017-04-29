@@ -9,7 +9,7 @@ const APP_ROUTES: Routes =  [
   {path: 'home', component: HomeComponent},
   {path: 'boots', component: ProductComponent},
   {path: 'terminal', component: TerminalComponent},
-  {path: 'basket_page', component: BasketComponent},
+  {path: 'basket', component: BasketComponent},
   {path: 'register', component: RegisterpComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '**', redirectTo: 'home', pathMatch: 'full'}
