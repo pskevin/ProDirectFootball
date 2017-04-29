@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Router } from "@angular/router";
 import { LocalStorageService } from "angular-2-local-storage";
+import { Boot } from "./boot.model";
 
 @Injectable()
 export class AuthService {
@@ -16,6 +17,7 @@ export class AuthService {
   log: boolean = false;
   name: string;
   token: any;
+  
   isLoggedIn() {
     console.log("CHECKING");
     return this.bool(localStorage.getItem('log'));
@@ -63,6 +65,9 @@ export class AuthService {
   /*---> BOOT RELATED STORAGE SERVICES <---*/
   //Declaring boot service variables
   bootid: string;
+  boots: Boot[] = [];
+  bootQuantity: number[] = [];
+  cartContents: number = 0;
   
   fetchBoot(id){
     this.bootid = id;
@@ -76,5 +81,21 @@ export class AuthService {
   navigateTo(url: string) {
     console.log("ZABARDASTI");
     this.router.navigate(['./'+url]);
+  }
+  
+  addToCart(boot: Boot, quantity: number) {
+    this.cartContents += 1;
+    this.boots.unshift(boot);
+    this.bootQuantity.unshift(quantity);
+  }
+  
+  removeFromCart() {
+    this.cartContents -= 1;
+    this.boots.shift();
+    this.bootQuantity.shift();
+  }
+  
+  getCart() {
+    return this.boots;
   }
 }

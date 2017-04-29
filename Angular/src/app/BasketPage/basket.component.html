@@ -1,49 +1,63 @@
 <div class="row" style="margin-bottom: 20px; "></div>
 <form method="post" class="row">
   <div class="col-sm-8 col-sm-offset-2 buttonholder">
-    <span style="font-size: 30px;">Your Basket :</span><span style="margin-left: 10px;">{{no_of_orders}} item(s)</span>
-    <button href="" class="checkout">Checkout</button>
+    <div class = "basket">
+      <span>Your Basket [</span>
+      <span>{{no_of_orders}} item(s) ]</span>
+    </div>
+    <button
+      *ngIf = "!isCartEmpty"
+      href=""
+      class="checkout">Checkout
+    </button>
   </div>
-  <table class="col-sm-8 col-sm-offset-2 order">
+  <table
+    *ngIf = "!isCartEmpty"
+    class="col-sm-8 col-sm-offset-2 order">
     <tr>
       <th>Item</th>
       <th>Options</th>
       <th>Price</th>
     </tr>
-    <tr>
+    <tr
+      *ngFor = "let boot of boots; let i = index">
       <td>
         <div class="imgholder">
           <a>
-            <img src="{{bootimg}}" />
+            <img [src]="'data:image/jpg;base64,'+boot.img"/>
           </a>
         </div>
         <div class="textholder">
           <p>
-            <a>{{bootname}}</a><br>
-            <button type="submit">remove</button>
+            <a>{{boot.name}}</a><br>
+            <button type="submit">Remove</button>
           </p>
         </div>
       </td>
       <td>
         <ul>
           <li>
-            <p>Size:<span>{{bootsize}}</span></p>
-          </li>
-          <li>
-            <p>Quantity:<span>{{bootquantity}}</span></p>
+            <p>Quantity - <span>{{bootquantity}}</span></p>
           </li>
         </ul>
       </td>
       <td>
         <h3 style="text-align: center;">{{bootprice}}</h3>
       </td>
-    <tr>
+    </tr>
   </table>
-  <div class="col-sm-8 col-sm-offset-2 bottomtab">
+  <div
+    *ngIf = "!isCartEmpty"
+    class="col-sm-8 col-sm-offset-2 bottomtab">
     <div class="totalprice">
       <p>Total:<strong>{{totalamount}}</strong></p>
     </div>
     <button href="" class="continue">Continue Shopping</button>
     <button href="" class="checkout">Checkout</button>
+  </div>
+  <div
+    *ngIf = "isCartEmpty"
+    class="col-sm-8 col-sm-offset-2 bottomtab">
+    <button href="" class="continue">Continue Shopping</button>
   </div>
 </form>

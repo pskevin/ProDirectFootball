@@ -54,7 +54,19 @@
       <p class="itemcollection">{{ collection }}</p>
       <p class="itemp">Price</p>
       <p class="itemprice">{{ price }}</p><br><br>
-      <button href="" class="checkout" (click)="basket()">Checkout</button>
+      <form
+        class="text-center"
+        [formGroup]="myForm"
+        (ngSubmit)="onSubmit(myForm.value)"
+        *ngIf = "!loggedIn">
+        <input
+          type="number"
+          class="form-control"
+          id="quantity"
+          placeholder="Quantity"
+          formControlName="quantity">
+        <button type="submit" class="checkout">Checkout</button>
+      </form>
       <div class="msg" style="margin-top: 30px;">Delivery within 4-5 days.</div><br>
       <div class="msg">Money back guarantee.</div><br>
       <div class="msg">Safe and secure shopping.</div>

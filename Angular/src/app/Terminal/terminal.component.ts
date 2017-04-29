@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpService } from "../Shared/http.service";
 import { AuthService } from "../Shared/auth.service";
 import { EventService } from "../Shared/event.service";
+import { Boot } from "../Shared/boot.model";
 
 @Component({
   selector: 'pdf-terminal',
@@ -10,13 +11,13 @@ import { EventService } from "../Shared/event.service";
 })
 export class TerminalComponent implements OnInit {
   /*img1src: string= `../../assets/images/productImages/roundabout/sliders/141404.jpg`;
-  img2src: string= `../../assets/images/productImages/roundabout/sliders/141404(1).jpg`;
-  img3src: string= `../../assets/images/productImages/roundabout/sliders/141404(2).jpg`;
-  boottitle: string= `Puma evoSPEED 17.SL-S Kun City DF FG - Bluefish/Puma White/Quarry/Puma Black/Gold`;
-  bootcollection: string= `Collection Name`;
-  bootprice: string= `$200`;
-  bootdetails: string= `Featuring his club colours, this Derby Fever version of the PUMA evoSPEED 17.1 SL.S will be pulled on by Sergio Agüero when Manchester City face arch rivals Manchester United at the Etihad Stadium on Thursday 27th April 2017.<br><br>The PUMA evoSPEED 17.SL S is constructed with microfibre upper material for the upper, while a laser-cut SPEEDFRAME structure optimises the boot’s shape further, providing support during forward acceleration and quick turns.`;
-  */query: any;
+   img2src: string= `../../assets/images/productImages/roundabout/sliders/141404(1).jpg`;
+   img3src: string= `../../assets/images/productImages/roundabout/sliders/141404(2).jpg`;
+   boottitle: string= `Puma evoSPEED 17.SL-S Kun City DF FG - Bluefish/Puma White/Quarry/Puma Black/Gold`;
+   bootcollection: string= `Collection Name`;
+   bootprice: string= `$200`;
+   bootdetails: string= `Featuring his club colours, this Derby Fever version of the PUMA evoSPEED 17.1 SL.S will be pulled on by Sergio Agüero when Manchester City face arch rivals Manchester United at the Etihad Stadium on Thursday 27th April 2017.<br><br>The PUMA evoSPEED 17.SL S is constructed with microfibre upper material for the upper, while a laser-cut SPEEDFRAME structure optimises the boot’s shape further, providing support during forward acceleration and quick turns.`;
+   */query: any;
   desc: string;
   name: string;
   collection: string;
@@ -25,6 +26,8 @@ export class TerminalComponent implements OnInit {
   img3src: string;
   price: string;
   status: string;
+  quantity: number = 0;
+  boot: Boot;
   
   constructor (
     private http: HttpService,
@@ -45,12 +48,15 @@ export class TerminalComponent implements OnInit {
           for(let i in boot.image) {
             switch( i ){
               case '0' :
-                this.img1src = boot.image[i].data;
+                this.imgthumb = boot.image[i].data;
                 break;
               case '1' :
-                this.img2src = boot.image[i].data;
+                this.img1src = boot.image[i].data;
                 break;
               case '2' :
+                this.img2src = boot.image[i].data;
+                break;
+              case '3' :
                 this.img3src = boot.image[i].data;
             }
           }
@@ -61,7 +67,9 @@ export class TerminalComponent implements OnInit {
   ngOnInit() {
   }
   
-  basket(){
+  onSubmit(data: any){
+    this.quantity = data.quantity;
+    this.auth.addToCart()
     this.event.addToCart();
   }
 }

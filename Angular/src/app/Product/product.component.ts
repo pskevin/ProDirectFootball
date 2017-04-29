@@ -3,7 +3,7 @@ import { AnimationTransitionEvent, Component, OnInit } from '@angular/core';
 import { HttpService } from '../Shared/http.service';
 import { Boot } from "../Shared/boot.model";
 import { AuthService } from "../Shared/auth.service";
-import { bootStateTrigger } from "./boot.animations";
+import { bootStateTrigger } from "../Shared/boot.animations";
 
 @Component({
   selector: 'pdf-product',
