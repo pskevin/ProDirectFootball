@@ -69,8 +69,10 @@
     </div>
     <div class="row bootlist">
       <div
+        @bootState
         class="col-sm-3 cell"
-        *ngFor = "let boot of boots; let i = index">
+        (@bootState.done) = "bootAnimated($event,i)"
+        *ngFor = "let boot of displayedBoots; let i = index">
         <span class="small-brand-logo {{boot.brand}}">{{ boot.brand }}</span>
         <p class="typetext" innerHTML="{{boot.collection}}"></p>
         <div class="imgholder">
@@ -83,50 +85,7 @@
           <a (click)="fetchBoot(i)">{{boot.name}}</a><br>
           Price:&nbsp<span style="font-size: 20px;">${{boot.price}}</span>
         </div>
-
       </div>
-      <!--
-      <div class="col-sm-3 cell">
-        <span class="small-brand-logo adidas">adidas</span>
-        <p class="typetext"><strong>COPA</strong></p>
-        <div class="imgholder">
-          <a>
-            <img src="../../assets/images/productImages/thumbs/141363.jpg" />
-          </a>
-          <span class="exclusive">Exclusive</span>
-        </div>
-        <div class="bootdesc">
-          <a>Them Boots</a><br>
-          Price:&nbsp<span style="font-size: 20px;">$200</span>
-        </div>
-      </div>
-      <div class="col-sm-3 cell">
-        <span class="small-brand-logo adidas">adidas</span>
-        <p class="typetext"><strong>COPA</strong></p>
-        <div class="imgholder">
-          <a>
-            <img src="../../assets/images/productImages/thumbs/144702.jpg" />
-          </a>
-        </div>
-        <div class="bootdesc">
-          <a>Them Boots</a><br>
-          Price:&nbsp<span style="font-size: 20px;">$200</span>
-        </div>
-      </div>
-      <div class="col-sm-3 cell">
-        <span class="small-brand-logo adidas">adidas</span>
-        <p class="typetext"><strong>COPA</strong></p>
-        <div class="imgholder">
-          <a>
-            <img src="../../assets/images/productImages/thumbs/144494.jpg" />
-          </a>
-        </div>
-        <div class="bootdesc">
-          <a>Them Boots</a><br>
-          Price:&nbsp<span style="font-size: 20px;">$200</span>
-        </div>
-      </div>-->
     </div>
   </div>
 </div>
-<!--<img [src]="'data:image/jpg;base64,'+img">-->

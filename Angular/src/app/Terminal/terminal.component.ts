@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from "../Shared/http.service";
 import { AuthService } from "../Shared/auth.service";
+import { EventService } from "../Shared/event.service";
 
 @Component({
   selector: 'pdf-terminal',
@@ -27,7 +28,8 @@ export class TerminalComponent implements OnInit {
   
   constructor (
     private http: HttpService,
-    private auth: AuthService
+    private auth: AuthService,
+    private event: EventService
   ) {
     this.query = {
       "_id": this.auth.getBootID ()
@@ -59,4 +61,7 @@ export class TerminalComponent implements OnInit {
   ngOnInit() {
   }
   
+  basket(){
+    this.event.addToCart();
+  }
 }
