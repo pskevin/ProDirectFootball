@@ -65,6 +65,12 @@ a, a:hover{
 .bootlist span.adidas {
     background-position: 0 0;
 }
+.bootlist span.puma{
+    background-position: -240px 0;
+}
+.bootlist span.nike {
+    background-position: -150px 0;
+}
 .imgholder{
     margin: 0 0 15px 0;
     position: relative;
