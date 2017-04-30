@@ -84,12 +84,9 @@ router.post('/',function(request,response){
                     });
                     var p = Math.ceil(s.count/10);
                     res=_.sortBy(res,'status');
-                    res = _.filter(res, function (num) {
-                        console.log(res.indexOf(num));
-                        return parseInt(res.indexOf(num))%p==x;
-                    });
                     console.log(res);
                     res = _.first(res,10);
+                    res=_.shuffle(res);
                     for(var e in res)
                     {
                         res[e].image= _.first(res[e].image,1);
