@@ -201,7 +201,7 @@ router.post('/generateOtpVerifyMessage',function(request,response){
                 if(err)
                     response.json(err);
                 else{
-                    var text="\nPRODIRECT FOOTBALL CUSTOMER SERVICE\nHello "+data.Fname+",\nYour One Time Password(OTP) :"+x;
+                    var text="\nPRODIRECT FOOTBALL CUSTOMER SERVICEHello "+data.Fname+",\nYour One Time Password(OTP) :"+x;
 
                     client.sms.messages.create({
                         to: "+91"+data.mobno,
@@ -290,7 +290,7 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
         if (err)
             response.json(err);
         else {
-            if(data.otp==request.body.otp) {
+            if(data.otp==request.body.otp){
                 var data = {
                     from: 'ProDirect Customer services <postmaster@sandbox127c4a0962454b07a273d25721d8887d.mailgun.org>',
                     to:data.email,
@@ -307,8 +307,8 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
                 client.sms.messages.create({
                     to: "+91"+data.mobno,
                     from: '+12053796263',
-                    body: '\nPRODIRECT FOOTBALL CUSTOMER SERVICE\nHello '+data.Fname+",\nYour transaction has been successfully completed. The cost of $"+request.body.total+" has been deducted from your account.Thank you for using Prodirect Football."
-                }, function (error, message) {
+                    body:'PRODIRECT FOOTBALL.Hello '+data.Fname+", transaction successful.Amount deducted from account -"+request.body.total+" pounds."
+            }, function (error, message) {
                     if (!error) {
                         console.log('Success! The SID for this SMS message is:');
                         console.log(message.sid);
