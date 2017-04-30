@@ -20,6 +20,9 @@ import { TerminalComponent } from './Terminal/terminal.component';
 import { BasketComponent } from './BasketPage/basket.component';
 import { RegisterpComponent } from './Register/registerp.component';
 import { PaymentComponent } from './Payment Page/payment.component';
+import { PrivacyComponent } from './Footer Pages/privacy.component';
+import { ContactusComponent } from './Footer Pages/contactus.component';
+import { TandcComponent } from './Footer Pages/tandc.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +36,10 @@ import { PaymentComponent } from './Payment Page/payment.component';
     TerminalComponent,
     BasketComponent,
     RegisterpComponent,
-    PaymentComponent
+    PaymentComponent,
+    PrivacyComponent,
+    ContactusComponent,
+    TandcComponent
   ],
   imports: [
     BrowserModule,

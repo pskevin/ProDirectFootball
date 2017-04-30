@@ -33,7 +33,7 @@ export class TerminalComponent implements OnInit {
   status: string;
   quantity: number = 0;
   boot: Boot;
-  flag: any;
+  flag: any = -1;
   rating: number;
   comment: string;
 

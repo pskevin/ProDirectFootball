@@ -5,6 +5,9 @@ import {TerminalComponent} from './Terminal/terminal.component';
 import {BasketComponent} from './BasketPage/basket.component';
 import {RegisterpComponent} from './Register/registerp.component';
 import {PaymentComponent} from './Payment Page/payment.component';
+import {ContactusComponent} from './Footer Pages/contactus.component';
+import {TandcComponent} from './Footer Pages/tandc.component';
+import {PrivacyComponent} from './Footer Pages/privacy.component';
 
 const APP_ROUTES: Routes =  [
   {path: 'home', component: HomeComponent},
@@ -13,8 +16,11 @@ const APP_ROUTES: Routes =  [
   {path: 'basket', component: BasketComponent},
   {path: 'register', component: RegisterpComponent},
   {path: 'payment', component: PaymentComponent},
+  {path: 'contact_us', component: ContactusComponent},
+  {path: 'tandc', component: TandcComponent},
+  {path: 'privacy', component: PrivacyComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: '**', redirectTo: 'home', pathMatch: 'full'}
+  {path: '**', redirectTo: 'home', pathMatch: 'full'},
 ];
 
 export const ROUTES = RouterModule.forRoot(APP_ROUTES);

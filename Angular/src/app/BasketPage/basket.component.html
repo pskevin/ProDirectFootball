@@ -30,7 +30,7 @@
         </div>
         <div class="textholder">
           <p>
-            <a>{{ boot.name }}</a><br>
+            {{ boot.name }}<br>
             <button type="button" (click)="removeBoot(i)">Remove</button>
           </p>
         </div>
@@ -43,7 +43,7 @@
         </ul>
       </td>
       <td>
-        <h3 style="text-align: center;">{{ boot.price }}</h3>
+        <h3 style="text-align: center;">£{{ boot.price }}</h3>
       </td>
     </tr>
   </table>
@@ -51,7 +51,7 @@
     *ngIf = "!isCartEmpty"
     class="col-sm-8 col-sm-offset-2 bottomtab">
     <div class="totalprice">
-      <p>Total - <strong>{{ totalamount }}</strong></p>
+      <p>Total - <strong>£{{ totalamount }}</strong></p>
     </div>
     <button (click)="routeToBoots()" class="continue">Continue Shopping</button>
     <button href="" class="checkout">Checkout</button>

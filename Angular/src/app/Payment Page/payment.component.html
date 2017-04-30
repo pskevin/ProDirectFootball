@@ -41,15 +41,15 @@
           </ul>
         </td>
         <td>
-          <h3 style="text-align: center;">{{ boot.price }}</h3>
+          <h3 style="text-align: center;">£{{ boot.price }}</h3>
         </td>
       </tr>
     </table>
     <div
       *ngIf = "!isCartEmpty"
-      class="col-sm-8 col-sm-offset-2 bottomtab">
+      class="col-sm-8 col-sm-offset-2 bottomtab" style="padding-left: 0px;padding-right: 0px;">
       <div class="totalprice">
-        <p>Total - <strong>{{ totalamount }}</strong></p>
+        <p>Total - <strong>£{{ totalamount }}</strong></p>
       </div>
     </div>
   </div>

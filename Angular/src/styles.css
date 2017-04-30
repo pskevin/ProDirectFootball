@@ -298,7 +298,7 @@ table.order tr td .textholder{
 
   margin: 10px;
   margin-left: 15%;
-  position: absolute;
+  /*position: absolute;*/
 }
 table.order tr td ul{
   list-style-type: none;
