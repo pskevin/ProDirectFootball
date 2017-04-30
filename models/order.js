@@ -16,17 +16,17 @@ var productSchema = new Schema(
     }
 );
 var orderSchema = new Schema(
-  {
-    userId:
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref : 'user'
+        userId:
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref : 'user'
+            },
+        product : [productSchema]
     },
-    product : [productSchema]
-  },
-  {
-    timestamps : true
-  }
+    {
+        timestamps : true
+    }
 );
 orderSchema.plugin(passportLocalMongoose);
 var Pro = mongoose.model('order',orderSchema);
