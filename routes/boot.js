@@ -97,12 +97,21 @@ router.post('/',function(request,response){
 
 router.post('/landing',function(request,response){
     var query = Verify.trim_nulls(request.body);
-    Boot.findOne(query,{"bname":"1","description":"1","coll":"1","brand":"1","saleprice":"1","status":"1","image":"1"}).populate('postedBy').exec(function (err,res){
+    Boot.findOne(query,{"bname":"1","description":"1","coll":"1","brand":"1","saleprice":"1","status":"1","image":"1","comments":"1"}).populate('comments.postedBy',{"_id":"1","username":"1"}).exec(function (err,res){
         if(err)
             response.json(err);
         else
         {
-            response.json(res);
+            var s = _.countBy(res.comments,function(num){
+                return 'count';
+            });
+            var sum=0;
+            var a = _.map(res.comments,function(num){
+               return sum+= num.rating;
+            });
+            console.log(a/s.count);
+            var z ={"averagerating":(a/s.count),"result":res};
+            response.json(z);
         }
     });
 });
