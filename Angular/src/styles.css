@@ -60,6 +60,7 @@ a, a:hover{
 .bootlist .bootdesc{
   text-align: center;
   font-size: 12px;
+  min-height: 130px;
 }
 .bootlist p.typetext{
   font-style: normal;
@@ -399,6 +400,7 @@ table.order tr td ul li span{
 .boxcaption p{
   text-align: center;
   text-transform: uppercase;
+  font-weight: 700;
 }
 .boxcontainer:hover .overlay {
   top: 0;

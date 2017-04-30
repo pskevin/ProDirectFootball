@@ -76,7 +76,7 @@
     <div class="row bootlist">
       <div
         @bootState
-        class="col-sm-3 cell"
+        class="col-sm-3 cell" style="height: 320px;"
         (@bootState.done) = "bootAnimated($event,i)"
         *ngFor = "let boot of boots; let i = index">
         <span class="small-brand-logo {{boot.brand}}">{{ boot.brand }}</span>
@@ -87,9 +87,9 @@
           </a>
           <span class="{{ boot.status }}" [innerHTML]="boot.status"></span>
         </div>
-        <div class="bootdesc">
-          <a (click)="fetchBoot(i)">{{boot.name}}</a><br>
-          Price:&nbsp<span style="font-size: 20px;">${{boot.price}}</span>
+        <div class="bootdesc" style="">
+          <p><a (click)="fetchBoot(i)">{{boot.name}}</a><br>
+            Price:&nbsp;<span style="font-size: 20px;">${{boot.price}}</span></p>
         </div>
       </div>
     </div>
