@@ -12,18 +12,18 @@ export class RegisterpComponent implements OnInit {
   myOtp: FormGroup;
   request: any;
   valid: {response: string, check: boolean} ;
-  k: any;
+  flag: any = -1;
 
   constructor(private formBuilder: FormBuilder) {
     // Form controls
     this.myForm = formBuilder.group({
       'first_name': ['',[Validators.required]],
       'last_name': ['',[Validators.required]],
+      'add_ress': ['',[Validators.required]],
+      'email_id': ['',[Validators.required, Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
       'user_name': ['',[Validators.required]],
-      'email_id': ['',[Validators.required]],
       'pass_word': ['',[Validators.required]],
-      're_pass': ['',[Validators.required]],
-      'add_ress': ['',[Validators.required]]
+      're_pass': ['',[Validators.required]]
     });
     this.myOtp = formBuilder.group({
       'otp_num': ['',[Validators.required]]
@@ -38,11 +38,11 @@ export class RegisterpComponent implements OnInit {
 
   }
 
-  onSubmit(data: any, k: any) {
-    if (k !== -1) {
+  onSubmit(data: any, flag: any) {
+    if (flag !== 1) {
       this.request = {
-        username: data.username,
-        password: data.password,
+        firstname: data.first_name,
+        lastname: data.last_name,
       };
       this.verifyUser(this.request);
     }

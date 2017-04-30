@@ -1,3 +1,108 @@
-<p>
-  payment works!
-</p>
+<div class="content">
+  <div class="msg">Payment Page</div><br>
+  <div class="row">
+    <h3 class="col-sm-offset-2">Welcome Mr. <span>FirstName Lastname</span></h3>
+  </div>
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2 buttonholder">
+      <div class = "basket">
+        <span>Your Basket [</span>
+        <span>{{no_of_orders}} item(s) ]</span>
+      </div>
+    </div>
+    <table
+      *ngIf = "!isCartEmpty"
+      class="col-sm-8 col-sm-offset-2 order">
+      <tr>
+        <th>Item</th>
+        <th>Options</th>
+        <th>Price</th>
+      </tr>
+      <tr
+        *ngFor = "let boot of boots; let i = index">
+        <td>
+          <div class="imgholder">
+            <a>
+              <img [src]="'data:image/jpg;base64,'+boot.img"/>
+            </a>
+          </div>
+          <div class="textholder">
+            <p>
+              <a>{{ boot.name }}</a><br>
+              <button type="button" (click)="removeBoot(i)">Remove</button>
+            </p>
+          </div>
+        </td>
+        <td>
+          <ul>
+            <li>
+              <p>Quantity - <span>{{ bootsQuantity[i] }}</span></p>
+            </li>
+          </ul>
+        </td>
+        <td>
+          <h3 style="text-align: center;">{{ boot.price }}</h3>
+        </td>
+      </tr>
+    </table>
+    <div
+      *ngIf = "!isCartEmpty"
+      class="col-sm-8 col-sm-offset-2 bottomtab">
+      <div class="totalprice">
+        <p>Total - <strong>{{ totalamount }}</strong></p>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <form [formGroup]="myForm" action="" method="post" (ngSubmit)="onSubmit(myForm.value, flag);flag=1">
+        <div class="left-block col-md-6">
+          <p>Card Number<input class="form-control" formControlName="card_num" placeholder="Card Number" name="cnum" required="" type="text"></p>
+          <label>Expiry Date  mm</label>
+          <select class="form-control" formControlName="month" name="mm" style="width: 20%;display: inline-block;">
+            <option value="1">01</option>
+            <option value="2">02</option>
+            <option value="3">03</option>
+            <option value="4">04</option>
+            <option value="5">05</option>
+            <option value="6">06</option>
+            <option value="7">07</option>
+            <option value="8">08</option>
+            <option value="9">09</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+          </select>&nbsp;&nbsp;&nbsp;&nbsp;
+          <label>yyyy</label>
+          <select class="form-control" formControlName="year" name="yyyy" style="width:20%;display: inline-block;">
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+            <option value="2025">2025</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+            <option value="2028">2028</option>
+          </select>
+        </div>
+        <div class="right-block col-md-6" style="margin-top: 0px; font-size: 100%">
+          <p>CVV<input class="form-control" formControlName="cvv" placeholder="CVV" name="cvv" required="" type="text"></p>
+          <button *ngIf="flag==-1" type="submit" class="btn checkout" style="float: right;background-color: #3d891f !important; " [disabled]="!myForm.valid">Submit</button>
+          <button *ngIf="flag==-1" type="button" (click)="routeToHome()" class="btn checkout" style="float: left;width: auto;background-color: #3d891f !important; ">Cancel Payment</button>
+          <button *ngIf="flag==1" type="button" (click)="generateOtpMsg()" class="checkout" style="float: left;height: 50px;">Send OTP via Mobile</button>&nbsp;
+          <button *ngIf="flag==1" type="button" (click)="generateOtpMail()" class="checkout" style="float: right;height: 50px;">Send OTP via Mail</button>
+        </div>
+      </form>
+    </div><br>
+    <div *ngIf="flag==1" class="row">
+      <form class="col-md-7" [formGroup]="myOtp" action="" method="post" (ngSubmit)="onSubmit(myOtp.value, flag)">
+        <input class="col-md-4 form-control"  formControlName="otp_num" placeholder="Enter most recent OTP" name="otp" required="" type="text">
+        <button type="submit" class="checkout" style="float: left">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

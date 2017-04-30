@@ -5,7 +5,7 @@ body{
   color: white;
 }
 footer{
-  background-color: black;
+
 
 
 }
@@ -333,6 +333,8 @@ table.order tr td ul li span{
   background: #000;
   border: solid black 1px;
   box-shadow: 0 0 60px 20px black;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 .carouselholder{
   max-width: 100%;
