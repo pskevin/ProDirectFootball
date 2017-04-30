@@ -10,7 +10,6 @@ var objectSchema = mongoose.Schema({
 {
     timestamps:true
 });
-objectSchema.plugin(passportLocalMongoose);
 var Pro = mongoose.model('wallpaper',objectSchema);
 module.exports=Pro;
 

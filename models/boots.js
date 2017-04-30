@@ -15,7 +15,7 @@ var CommentSchema = new Schema(
     },
     postedBy: {
          type: mongoose.Schema.Types.ObjectId,
-         ref: 'User'
+         ref: 'user'
     }
   },
   {

@@ -14,6 +14,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var Verify = require('./verify');
 var twilio = require('twilio');
+var _ = require('underscore');
 var api_key = 'key-3817130671e1c1f13919a3469f5e1386';
 var domain = 'sandbox127c4a0962454b07a273d25721d8887d.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
@@ -200,7 +201,7 @@ router.post('/generateOtpVerifyMessage',function(request,response){
                 if(err)
                     response.json(err);
                 else{
-                    var text="\nPRODIRECT FOOTBALL CUSTOMER SERVICE\nHello "+data.Fname+",\nYour One Time Password(OTP) :"+x;
+                    var text="\nPRODIRECT FOOTBALL CUSTOMER SERVICEHello "+data.Fname+",\nYour One Time Password(OTP) :"+x;
 
                     client.sms.messages.create({
                         to: "+91"+data.mobno,
@@ -289,7 +290,7 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
         if (err)
             response.json(err);
         else {
-            if(data.otp==request.body.otp) {
+            if(data.otp==request.body.otp){
                 var data = {
                     from: 'ProDirect Customer services <postmaster@sandbox127c4a0962454b07a273d25721d8887d.mailgun.org>',
                     to:data.email,
@@ -306,8 +307,8 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
                 client.sms.messages.create({
                     to: "+91"+data.mobno,
                     from: '+12053796263',
-                    body: '\nPRODIRECT FOOTBALL CUSTOMER SERVICE\nHello '+data.Fname+",\nYour transaction has been successfully completed. The cost of $"+request.body.total+" has been deducted from your account.Thank you for using Prodirect Football."
-                }, function (error, message) {
+                    body:'PRODIRECT FOOTBALL.Hello '+data.Fname+", transaction successful.Amount deducted from account -"+request.body.total+" pounds."
+            }, function (error, message) {
                     if (!error) {
                         console.log('Success! The SID for this SMS message is:');
                         console.log(message.sid);
@@ -330,37 +331,30 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
 router.post('/comment',function(request,response){
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
     var decoded = jwt.decode(token);
-    Boot.findOne({"bname":request.body.bname},function(err,boot){
+    Boot.findOne({"bname":request.body.bname},{"bname":"1","_id":"1","comments":"1"},function(err,boot){
         if(err)
             response.json(err);
         else {
-            console.log(boot);
+            //console.log("boot:"+boot);
             User.findOne({"username":decoded.data.username}, {"_id": "1"}, function (err, result) {
                 if (err)
                     response.json(err);
                 else {
-                    boot.comments.find({"postedBy":data._id},function(err,res){
-                       if(err)
-                           response.json(err);
-                       else
-                       {
-                           if(res)
-                           {
-                               boot.comments.id(res._id).remove();
-                           }
-                           var y= {postedBy:result._id,rating:request.body.rating};
-                           boots.comments.push(y);
-                       }
+                    console.log(boot.comments);
+                    var id = _.reject(boot.comment,function(num){
+                        return num.postedBy==result._id;
                     });
-                    console.log(result);
+                    console.log(id);
+                    if(id)
                     var j = {rating: request.body.rating, remarks: request.body.remarks, postedBy: result._id};
-                    console.log(j);
-                    boot.comments.push(j);
+                    id.push(j);
+                    // console.log(j);
+                    boot.comments=id;
                     boot.save(function (err, data) {
                         if (err)
                             response.json(err);
                         else {
-                            console.log(data);
+                //            console.log(data);
                             response.json("successfully added comment!")
                         }
                     });
