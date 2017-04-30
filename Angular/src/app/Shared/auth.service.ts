@@ -17,7 +17,21 @@ export class AuthService {
   //Declaring user service variables
   log: boolean = false;
   name: string;
+  tempName: string;
   token: any;
+  
+  setUser(name: string) {
+    console.log("SET CACHE");
+    localStorage.setItem('tempUser',name);
+  }
+  
+  getUser() {
+    return localStorage.getItem('tempUser');
+  }
+  
+  removeUser() {
+    localStorage.removeItem('tempUser');
+  }
   
   isLoggedIn() {
     console.log("CHECKING");

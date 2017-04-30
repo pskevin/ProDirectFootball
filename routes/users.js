@@ -192,16 +192,18 @@ router.post('/generateOtpVerifyMessage',function(request,response){
     var x= Math.random()*(9999 - 1000)+1000;
     x= parseInt(x);
     console.log(x);
+    console.log(request.body);
     User.findOne({"username":request.body.username},function(err,data){
         if(err)
             response.json(err);
         else {
+        	console.log("username:"+data);
             data.otp=x;
             data.save(function (err,result){
                 if(err)
                     response.json(err);
                 else{
-                    var text="\nPRODIRECT FOOTBALL CUSTOMER SERVICEHello "+data.Fname+",\nYour One Time Password(OTP) :"+x;
+                    var text="Hello "+data.Fname+",Your One Time Password(OTP) :"+x;
 
                     client.sms.messages.create({
                         to: "+91"+data.mobno,
@@ -215,7 +217,7 @@ router.post('/generateOtpVerifyMessage',function(request,response){
                             console.log(message.dateCreated);
                             response.json(message);
                         } else {
-                            console.log('Oops! There was an error.' + err);
+                            response.json(err);
                         }
                     });
                 }
@@ -229,28 +231,31 @@ router.post('/generateOtpVerifyMail',function(request,response){
     var x= Math.random()*(9999 - 1000)+1000;
     x= parseInt(x);
     console.log(x);
+    console.log(request.body);
     User.findOne({"username":request.body.username},function(err,data){
         if(err)
             response.json(err);
         else {
+        	console.log(data);
             data.otp=x;
             data.save(function (err,result){
                 if(err)
                     response.json(err);
                 else{
                     var text='\nPRODIRECT FOOTBALL CUSTOMER SERVICES.\nYour One Time Password(OTP) :'+x;
-
-                    var data = {
+					console.log(data.email);
+                    var dat = {
                         from: 'ProDirect Customer services <postmaster@sandbox127c4a0962454b07a273d25721d8887d.mailgun.org>',
                         to:data.email,
                         subject: 'Hello',
                         text: 'Hello '+data.Fname+",\nYour One Time Password(OTP) :"+x+"Thank you for using Prodirect Football.\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tThanking You,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAkshat"
                     };
-                    mailgun.messages().send(data, function (error, body) {
+                    mailgun.messages().send(dat, function (error, body) {
                         if(error)
                             response.json(error);
                         else {
                             console.log(body);
+                            response.json("MAIL SENT");
                         }
                     });
 
@@ -262,10 +267,12 @@ router.post('/generateOtpVerifyMail',function(request,response){
 
 
 router.post('/verifyOtpAccount',function(request,response){
+	console.log(request.body);
     User.findOne({"username":request.body.username},function(err,data) {
         if (err)
             response.json(err);
         else {
+        	console.log(data);
             if(data.otp==request.body.otp) {
                 data.verified=true;
                 data.save(function (err,result){

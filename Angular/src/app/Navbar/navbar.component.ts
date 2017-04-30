@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from '../Shared/http.service';
 import { AuthService } from '../Shared/auth.service';
 
-declare var $ :any;
+declare var $: any;
 
 @Component({
   selector: 'pdf-navbar',
@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
   request: any;
   valid: {response: string, check: boolean} ;
   logButton: string;
-  loggedIn : boolean = false;
+  loggedIn: boolean = false;
   cartContents: string = "";
   
   constructor(

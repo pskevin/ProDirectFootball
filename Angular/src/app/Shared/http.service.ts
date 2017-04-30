@@ -10,8 +10,6 @@ export class HttpService {
   constructor(private http: Http/*, private auth: AuthService*/) {
   }
   
-  data =  {};
-  
   fetchBoot(query: any){
     const body = query;
     console.log(body);
@@ -22,8 +20,9 @@ export class HttpService {
   }
   
   startBoots() {
+    let data =  {};
     console.log("HERE");
-    const body = this.data;//JSON.stringify(this.data);
+    const body = data;//JSON.stringify(this.data);
     console.log(body);
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -58,31 +57,42 @@ export class HttpService {
       .map((response: Response) => response.json());
   }
   
+  registerUser(request: any) {
+    console.log("INSIDE");
+    const body = request;
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('https://localhost:3443/user/register', body, {headers})
+      .map((response: Response) => response.json());
+  }
+  
+  generateOtpMail(request: any) {
+    const body = request;
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('https://localhost:3443/user/generateOtpVerifyMail', body, {headers})
+      .map((response: Response) => response.json());
+  }
+  
+  generateOtpMessage(request: any) {
+    const body = request;
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('https://localhost:3443/user/generateOtpVerifyMessage', body, {headers})
+      .map((response: Response) => response.json());
+  }
+  
+  verifyOtp(request: any) {
+      const body = request;
+      console.log(body);
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      return this.http.post('https://localhost:3443/user/verifyOtpAccount', body, {headers})
+        .map((response: Response) => response.json());
+    }
+  
   /*
-   startDashboard() {
-   console.log("HTTP");
-   return this.http.get('https://localhost:3443/dashboard')
-   .map((response: Response) => response.json());
-   }
    
-   queryDashboard(data: any) {
-   const body = JSON.stringify(data);
-   let headers = new Headers();
-   headers.append('Content-Type', 'application/json');
-   return this.http.post('https://localhost:3443/dashboard', body, {headers})
-   .map((response: Response) => response.json());
-   }
-   
-   
-   
-   registerUser(token: string, request: any){
-   console.log("INSIDE");
-   const body =(request);
-   let headers = new Headers();
-   headers.append('x-access-token', token);
-   return this.http.post('https://localhost:8000/users/register', body, {headers})
-   .map((response: Response) => response.json());
-   }
    
    addInstitute(token:string, request:any) {
    const body =(request);

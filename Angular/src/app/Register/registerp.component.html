@@ -4,12 +4,14 @@
   <div class="row">
     <form [formGroup]="myForm" action="" method="post" (ngSubmit)="onSubmit(myForm.value, flag); flag = 1">
         <div class="left-block col-md-6">
-          <p>First Name<input class="form-control" formControlName="first_name" placeholder="First Name" name="fname" required="" type="text"></p>
-          <p>Last Name<input class="form-control" formControlName="last_name" placeholder="Last Name" name="lname" required="" type="text"></p>
-          <p>Address<textarea placeholder="Address" name="address" class="form-control" formControlName="add_ress" rows="7" cols="40"></textarea></p>
+          <p>First Name<input class="form-control" formControlName="first_name" placeholder="First Name" name="fname" type="text"></p>
+          <p>Middle Name<input class="form-control" formControlName="middle_name" placeholder="Middle Name" name="mname" type="text"></p>
+          <p>Last Name<input class="form-control" formControlName="last_name" placeholder="Last Name" name="lname"  type="text"></p>
+          <p>Address<textarea placeholder="Address" name="address" class="form-control" formControlName="add_ress" rows="8" cols="40"></textarea></p>
         </div>
         <div class="right-block col-md-6" style="margin-top: 0px; font-size: 100%">
-          <p>Email-Id<input class="form-control" formControlName="email_id" placeholder="Email-Id" name="email" required="" type="email"></p>
+          <p>Email ID<input class="form-control" formControlName="email_id" placeholder="Email-Id" name="email" required="" type="email"></p>
+          <p>Mobile Number<input class="form-control" formControlName="mob_no" placeholder="Mobile Number" name="mobno" required="" type="text"></p>
           <p>Username<input class="form-control" formControlName="user_name" placeholder="Username" name="username" required="" type="text"></p>
           <p>Password<input class="form-control" formControlName="pass_word" placeholder="Password" name="pass" required="" type="password"></p>
           <p>Confirm Password<input class="form-control" formControlName="re_pass" placeholder="Re-confirm Password" name="repass" required="" type="password"></p>
@@ -19,8 +21,15 @@
         </div>
     </form>
   </div><br>
+  <div
+    *ngIf="valid.check === 'otp'"
+    class="row">
+    <div class="col-md-6 col-md-offset-6 text-center">
+      <h4><span class="alert alert-{{ valid.type }}">{{ valid.response }}</span></h4>
+    </div>
+  </div><br *ngIf = "valid.check === 'otp'">
   <div *ngIf="flag==1" class="row" style="padding-bottom: 50px;">
-      <form class="col-md-7" [formGroup]="myOtp" action="" method="post" (ngSubmit)="onSubmit(myOtp.value, flag)">
+      <form class="col-md-6" [formGroup]="myOtp" action="" method="post" (ngSubmit)="onSubmit(myOtp.value, flag)">
         <input class="col-md-4 form-control"  formControlName="otp_num" placeholder="Enter most recent OTP" name="otp" required="" type="text">
         <button type="submit" class="checkout" style="float: left">Submit</button>
       </form>
