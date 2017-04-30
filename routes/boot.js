@@ -85,6 +85,9 @@ router.post('/',function(request,response){
                     var p = Math.ceil(s.count/10);
                     res=_.sortBy(res,'status');
                     console.log(res);
+                    res = _.filter(res,function(num){
+                       return res.indexOf(num)>=(10*x);
+                    });
                     res = _.first(res,10);
                     res=_.shuffle(res);
                     for(var e in res)
