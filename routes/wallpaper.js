@@ -42,10 +42,10 @@ router.post('/add',function(request,response){
         var j ={name:request.files.im.name,"data":request.files.im.data.toString('base64')};
         data.image.push(j);
         data.save(function(err,result){
-           if(err)
-               response.json(err);
-           else
-               response.json(result);
+            if(err)
+                response.json(err);
+            else
+                response.json(result);
         });
     });
 });
