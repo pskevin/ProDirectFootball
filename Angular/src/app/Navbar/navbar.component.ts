@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from '../Shared/http.service';
 import { AuthService } from '../Shared/auth.service';
-import { EventService } from "../Shared/event.service";
 
 @Component({
   selector: 'pdf-navbar',

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from "../Shared/http.service";
 import { AuthService } from "../Shared/auth.service";
-import { EventService } from "../Shared/event.service";
 import { Boot } from "../Shared/boot.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { bootStateTrigger } from "../Shared/boot.animations";

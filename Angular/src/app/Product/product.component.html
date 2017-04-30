@@ -8,7 +8,9 @@
         Top Chart
       </div>
       <div class="col-sm-12 filter">
-        <div style="padding: 20px;">
+        <div
+          (click) = "reset()"
+          style="padding: 20px;">
           <a>Reset Filters</a>
         </div>
         <div class="row">
@@ -61,9 +63,13 @@
       </div>
       <div class="col-sm-12 pagebar" style="padding: 0px">
         <ul class="pagination">
-          <li class="prevpage"><a>Previous Page</a></li>
-          <li style="margin-top:5px;">Page <strong>1</strong> / 60</li>
-          <li class="nextpage"><a>Next Page</a></li>
+          <li
+            (click) = "previousPage()"
+            class="prevpage"><a>Previous Page</a></li>
+          <li style="margin-top:5px;">Page <strong>{{ activePage + 1}}</strong> / {{ totalPages }}</li>
+          <li
+            (click) = "nextPage()"
+            class="nextpage"><a>Next Page</a></li>
         </ul>
       </div>
     </div>
@@ -72,7 +78,7 @@
         @bootState
         class="col-sm-3 cell"
         (@bootState.done) = "bootAnimated($event,i)"
-        *ngFor = "let boot of displayedBoots; let i = index">
+        *ngFor = "let boot of boots; let i = index">
         <span class="small-brand-logo {{boot.brand}}">{{ boot.brand }}</span>
         <p class="typetext" [innerHTML]="boot.collection"></p>
         <div class="imgholder">

@@ -19,7 +19,6 @@ import { ROUTES } from './app.routing';
 import { TerminalComponent } from './Terminal/terminal.component';
 import { BasketComponent } from './BasketPage/basket.component';
 import { RegisterpComponent } from './Register/registerp.component';
-import { EventService } from './Shared/event.service';
 import { PaymentComponent } from './Payment Page/payment.component';
 
 @NgModule({
@@ -51,8 +50,7 @@ import { PaymentComponent } from './Payment Page/payment.component';
   providers: [
     AuthService,
     AuthGuard,
-    HttpService,
-    EventService
+    HttpService
   ],
   bootstrap: [AppComponent]
 })

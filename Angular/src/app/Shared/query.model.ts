@@ -64,3 +64,18 @@ export class Query {
     return this.query;
   }
 }
+
+export class QueryStack {
+  clicked: string;
+  selected: string;
+  page: number;
+  constructor(
+    clicked: string,
+    selected: string,
+    page: number
+  ) {
+    this.clicked = clicked;
+    this.selected = selected;
+    this.page = page;
+  }
+}

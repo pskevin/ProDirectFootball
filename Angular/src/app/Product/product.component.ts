@@ -4,7 +4,7 @@ import { HttpService } from '../Shared/http.service';
 import { Boot } from "../Shared/boot.model";
 import { AuthService } from "../Shared/auth.service";
 import { bootStateTrigger } from "../Shared/boot.animations";
-import { Query } from "../Shared/query.model";
+import { Query, QueryStack } from "../Shared/query.model";
 
 @Component({
   selector: 'pdf-product',
@@ -16,7 +16,6 @@ import { Query } from "../Shared/query.model";
   ]
 })
 export class ProductComponent implements OnInit {
-  pageLoaded: boolean;
   img: any;
   brands: string[] = [];
   collections: string[] = [];
@@ -29,19 +28,20 @@ export class ProductComponent implements OnInit {
   qbrands: string[] = [];
   qcollections: string[] = [];
   qprice: number = 0;
-  page: number = 0;
+  page: number[] = [];
+  activePage: number = 1;
+  totalPages: number;
   query: Query;
   queryStack: QueryStack[] = [];
+  queryMode: string;
   
   constructor(
     private http: HttpService,
     private auth: AuthService
   ) {
-    this.pageLoaded = true;
   }
   
   ngOnInit() {
-    this.pageLoaded = true;
     var acc = document.getElementsByClassName("accordion");
     var i;
     for (i = 0; i < acc.length; i++) {
@@ -56,10 +56,15 @@ export class ProductComponent implements OnInit {
         }
       });
     }
+    this.startBoots();
+  }
+  
+  startBoots() {
     this.http.startBoots()
       .subscribe(
         (x) => {
           console.log(x);
+          this.queryMode = 'content';
           this.makePage(x);
         }
       );
@@ -67,6 +72,11 @@ export class ProductComponent implements OnInit {
   
   makePage(x: any) {
     this.clear();
+    if(this.queryMode === 'content') {
+      this.totalPages = x.pages;
+      this.initializePage (this.totalPages);
+      this.setPage (0);
+    }
     for(let brand of x.brand) {
       this.brands.push(brand);
       this.isBrandSelected.push(false);
@@ -89,45 +99,141 @@ export class ProductComponent implements OnInit {
     if(this.boots.length >= 1) {
       this.displayedBoots.push(this.boots[0]);
     }
-    this.pageLoaded = true;
+    if(this.queryStack.length > 0) {
+      for(let query of this.queryStack) {
+        switch(query.clicked) {
+          case 'brand' :
+            this.isBrandSelected[this.brands.indexOf(query.selected)] = true;
+            break;
+          case 'collection' :
+            this.isCollectionSelected[this.collections.indexOf(query.selected)] = true;
+            break;
+          case 'price':
+            this.isPriceSelected[this.prices.indexOf(query.selected)] = true;
+        }
+      }
+    }
+  }
+  
+  nextPage(){
+    if(this.activePage != (this.totalPages-1)) {
+      this.setPage(this.activePage + 1);
+      this.queryStack.push(new QueryStack("","",this.activePage));
+      this.queryMode = 'page';
+      this.fireQuery();
+    }
+  }
+  
+  previousPage(){
+    if(this.activePage != 0) {
+      this.setPage(this.activePage - 1);
+      this.queryStack.push(new QueryStack("","",this.activePage));
+      this.queryMode = 'page';
+      this.fireQuery();
+    }
+  }
+  
+  setPage(x){
+    this.activePage = x;
+    for(let i in this.page) {
+      if(i == x) {
+        this.page[i] = 1;
+      } else {
+        this.page[i] = 0;
+      }
+    }
+    console.log(this.page);
+  }
+  
+  initializePage(x){
+    this.page.push(1);
+    for(let i = 1; i < x; i++) {
+      this.page.push(0);
+    }
   }
   
   toggleBrand(i) {
+    let index: string;
+    
     if(this.isBrandSelected[i]){
       this.isBrandSelected[i] = false;
     }
     else {
       this.isBrandSelected[i] = true;
     }
-    this.queryStack.push(new QueryStack("brand",this.brands[i]));
+    for(let j in this.queryStack) {
+      if(
+        this.queryStack[j].clicked == 'brand' &&
+        this.queryStack[j].selected == this.brands[i] &&
+        (!this.isBrandSelected[i])
+      ) {
+        index = j;
+        break;
+      }
+    }
+    if(index != i) {
+      this.queryStack.push (new QueryStack ("brand", this.brands[ i ], this.activePage));
+    } else {
+      this.queryStack.splice((+index),1);
+    }
+    this.queryMode = 'content';
     this.fireQuery();
   }
   
   toggleCollection(i) {
+    let index: string;
+    
     if(this.isCollectionSelected[i]){
       this.isCollectionSelected[i] = false;
     }
     else {
       this.isCollectionSelected[i] = true;
     }
-    this.queryStack.push(new QueryStack("collections",this.collections[i]));
+    for(let j in this.queryStack) {
+      if(
+        this.queryStack[j].clicked == 'collection' &&
+        this.queryStack[j].selected == this.collections[i] &&
+        (!this.isCollectionSelected[i])
+      ) {
+        index = j;
+        break;
+      }
+    }
+    if(index != i) {
+      this.queryStack.push (new QueryStack ("collection", this.collections[ i ], this.activePage));
+    } else {
+      this.queryStack.splice((+index),1);
+    }
+    this.queryMode = 'content';
     this.fireQuery();
   }
   
   togglePrice(i) {
-    for(let index in this.isPriceSelected) {
+    let index: string;
+    
+    for(index in this.isPriceSelected) {
       if(index == i) {
-        if (this.isPriceSelected[ index ] === true) {
+        console.log('Index IN'+index+'-'+i);
+        if (this.isPriceSelected[ index ]) {
           this.isPriceSelected[ index ] = false;
         }
         else {
           this.isPriceSelected[ index ] = true;
         }
       } else {
+        console.log('Index OUT'+index+'-'+i);
         this.isPriceSelected [ index ] = false;
       }
     }
-    this.queryStack.push(new QueryStack("price",this.prices[i]));
+    for(let i in this.queryStack) {
+      if(this.queryStack[i].clicked === 'price') {
+        index = i;
+        break;
+      }
+    }
+    this.queryStack.splice((+index),1);
+    this.queryStack.push(new QueryStack("price", this.prices[i],this.activePage));
+    this.queryMode = 'content';
     this.fireQuery();
   }
   
@@ -153,14 +259,13 @@ export class ProductComponent implements OnInit {
         this.qprice = 0;
       }
     }
-    this.query = new Query(this.page, this.qbrands, this.qcollections, this.qprice);
+    this.query = new Query(this.page.indexOf(1), this.qbrands, this.qcollections, this.qprice);
+    
     this.http.filterBoots(this.query.makeQuery())
       .subscribe(
         (x) => {
-          this.pageLoaded = false;
           console.log(x);
           this.makePage(x);
-          this.pageLoaded = true;
         }
       )
   }
@@ -172,6 +277,9 @@ export class ProductComponent implements OnInit {
   }
   
   clear(){
+    if(this.queryMode === 'content') {
+      this.page = [];
+    }
     this.brands = [];
     this.collections  = [];
     this.boots = [];
@@ -179,6 +287,14 @@ export class ProductComponent implements OnInit {
     this.isBrandSelected = [];
     this.isCollectionSelected = [];
     this.isPriceSelected = [false,false,false];
+  }
+  
+  reset(){
+    this.query = null;
+    this.queryStack = [];
+    this.clear();
+    this.clearQueryVariables();
+    this.startBoots();
   }
   
   fetchBoot(i){
@@ -200,15 +316,4 @@ export class ProductComponent implements OnInit {
   }
 }
 
-export class QueryStack {
-  clicked: string;
-  selected: string;
-  constructor(
-    clicked: string,
-    selected: string
-  ) {
-    this.clicked = clicked;
-    this.selected = selected;
-  }
-}
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from "../Shared/http.service";
 import { AuthService } from "../Shared/auth.service";
-import { EventService } from "../Shared/event.service";
 import { Boot } from "../Shared/boot.model";
 
 @Component({
@@ -49,11 +48,11 @@ export class BasketComponent implements OnInit {
   removeBoot(i) {
     this.boots.splice(i,1);
     this.bootsQuantity.splice(i,1);
+    this.no_of_orders = this.boots.length;
     this.auth.removeFromCart(this.boots,this.bootsQuantity);
     this.total();
     if(!this.auth.checkCache()) {
       this.isCartEmpty = true;
     }
-    
   }
 }

@@ -3,6 +3,7 @@ import { Subject } from "rxjs/Subject";
 import { Router } from "@angular/router";
 import { LocalStorageService } from "angular-2-local-storage";
 import { Boot } from "./boot.model";
+import { Query } from "./query.model";
 
 @Injectable()
 export class AuthService {
@@ -69,6 +70,7 @@ export class AuthService {
   bootQuantity: number[] = [];
   cartContents: number = 0;
   cart : any;
+  query: Query;
   
   // Observable string sources
   private emitChangeSource = new Subject<any>();
