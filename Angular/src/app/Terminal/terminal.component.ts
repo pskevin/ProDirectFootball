@@ -17,6 +17,7 @@ import { bootStateTrigger } from "../Shared/boot.animations";
 export class TerminalComponent implements OnInit {
   //Declaring variables
   myForm: FormGroup;
+  myComment: FormGroup;
   bootLoaded: boolean = false;
   query: any;
   id: string;
@@ -32,7 +33,10 @@ export class TerminalComponent implements OnInit {
   status: string;
   quantity: number = 0;
   boot: Boot;
-  
+  flag: any;
+  rating: number;
+  comment: string;
+
   constructor (
     private http: HttpService,
     private auth: AuthService,
@@ -40,6 +44,10 @@ export class TerminalComponent implements OnInit {
   ) {
     this.myForm = formBuilder.group({
       'quantity': [1, [Validators.required]]
+    });
+    this.myComment = formBuilder.group({
+      'comment': ['', [Validators.required]],
+      'rating': ['', [Validators.required]]
     });
     this.id = this.auth.getBootID();
     console.log('THE ID'+this.id);
@@ -75,23 +83,30 @@ export class TerminalComponent implements OnInit {
         }
       );
   }
-  
+
   ngOnInit() {
   }
-  
-  onSubmit(data: any) {
-    this.quantity = data.quantity;
-    this.boot = new Boot(
-      this.id,
-      this.brand,
-      this.name,
-      this.collection,
-      this.imgthumb,
-      this.price,
-      this.status
-    );
-    console.log(this.quantity);
-    console.log(this.boot);
-    this.auth.addToCart(this.boot,this.quantity);
+
+  onSubmit(data: any, flag: any) {
+    if (flag === -1) {
+      this.quantity = data.quantity;
+      this.boot = new Boot(
+        this.id,
+        this.brand,
+        this.name,
+        this.collection,
+        this.imgthumb,
+        this.price,
+        this.status
+      );
+      console.log(this.quantity);
+      console.log(this.boot);
+      this.auth.addToCart(this.boot,this.quantity);
+    }
+    else {
+      this.comment = data.comment;
+      this.rating = data.rating;
+    }
+
   }
 }

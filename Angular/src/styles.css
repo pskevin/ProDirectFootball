@@ -60,6 +60,7 @@ a, a:hover{
 .bootlist .bootdesc{
   text-align: center;
   font-size: 12px;
+  min-height: 130px;
 }
 .bootlist p.typetext{
   font-style: normal;
@@ -346,6 +347,7 @@ table.order tr td ul li span{
   max-width: 100%;
   margin: 0;
   margin-bottom: 10px;
+  border: 2px solid #2d2d2d;
 }
 .carousel-inner img{
   min-width: 100%;
@@ -360,6 +362,8 @@ table.order tr td ul li span{
   font-size: 20px;
   margin-bottom: 5px;
   margin-top: 5px;
+  font-weight: 700;
+  font-size: 15px;
 }
 .boxholder{
   margin: 1px;
@@ -396,6 +400,7 @@ table.order tr td ul li span{
 .boxcaption p{
   text-align: center;
   text-transform: uppercase;
+  font-weight: 700;
 }
 .boxcontainer:hover .overlay {
   top: 0;
@@ -405,11 +410,11 @@ table.order tr td ul li span{
 .text {
   border-top: 1px solid #000;
   border-bottom: 1px solid #2d2d2d;
-  white-space: nowrap;
+  white-space: normal;
   position: absolute;
   top: 50%;
-  left: 50%;
-  width: inherit;
+  left: 45%;
+  width: 80%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
   margin: 6% 4%;

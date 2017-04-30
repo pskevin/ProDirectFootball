@@ -1,0 +1,12 @@
+.quantityfield input{
+  display: inline-block;
+  width: 40%;
+}
+p.quantityfield {
+  text-align: left;
+}
+
+.topcomment{
+  border: 2px solid #2d2d2d;
+  padding-left: 10px;
+}

@@ -3,9 +3,10 @@
   *ngIf = "bootLoaded"
   class="row">
   <div class="col-sm-12" style="padding-top: 40px;"></div>
-  <div class="col-sm-offset-2 col-sm-8 msg" style="">Safe and secure shopping.</div>
   <div class="col-sm-2"></div>
-  <div class="col-sm-offset-2 col-sm-5">
+  <div class="col-sm-8 msg" style="">Safe and secure shopping.</div>
+  <div class="col-sm-2"></div>
+  <div class="col-sm-offset-2 col-sm-5" style="padding: 0;">
     <div class="leftcol">
       <div class="carouselholder">
         <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -52,46 +53,63 @@
           </a>
         </div>
       </div>
+      <div class="topcomment">
+        <div class="avgrating">
+          <h4>Average Rating: <span>3</span>&nbsp;/&nbsp;5</h4>
+        </div>
+        <div>
+          <h4>Top Comment:&nbsp;</h4><p>Damn I love them bootsDamn I love them bootsDamn I love them bootsDamn I love them bootsDamn I love them bootsDamn I love them bootsDamn I love them boots</p>
+        </div>
+      </div>
     </div>
   </div>
   <div class="col-sm-3">
     <div class="rightcol">
       <h1 class="itemname">{{ name }}</h1>
-      <p class="itemcollection">{{ collection }}</p>
-      <p class="itemp">Price</p>
-      <p class="itemprice">{{ price }}</p><br><br>
+      <!--<p class="itemcollection">{{ collection }}</p>-->
+      <p class="itemp">ProOnlinePrice</p>
+      <p class="itemprice">£{{ price }}</p><br>
+      <p style="font-size: 12px;max-height: 50px;overflow: hidden;margin-bottom: 0;" [innerHTML]="desc"></p><span>...</span>
       <form
         class="text-center"
         [formGroup]="myForm"
-        (ngSubmit)="onSubmit(myForm.value)">
-        <input
+        (ngSubmit)="onSubmit(myForm.value, flag); flag=1">
+        <p class="quantityfield">Quantity<span>&nbsp;&nbsp;</span><input
           type="number"
           class="form-control"
           id="quantity"
           placeholder="Quantity"
-          formControlName="quantity">
-        <button type="submit" class="checkout">Checkout</button>
+          formControlName="quantity"></p>
+        <div class="groundicon">
+          <span>FG</span>
+        </div>
+        <p style="text-align: left;font-size: 12px;">
+          Only Suitable For firm, dry, natural grass surfaces.
+          Designed for acceleration, comfort and enhanced traction.
+          Usually moulded and conical or bladed in shape.
+        </p>
+        <button type="submit" class="checkout">Add to Cart</button>
       </form>
-      <div class="msg" style="margin-top: 30px;">Delivery within 4-5 days.</div><br>
-      <div class="msg">Money back guarantee.</div><br>
     </div>
   </div>
-  <div class="col-sm-offset-2 col-sm-5">
-    <div class="leftcol"><br>
+</div>
+<div class="row" style="margin-top: 20px;">
+  <div class="col-sm-offset-2 col-sm-8" style="padding: 0px;">
       <div class="msg">Product Details</div><br>
       <p [innerHTML]="desc"></p>
-    </div>
   </div>
-  <div class="col-sm-3">
-    <div class="rightcol"><br><br><br>
-      <div class="groundicon">
-        <span>FG</span>
-      </div>
-      <div>
-        Only Suitable For firm, dry, natural grass surfaces<br>
-        Designed for acceleration, comfort and enhanced traction<br>
-        Usually moulded and conical or bladed in shape<br>
-      </div>
+</div>
+<div class="row" style="margin-top: 20px;">
+  <form [formGroup]="myComment" (ngSubmit)="onSubmit(myComment.value, flag)">
+    <div class="col-sm-offset-2 col-sm-5" style="padding: 0px;">
+      <p>Leave a review</p>
+      <textarea rows="6" class="form-control" formControlName="comment" placeholder="Enter text here..."></textarea>
+      <button type="submit" class="checkout">Submit Comment</button>
     </div>
-  </div>
+    <div class="col-sm-3">
+      <p>Rate the boot</p>
+      <input  type="number" max="5" class="form-control" id="rating" placeholder="" formControlName="rating" style="display:inline-block;width: 20%;" />
+      <span style="font-size: 25px;">&nbsp;/&nbsp;5</span>
+    </div>
+  </form>
 </div>
