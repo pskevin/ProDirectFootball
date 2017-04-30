@@ -29,8 +29,8 @@ router.post('/add',function(request,response){
             var bname =data.bname;
             var j ={name:bname+"-thumb","data":request.files.thumb.data.toString('base64')};
             data.image.push(j);
-             j ={name:bname+"-left","data":request.files.left.data.toString('base64')};
-             data.image.push(j);
+            j ={name:bname+"-left","data":request.files.left.data.toString('base64')};
+            data.image.push(j);
             j ={name:bname+"-over","data":request.files.over.data.toString('base64')};
             data.image.push(j);
             j ={name:bname+"-right","data":request.files.right.data.toString('base64')};
@@ -50,20 +50,20 @@ router.post('/add',function(request,response){
 });
 
 router.post('/set',Verify.verifyLoggedUser,Verify.verifyAdmin,function(result,response){
-   Boot.update({},{"status":"none"},{"multi":true},function(err,data){
-      if(err)
-          response.json(err);
-      else
-          response.json(data);
-   });
+    Boot.update({},{"status":"none"},{"multi":true},function(err,data){
+        if(err)
+            response.json(err);
+        else
+            response.json(data);
+    });
 });
 
 
 router.post('/',function(request,response){
     var x;
     console.log(request.body.offset);
-	if(request.body.offset!=undefined)
-         x=request.body.offset;
+    if(request.body.offset!=undefined)
+        x=request.body.offset;
     else
         x=0;
     console.log("offset:"+x);
@@ -72,32 +72,32 @@ router.post('/',function(request,response){
         query = Verify.trim_nulls(request.body.query);
     else
         query={};
-        console.log(query);
-            Boot.find(query,{"_id":"0","bname":"1","coll":"1","brand":"1","saleprice":"1","image":"1","status":"1"}).exec(function(err,res){
-                var y =_.uniq(_.pluck(_.flatten(res), "coll"));
-                var w =_.uniq(_.pluck(_.flatten(res), "brand"));
-                if(err)
-                    response.json(err);
-                else {
-                    var s = _.countBy(res,function(num){
-                        return 'count';
-                    });
-                    var p = Math.ceil(s.count/10);
-                    res=_.sortBy(res,'status');
-                    console.log(res);
-                    res = _.filter(res,function(num){
-                       return res.indexOf(num)>=(10*x);
-                    });
-                    res = _.first(res,10);
-                    res=_.shuffle(res);
-                    for(var e in res)
-                    {
-                        res[e].image= _.first(res[e].image,1);
-                    }
-                    var z = {"count":s.count,"pages":p,"collection": y, "brand": w, "data": res};
-                    response.json(z);
-                }
+    console.log(query);
+    Boot.find(query,{"_id":"0","bname":"1","coll":"1","brand":"1","saleprice":"1","image":"1","status":"1"}).exec(function(err,res){
+        var y =_.uniq(_.pluck(_.flatten(res), "coll"));
+        var w =_.uniq(_.pluck(_.flatten(res), "brand"));
+        if(err)
+            response.json(err);
+        else {
+            var s = _.countBy(res,function(num){
+                return 'count';
             });
+            var p = Math.ceil(s.count/10);
+            res=_.sortBy(res,'status');
+            console.log(res);
+            res = _.filter(res,function(num){
+                return res.indexOf(num)>=(10*x);
+            });
+            res = _.first(res,10);
+            res=_.shuffle(res);
+            for(var e in res)
+            {
+                res[e].image= _.first(res[e].image,1);
+            }
+            var z = {"count":s.count,"pages":p,"collection": y, "brand": w, "data": res};
+            response.json(z);
+        }
+    });
 });
 
 router.post('/landing',function(request,response){
@@ -112,7 +112,7 @@ router.post('/landing',function(request,response){
             });
             var sum=0;
             var a = _.map(res.comments,function(num){
-               return sum+= num.rating;
+                return sum+= num.rating;
             });
             console.log(a/s.count);
             var z ={"averagerating":(a/s.count),"result":res};
