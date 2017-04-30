@@ -73,7 +73,7 @@ router.post('/',function(request,response){
     else
         query={};
         console.log(query);
-            Boot.find(query,{"_id":"0","bname":"1","coll":"1","brand":"1","saleprice":"1","status":"1"}).exec(function(err,res){
+            Boot.find(query,{"_id":"0","bname":"1","coll":"1","brand":"1","saleprice":"1","image":"1","status":"1"}).exec(function(err,res){
                 var y =_.uniq(_.pluck(_.flatten(res), "coll"));
                 var w =_.uniq(_.pluck(_.flatten(res), "brand"));
                 if(err)
