@@ -15,6 +15,8 @@ var LocalStrategy = require('passport-local').Strategy;
 var Verify = require('./verify');
 var twilio = require('twilio');
 var _ = require('underscore');
+var async = require('async');
+var Promise = require('bluebird');
 var api_key = 'key-3817130671e1c1f13919a3469f5e1386';
 var domain = 'sandbox127c4a0962454b07a273d25721d8887d.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
@@ -35,42 +37,42 @@ router.use(morgan('dev'));
 router.post('/register',Verify.verifyUsername,function(request, response){
     console.log("in!");
     User.register(new User({ username : request.body.username }),
-    request.body.password,function(err, user){
-        if(err)
-        {
-            response.status(500).json({err: err});
-        }
-        if(request.body.Fname) {
-            user.Fname = request.body.Fname;
-        }
-        if(request.body.Mname) {
-            user.Mname = request.body.Mname;
-        }
-        if(request.body.Lname) {
-            user.Lname = request.body.Lname;
-        }
-        if(request.body.mobno) {
-            user.mobno = request.body.mobno;
-        }
-        if(request.body.email) {
-            user.email = request.body.email;
-        }
-        if(request.body.address)
-        {
-            user.address = request.body.address;
-        }
-        user.save(function(err,user){
+        request.body.password,function(err, user){
             if(err)
-                throw err;
-            else
             {
-                console.log(user);
-                passport.authenticate('local')(request, response, function () {
-                response.status(200).json({status: 'Registration Successful!'});
-                });
+                response.status(500).json({err: err});
             }
+            if(request.body.Fname) {
+                user.Fname = request.body.Fname;
+            }
+            if(request.body.Mname) {
+                user.Mname = request.body.Mname;
+            }
+            if(request.body.Lname) {
+                user.Lname = request.body.Lname;
+            }
+            if(request.body.mobno) {
+                user.mobno = request.body.mobno;
+            }
+            if(request.body.email) {
+                user.email = request.body.email;
+            }
+            if(request.body.address)
+            {
+                user.address = request.body.address;
+            }
+            user.save(function(err,user){
+                if(err)
+                    throw err;
+                else
+                {
+                    console.log(user);
+                    passport.authenticate('local')(request, response, function () {
+                        response.status(200).json({status: 'Registration Successful!'});
+                    });
+                }
+            });
         });
-    });
 });
 router.post('/login',function(request, response,next){
     passport.authenticate("local",function(err,user){
@@ -124,30 +126,66 @@ router.post('/login',function(request, response,next){
     })(request,response,next);
 });
 
-router.post('/purchase',Verify.verifyLoggedUser,function(request,response){
+router.post('/purchase',Verify.verifyLoggedUser,function(request,response) {
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
     var decoded = jwt.decode(token);
-    var data =request.body;
-    User.findOne({"username":decoded.data.username},{"_id":"1"},function(err,user){
-        Order.create(user._id,function(err,order){
-            for(var i=0;i<data.length;i++)
-            {
-                console.log(data[i]);
-                Boot.find({"bname":data[i].bname},{"_id":"1","costprice":"1","saleprice":"1"},function(err,result){
-                    var profit = result.costprice - (data[i].quantity*result.costprice);
-                    var j={productId:result._id,quantity:data[i].quantity,salecost:data[i].salecost,profit:profit};
-                    order.product.push(j);
+    var dat = request.body.data;
+    User.findOne({"username": decoded.data.username}, {"_id": "1","orders":"1"}, function (err, user) {
+        if (err)
+            response.json(err);
+        else {
+            var k = [];
+            var x = async.each(dat, function (data, callback) {
+                console.log(data);
+                Boot.findOne({"bname": data.bname}, {
+                    "_id": "1",
+                    "costprice": "1",
+                    "saleprice": "1"
+                }, function (err, result) {
+                    if (err)
+                        callback(err);
+                    else {
+                        console.log(result);
+                        var profit = data.quantity * (result.saleprice - result.costprice);
+                        var salecost = data.quantity * result.saleprice;
+                        var j = {
+                            productId: result._id,
+                            quantity: data.quantity,
+                            salecost: salecost,
+                            profit: profit
+                        };
+                        k.push(j);
+                        console.log(k);
+                        callback(null);
+                    }
                 });
-            }
-            order.save(function (err,res){
-               if(err)
-                   response.json(err);
-                else
-                    response.json(res);
+            }, function (err) {
+                if (err) {
+                    response.json(err);
+                }
+                else {
+                    console.log(k);
+                    Order.create({"userId": user._id, "product": k}, function (err, result) {
+                        if (err)
+                            response.json(err);
+                        else
+                        {
+                            console.log(user.orders);
+                            user.orders.push({"orderId":result._id});
+                            user.save(function(err,res){
+                                if(err)
+                                    response.json(err);
+                                else
+                                    response.json(res);
+                            });
+                        }
+                    });
+                }
             });
-        });
+        }
     });
- });
+});
+
 
 router.post('/generateOtpPayment',Verify.verifyLoggedUser,function(request,response){
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
@@ -164,7 +202,7 @@ router.post('/generateOtpPayment',Verify.verifyLoggedUser,function(request,respo
                 if(err)
                     response.json(err);
                 else{
-                        var text='\nPRODIRECT FOOTBALL PAYMENT GATEWAY.\nYour One Time Password(OTP) :'+x;
+                    var text='\nPRODIRECT FOOTBALL PAYMENT GATEWAY.\nYour One Time Password(OTP) :'+x;
 
                     client.sms.messages.create({
                         to: "+91"+data.mobno,
@@ -197,7 +235,7 @@ router.post('/generateOtpVerifyMessage',function(request,response){
         if(err)
             response.json(err);
         else {
-        	console.log("username:"+data);
+            console.log("username:"+data);
             data.otp=x;
             data.save(function (err,result){
                 if(err)
@@ -236,14 +274,14 @@ router.post('/generateOtpVerifyMail',function(request,response){
         if(err)
             response.json(err);
         else {
-        	console.log(data);
+            console.log(data);
             data.otp=x;
             data.save(function (err,result){
                 if(err)
                     response.json(err);
                 else{
                     var text='\nPRODIRECT FOOTBALL CUSTOMER SERVICES.\nYour One Time Password(OTP) :'+x;
-					console.log(data.email);
+                    console.log(data.email);
                     var dat = {
                         from: 'ProDirect Customer services <postmaster@sandbox127c4a0962454b07a273d25721d8887d.mailgun.org>',
                         to:data.email,
@@ -267,19 +305,19 @@ router.post('/generateOtpVerifyMail',function(request,response){
 
 
 router.post('/verifyOtpAccount',function(request,response){
-	console.log(request.body);
+    console.log(request.body);
     User.findOne({"username":request.body.username},function(err,data) {
         if (err)
             response.json(err);
         else {
-        	console.log(data);
+            console.log(data);
             if(data.otp==request.body.otp) {
                 data.verified=true;
                 data.save(function (err,result){
-                if(err)
-                    response.json(err);
+                    if(err)
+                        response.json(err);
                     else
-                    response.json("Account successfully verified!");
+                        response.json("Account successfully verified!");
 
                 })
             }
@@ -315,7 +353,7 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
                     to: "+91"+data.mobno,
                     from: '+12053796263',
                     body:'PRODIRECT FOOTBALL.Hello '+data.Fname+", transaction successful.Amount deducted from account -"+request.body.total+" pounds."
-            }, function (error, message) {
+                }, function (error, message) {
                     if (!error) {
                         console.log('Success! The SID for this SMS message is:');
                         console.log(message.sid);
@@ -353,7 +391,7 @@ router.post('/comment',function(request,response){
                     });
                     console.log(id);
                     if(id)
-                    var j = {rating: request.body.rating, remarks: request.body.remarks, postedBy: result._id};
+                        var j = {rating: request.body.rating, remarks: request.body.remarks, postedBy: result._id};
                     id.push(j);
                     // console.log(j);
                     boot.comments=id;
@@ -361,7 +399,7 @@ router.post('/comment',function(request,response){
                         if (err)
                             response.json(err);
                         else {
-                //            console.log(data);
+                            //            console.log(data);
                             response.json("successfully added comment!")
                         }
                     });
@@ -375,10 +413,13 @@ router.post('/comment',function(request,response){
 router.get('/orders',Verify.verifyLoggedUser,function(request,response){
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
     var decoded = jwt.decode(token);
-    User.findOne({"username":decoded.data.username}, {"_id": "1"}, function (err, result) {
-        Order.find({"userId":result._id},{"profit":"0"},function(err,data){
-           response.json(data);
-        });
+    User.findOne({"username":decoded.data.username}, {"orders.orderId": "1"}).populate({path:"orders.orderId",select:"product",populate:{path:"product.productId",select:["bname","image"]}}).exec(function (err, result) {
+        if(err)
+            response.json(err);
+        else {
+
+            response.json(result);
+        }
     });
 });
 router.post('/f',function(request,response){
@@ -400,17 +441,17 @@ router.get('/logout',Verify.verifyLoggedUser,function(request, response){
             console.log(decoded.data);
             User.findByIdAndUpdate(decoded.data._id,{$set : decoded.data},
                 { new : true},function(error,new_data){
-                if(error)
-                    response.json(error);
-                else
-                {
-                    console.log(new_data);
-                    request.logout();
-                    response.status(200).json({
-                        status: 'Bye!'
-                    });
-                }
-            });
+                    if(error)
+                        response.json(error);
+                    else
+                    {
+                        console.log(new_data);
+                        request.logout();
+                        response.status(200).json({
+                            status: 'Bye!'
+                        });
+                    }
+                });
         }
     });
 });
