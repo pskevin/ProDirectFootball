@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpService } from '../Shared/http.service';
 import { AuthService } from '../Shared/auth.service';
 
+declare var $ :any;
+
 @Component({
   selector: 'pdf-navbar',
   templateUrl: './navbar.component.html',
@@ -98,6 +100,7 @@ export class NavbarComponent implements OnInit {
           }
           else
           if(data.success){
+            this.closeModal();
             console.log("ASDAD");
             this.valid.check = true;
             this.valid.response = "Valid User!";
@@ -118,5 +121,9 @@ export class NavbarComponent implements OnInit {
         this.logButton = "Login";
       }
     );
+  }
+  
+  closeModal(){
+    $('#myModal').modal('hide');
   }
 }

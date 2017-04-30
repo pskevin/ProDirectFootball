@@ -48,7 +48,8 @@ export class TerminalComponent implements OnInit {
     };
     this.http.fetchBoot(this.query)
       .subscribe(
-        (boot) => {
+        (data) => {
+          let boot = data.result;
           console.log(boot);
           this.brand = boot.brand;
           this.name = boot.bname;
