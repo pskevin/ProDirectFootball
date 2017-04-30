@@ -5,11 +5,11 @@ var imageSchema = new Schema({
     data: String
 });
 var objectSchema = mongoose.Schema({
-    image :[imageSchema]
-},
-{
-    timestamps:true
-});
+        image :[imageSchema]
+    },
+    {
+        timestamps:true
+    });
 var Pro = mongoose.model('wallpaper',objectSchema);
 module.exports=Pro;
 
