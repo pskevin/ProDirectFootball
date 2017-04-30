@@ -24,18 +24,17 @@ exports.verifyUsername = function(request, response, next) {
 exports.verifyLoggedUser = function(request, response, next) {
     // check header or url parameters or post parameters for token
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
-    console.log(token);
-    console.log(request.query.token);
-    console.log(request.body.token);
-    console.log(request.headers['x-access-token']);
+    // console.log(token);
+    // console.log(request.query.token);
+    // console.log(request.body.token);
+    // console.log(request.headers['x-access-token']);
     if (token) {
         jwt.verify(token, config.secretKey, function(err, decoded) {
             if (err) {
                 if (err.name == "TokenExpiredError"){
                     decoded = jwt.decode(token);
-                    console.log(decoded.data);
-                    decoded.data.logged = false;
-                    User.findByIdAndUpdate(decoded.data._id, {$set: decoded.data},
+                    //                console.log(decoded.data);
+                    User.findByIdAndUpdate(decoded.data._id, {$set:{"logged":false}},
                         {new: true}, function (error, new_data) {
                             if (error)
                                 throw error;
@@ -53,7 +52,7 @@ exports.verifyLoggedUser = function(request, response, next) {
             else
             {
                 // if everything is good, save to request for use in other routes
-                console.log(decoded);
+                //        console.log(decoded);
                 next();
             }
         });
@@ -73,8 +72,8 @@ exports.verifyAdmin = function(request, response, next) {
     if (token) {
         jwt.verify(token, config.secretKey, function(err, decoded) {
             if (err) {
-                    response.json(err);
-                }
+                response.json(err);
+            }
             else
             {
                 // if everything is good, save to request for use in other routes
@@ -83,7 +82,7 @@ exports.verifyAdmin = function(request, response, next) {
                     response.json("Not an Administrator");
                 }
                 else
-                next();
+                    next();
             }
         });
     }
@@ -138,7 +137,7 @@ exports.trim_nulls = function (data) {
             console.log(data);
         }
         if (y instanceof Object && JSON.stringify(y).charAt(2)!='$') y = trim_nulls(y);
-            console.log(data);
+        console.log(data);
     }
     return data;
 };
