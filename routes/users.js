@@ -16,7 +16,6 @@ var Verify = require('./verify');
 var twilio = require('twilio');
 var _ = require('underscore');
 var async = require('async');
-var Promise = require('bluebird');
 var api_key = 'key-3817130671e1c1f13919a3469f5e1386';
 var domain = 'sandbox127c4a0962454b07a273d25721d8887d.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
@@ -193,8 +192,7 @@ router.post('/generateOtpPayment',Verify.verifyLoggedUser,function(request,respo
     x= parseInt(x);
     console.log(x);
     var decoded = jwt.decode(token);
-    console.log(decoded);
-    User.findOne({"username":decoded.data.username},function(err,data){
+    User.findOne({"username":decoded.username},function(err,data){
         if(err)
             response.json(err);
         else {
@@ -331,10 +329,9 @@ router.post('/verifyOtpAccount',function(request,response){
 });
 
 router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,response){
-	var token = request.body.token || request.query.token || request.headers['x-access-token'];
-	var decoded = jwt.decode(token);
-    console.log("reached here!");
-    User.findOne({"username":decoded.data.username},function(err,data) {
+    var token = request.body.token || request.query.token || request.headers['x-access-token'];
+    var decoded = jwt.decode(token);
+    User.findOne({"username":decoded.username},function(err,data) {
         if (err)
             response.json(err);
         else {
@@ -349,8 +346,8 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
                     if(error)
                         response.json(error);
                     else {
-						console.log(body);
-					}
+                        console.log(body);
+                    }
                 });
                 client.sms.messages.create({
                     to: "+91"+data.mobno,
@@ -372,7 +369,6 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
             {
                 response.json("OTP match failed. Enter correct OTP.");
             }
-
         }
     });
 });
@@ -380,33 +376,58 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
 router.post('/comment',function(request,response){
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
     var decoded = jwt.decode(token);
-    Boot.findOne({"bname":request.body.bname},{"bname":"1","_id":"1","comments":"1"},function(err,boot){
-        if(err)
+    User.findOne({"username":decoded.data.username}, {"orders.orderId": "1"}).populate({path:"orders.orderId",select:["product.productId"],populate:{path:"product.productId",select:["bname"]}}).exec(function (err, result) {
+        if (err)
             response.json(err);
         else {
-            //console.log("boot:"+boot);
-            User.findOne({"username":decoded.data.username}, {"_id": "1"}, function (err, result) {
-                if (err)
+             Boot.findOne({"bname":request.body.bname},{"bname":"1","_id":"1","comments":"1"},function(err,boot){
+                if(err)
                     response.json(err);
                 else {
-                    console.log(boot.comments);
-                    var id = _.reject(boot.comment,function(num){
-                        return num.postedBy==result._id;
-                    });
-                    console.log(id);
-                    if(id)
-                        var j = {rating: request.body.rating, remarks: request.body.remarks, postedBy: result._id};
-                    id.push(j);
-                    // console.log(j);
-                    boot.comments=id;
-                    boot.save(function (err, data) {
-                        if (err)
-                            response.json(err);
-                        else {
-                            //            console.log(data);
-                            response.json("successfully added comment!")
+                    //console.log(result.orders);
+                    var x= async.each(result.orders,function(data,callback) {
+                        console.log(data);
+                        var y = async.each(data.orderId.product, function (b,callback) {
+                            console.log(b);
+                            if (b.productId.bname === boot.bname)
+                                callback("success");
+                            else
+                                callback("not found");
+                        },function(res){
+                            callback(res);
+                        });
+                    },function(res){
+                        if(res=="success") {
+                            console.log(boot.comments);
+                            var id = _.reject(boot.comment, function (num) {
+                                return num.postedBy == result._id;
+                            });
+                            console.log(id);
+                            if (id)
+                                var j = {
+                                    rating: request.body.rating,
+                                    remarks: request.body.remarks,
+                                    postedBy: result._id
+                                };
+                            id.push(j);
+                            // console.log(j);
+                            boot.comments = id;
+                            boot.save(function (err, data) {
+                                if (err)
+                                    response.json(err);
+                                else {
+                                    //            console.log(data);
+                                    response.json("successfully added comment!")
+                                }
+                            });
+
+                        }
+                        else
+                        {
+                            response.json("Buy before talking about it!");
                         }
                     });
+                    //console.log("boot:"+boot);
                 }
             });
         }
