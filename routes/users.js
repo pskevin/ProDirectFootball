@@ -331,7 +331,7 @@ router.post('/verifyOtpAccount',function(request,response){
 router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,response){
     var token = request.body.token || request.query.token || request.headers['x-access-token'];
     var decoded = jwt.decode(token);
-    User.findOne({"username":decoded.username},function(err,data) {
+    User.findOne({"username":decoded.data.username},function(err,data) {
         if (err)
             response.json(err);
         else {
