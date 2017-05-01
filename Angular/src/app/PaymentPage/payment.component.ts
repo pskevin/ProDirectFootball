@@ -3,13 +3,15 @@ import {Boot} from '../Shared/boot.model';
 import {AuthService} from '../Shared/auth.service';
 import {HttpService} from '../Shared/http.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Observable } from "rxjs/Observable";
+import { CanComponentDeactivate } from "../Shared/paymentDeactivate.guard";
 
 @Component({
   selector: 'pdf-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
-export class PaymentComponent implements OnInit {
+export class PaymentComponent implements OnInit, CanComponentDeactivate {
   no_of_orders: number = 0;
   totalamount: number = 0;
   isCartEmpty: boolean = false
@@ -20,7 +22,8 @@ export class PaymentComponent implements OnInit {
   myForm: FormGroup;
   myOtp: FormGroup;
   request: any;
-
+  logStatus: boolean;
+  
   constructor(
     private http: HttpService,
     private auth: AuthService,
@@ -45,11 +48,21 @@ export class PaymentComponent implements OnInit {
     this.myOtp = formBuilder.group({
       'otp_num': ['',[Validators.required]]
     });
+    this.auth.changeEmitted$.subscribe(
+      (event) => {
+        if(event.type === 'login') {
+          if(!this.auth.bool(event.change)) {
+            this.auth.openModal();
+            this.auth.navigateTo('basket');
+          }
+        }
+      }
+    );
   }
-
+  
   ngOnInit() {
   }
-
+  
   onSubmit(data: any, flag: any) {
     if (flag !== 1) {
       this.request = {
@@ -68,28 +81,28 @@ export class PaymentComponent implements OnInit {
   verifyUser(request: any) {
     console.log(request);
   }
-
+  
   generateOtpMsg() {
-
+  
   }
-
+  
   generateOtpMail() {
-
+  
   }
   verifyOtp(request: any) {
     console.log(request);
   }
-
+  
   total() {
     for(let i in this.boots) {
       this.totalamount += ((+this.boots[i].price)*(+this.bootsQuantity[i]));
     }
   }
-
+  
   routeToHome() {
     this.auth.navigateTo('home');
   }
-
+  
   removeBoot(i) {
     this.boots.splice(i,1);
     this.bootsQuantity.splice(i,1);
@@ -98,6 +111,11 @@ export class PaymentComponent implements OnInit {
     if(!this.auth.checkCache()) {
       this.isCartEmpty = true;
     }
-
+  }
+  
+  canDeactivate(): Observable<boolean> | boolean {
+    if(!this.auth.isLoggedIn()) {
+      return true;
+    }
   }
 }

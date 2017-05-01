@@ -65,16 +65,6 @@ export class RegisterpComponent implements OnInit {
         mobno: data.mob_no,
         address: data.add_ress
       };
-      this.request = {
-        username: "kevinsijo",
-        password: "kevin",
-        Fname: "Kevin",
-        Mname: "Sijo",
-        Lname: "Puthusseri",
-        email: "kevinsijo@gmail.com",
-        mobno: "9920133885",
-        address: "1402, Tower 3, Rustomjee Ozone, Goregaon (West), Mumbai - 400104."
-      }
       this.verifyUser(this.request);
     }
     else {

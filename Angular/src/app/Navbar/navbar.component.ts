@@ -111,6 +111,7 @@ export class NavbarComponent implements OnInit {
             this.loggedIn = true;
             this.logButton = "Logout";
             this.auth.loggedIn({name: this.request.username, userdata: data});
+            this.auth.emitChange('login','true');
           }
         }
       );
@@ -123,6 +124,8 @@ export class NavbarComponent implements OnInit {
         this.auth.loggedOut();
         this.loggedIn = false;
         this.logButton = "Login";
+        this.myForm.reset();
+        this.auth.emitChange('login','false');
       }
     );
   }

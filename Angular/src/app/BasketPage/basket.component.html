@@ -8,7 +8,7 @@
     </div>
     <button
       *ngIf = "!isCartEmpty"
-      href=""
+      (click)="routeToPayment()"
       class="checkout">Checkout
     </button>
   </div>
@@ -54,7 +54,7 @@
       <p>Total - <strong>£{{ totalamount }}</strong></p>
     </div>
     <button (click)="routeToBoots()" class="continue">Continue Shopping</button>
-    <button href="" class="checkout">Checkout</button>
+    <button (click)="routeToPayment()" class="checkout">Checkout</button>
   </div>
   <div
     *ngIf = "isCartEmpty"

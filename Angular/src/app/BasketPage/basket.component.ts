@@ -45,6 +45,15 @@ export class BasketComponent implements OnInit {
     this.auth.navigateTo('boots');
   }
   
+  routeToPayment() {
+    if(this.auth.isLoggedIn()) {
+      this.auth.navigateTo ('payment');
+    }
+    else {
+      this.auth.openModal();
+    }
+  }
+  
   removeBoot(i) {
     this.boots.splice(i,1);
     this.bootsQuantity.splice(i,1);

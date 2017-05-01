@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './Navbar/navbar.component';
 import { HomeComponent } from './Home/home.component';
 import { AuthService } from './Shared/auth.service';
-import { PaymentGuard } from './Shared/payment.guard';
+import { PaymentActivateGuard } from './Shared/paymentActivate.guard';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './Login/login.component';
@@ -19,10 +19,11 @@ import { ROUTES } from './app.routing';
 import { TerminalComponent } from './Terminal/terminal.component';
 import { BasketComponent } from './BasketPage/basket.component';
 import { RegisterpComponent } from './Register/registerp.component';
-import { PaymentComponent } from './Payment Page/payment.component';
+import { PaymentComponent } from './PaymentPage/payment.component';
 import { PrivacyComponent } from './FooterPages/privacy.component';
 import { ContactusComponent } from './FooterPages/contactus.component';
 import { TandcComponent } from './FooterPages/tandc.component';
+import { PaymentDeactivateGuard } from "./Shared/paymentDeactivate.guard";
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { TandcComponent } from './FooterPages/tandc.component';
   ],
   providers: [
     AuthService,
-    PaymentGuard,
+    PaymentActivateGuard,
+    PaymentDeactivateGuard,
     HttpService
   ],
   bootstrap: [AppComponent]
