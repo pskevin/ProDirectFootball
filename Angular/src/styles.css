@@ -352,6 +352,28 @@ table.order tr td ul li span{
 .carousel-inner img{
   min-width: 100%;
 }
+.carousel-caption{
+  position: absolute;
+  font-family: "Open Sans", sans-serif;
+}
+.carousel-caption h3{
+  text-transform: uppercase;
+}
+.item:first-child .carousel-caption{
+  right: 15%;
+  text-align: right;
+  bottom: 10%;
+}
+.item:last-child .carousel-caption{
+  right: 15%;
+  text-align: right;
+  bottom: 10%;
+}
+#middle.carousel-caption{
+  left: 15%;
+  text-align: left;
+  bottom: 12%;
+}
 .msg{
   display: block;
   background: #a3a3a3;
