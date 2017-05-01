@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Http, Response, Headers} from "@angular/http";
 import 'rxjs/Rx';
-//import { AuthService } from "./auth.service";
+
+import { AuthService } from "./auth.service";
 
 
 @Injectable()
 export class HttpService {
   
-  constructor(private http: Http/*, private auth: AuthService*/) {
+  constructor(private http: Http, private auth: AuthService) {
   }
   
   fetchBoot(query: any){
@@ -22,7 +23,7 @@ export class HttpService {
   startBoots() {
     let data =  {};
     console.log("HERE");
-    const body = data;//JSON.stringify(this.data);
+    const body = data;
     console.log(body);
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -82,23 +83,32 @@ export class HttpService {
       .map((response: Response) => response.json());
   }
   
-  verifyOtp(request: any) {
-      const body = request;
-      console.log(body);
-      let headers = new Headers();
-      headers.append('Content-Type', 'application/json');
-      return this.http.post('https://localhost:3443/user/verifyOtpAccount', body, {headers})
-        .map((response: Response) => response.json());
-    }
+  generateOtpPayment() {
+    const body = {};
+    console.log(body);
+    let headers = new Headers();
+    headers.append('x-access-token', this.auth.getToken());
+    return this.http.post('https://localhost:3443/user/generateOtpPayment', body, {headers})
+      .map((response: Response) => response.json());
+  }
   
-  /*
-   
-   
-   addInstitute(token:string, request:any) {
-   const body =(request);
-   let headers = new Headers();
-   headers.append('x-access-token', token);
-   return this.http.post('https://localhost:8000/my_institute', body, {headers})
-   .map((response: Response) => response.json());
-   }*/
+  verifyOtpAccount(request: any) {
+    const body = request;
+    console.log(body);
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('https://localhost:3443/user/verifyOtpAccount', body, {headers})
+      .map((response: Response) => response.json());
+  }
+  
+  verifyOtpPayment(request: any) {
+    const body = request;
+    console.log(body);
+    let headers = new Headers();
+    headers.append('x-access-token', this.auth.getToken());
+    console.log(headers);
+    return this.http.post('https://localhost:3443/user/verifyOtpPayment', body, {headers})
+      .map((response: Response) => response.json());
+  }
+  
 }

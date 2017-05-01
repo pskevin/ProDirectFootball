@@ -93,11 +93,17 @@
           <p>CVV<input class="form-control" formControlName="cvv" placeholder="CVV" name="cvv" required="" type="text"></p>
           <button *ngIf="flag==-1" type="submit" class="btn checkout" style="float: right;background-color: #3d891f !important; " [disabled]="!myForm.valid">Submit</button>
           <button *ngIf="flag==-1" type="button" (click)="routeToHome()" class="btn checkout" style="float: left;width: auto;background-color: #3d891f !important; ">Cancel Payment</button>
-          <button *ngIf="flag==1" type="button" (click)="generateOtpMsg()" class="checkout" style="float: left;height: 50px;">Send OTP via Mobile</button>&nbsp;
-          <button *ngIf="flag==1" type="button" (click)="generateOtpMail()" class="checkout" style="float: right;height: 50px;">Send OTP via Mail</button>
+          <button *ngIf="flag==1" type="button" (click)="generateOtp()" class="checkout" style="float: left;height: 50px;">Send OTP via Mobile</button>&nbsp;
         </div>
       </form>
     </div><br>
+    <div
+        *ngIf="valid.check === 'otp'"
+        class="row">
+        <div class="col-md-6 col-md-offset-6 text-center">
+          <h4><span class="alert alert-{{ valid.type }}">{{ valid.response }}</span></h4>
+        </div>
+      </div><br *ngIf = "valid.check === 'otp'">
     <div *ngIf="flag==1" class="row">
       <form class="col-md-7" [formGroup]="myOtp" action="" method="post" (ngSubmit)="onSubmit(myOtp.value, flag)">
         <input class="col-md-4 form-control"  formControlName="otp_num" placeholder="Enter most recent OTP" name="otp" required="" type="text">

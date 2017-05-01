@@ -14,7 +14,7 @@ import { CanComponentDeactivate } from "../Shared/paymentDeactivate.guard";
 export class PaymentComponent implements OnInit, CanComponentDeactivate {
   no_of_orders: number = 0;
   totalamount: number = 0;
-  isCartEmpty: boolean = false
+  isCartEmpty: boolean = false;
   boots: Boot[] = [];
   bootsQuantity: number[] = [];
   cart: any;
@@ -22,7 +22,8 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
   myForm: FormGroup;
   myOtp: FormGroup;
   request: any;
-  logStatus: boolean;
+  valid: {response: string, check: string, type: string};
+  cancelPayment: boolean = false;
   
   constructor(
     private http: HttpService,
@@ -58,6 +59,12 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
         }
       }
     );
+    this.valid = {
+      response: '',
+      check: '',
+      type: ''
+      
+    };
   }
   
   ngOnInit() {
@@ -65,32 +72,56 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
   
   onSubmit(data: any, flag: any) {
     if (flag !== 1) {
-      this.request = {
-        username: data.username,
-        password: data.password,
-      };
-      this.verifyUser(this.request);
-    }
-    else {
+    } else {
       this.request = {
         otp: data.otp_num,
       };
       this.verifyOtp(this.request);
     }
   }
-  verifyUser(request: any) {
-    console.log(request);
+  
+  generateOtp() {
+    this.http.generateOtpPayment()
+      .subscribe(
+        (data) => {
+          this.valid = {
+            response: 'OTP has been sent to your registered Mobile Number!',
+            check: 'otp',
+            type: 'success'
+          };
+          console.log(this.valid);
+        }
+      );
   }
   
-  generateOtpMsg() {
-  
-  }
-  
-  generateOtpMail() {
-  
-  }
-  verifyOtp(request: any) {
-    console.log(request);
+  verifyOtp(otp: any) {
+    this.http.verifyOtpPayment({otp: otp.otp})
+      .subscribe(
+        (data) => {
+          if(data === 'Successful Transaction!') {
+            console.log("Successful");
+            this.auth.removeUser();
+            this.valid = {
+              response: 'Transaction has been Successful!',
+              check: 'otp',
+              type: 'success'
+            };
+            setTimeout(
+              () => {
+                this.auth.navigateTo('home');
+              },
+              1500
+            );
+          } else {
+            this.valid = {
+              response: 'OTP match failed. Re-enter the correct OTP please!',
+              check: 'otp',
+              type: 'danger'
+            };
+            this.myOtp.reset();
+          }
+        }
+      );
   }
   
   total() {
@@ -100,6 +131,7 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
   }
   
   routeToHome() {
+    this.cancelPayment = true;
     this.auth.navigateTo('home');
   }
   
@@ -114,7 +146,7 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
   }
   
   canDeactivate(): Observable<boolean> | boolean {
-    if(!this.auth.isLoggedIn()) {
+    if(!this.auth.isLoggedIn() || this.cancelPayment) {
       return true;
     }
   }

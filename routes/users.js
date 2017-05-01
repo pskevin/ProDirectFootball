@@ -339,18 +339,18 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
             response.json(err);
         else {
             if(data.otp==request.body.otp){
-                var data = {
+                var dat = {
                     from: 'ProDirect Customer services <postmaster@sandbox127c4a0962454b07a273d25721d8887d.mailgun.org>',
                     to:data.email,
                     subject: 'Hello',
                     text: 'Hello '+data.Fname+",\nYour transaction has been successfully completed. The cost of $"+request.body.total+" has been deducted from your account.Thank you for using Prodirect Football.\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tThanking You,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tAkshat"
                 };
-                mailgun.messages().send(data, function (error, body) {
+                mailgun.messages().send(dat, function (error, body) {
                     if(error)
                         response.json(error);
                     else {
-                        console.log(body);
-                    }
+						console.log(body);
+					}
                 });
                 client.sms.messages.create({
                     to: "+91"+data.mobno,
@@ -372,6 +372,7 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
             {
                 response.json("OTP match failed. Enter correct OTP.");
             }
+
         }
     });
 });

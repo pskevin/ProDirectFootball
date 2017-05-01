@@ -124,7 +124,7 @@ export class RegisterpComponent implements OnInit {
   
   verifyOtp(otp: any) {
     let user: string = this.auth.getUser();
-    this.http.verifyOtp({username: user, otp: otp.otp})
+    this.http.verifyOtpAccount({username: user, otp: otp.otp})
       .subscribe(
         (data) => {
           if(data === 'Account successfully verified!') {
