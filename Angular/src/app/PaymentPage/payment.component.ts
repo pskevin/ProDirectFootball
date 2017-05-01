@@ -95,7 +95,7 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
   }
   
   verifyOtp(otp: any) {
-    this.http.verifyOtpPayment({otp: otp.otp})
+    this.http.verifyOtpPayment({otp: otp.otp, total: this.totalamount})
       .subscribe(
         (data) => {
           if(data === 'Successful Transaction!') {
@@ -133,6 +133,7 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
   }
   
   total() {
+    this.totalamount = 0;
     for(let i in this.boots) {
       this.totalamount += ((+this.boots[i].price)*(+this.bootsQuantity[i]));
     }

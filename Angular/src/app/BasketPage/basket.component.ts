@@ -36,6 +36,7 @@ export class BasketComponent implements OnInit {
   }
   
   total() {
+    this.totalamount = 0;
     for(let i in this.boots) {
       this.totalamount += ((+this.boots[i].price)*(+this.bootsQuantity[i]));
     }
