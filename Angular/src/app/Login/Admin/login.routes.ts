@@ -2,14 +2,14 @@ import {Routes, RouterModule} from '@angular/router';
 
 import {AdminStartComponent} from './admin-start.component';
 import {AdminComponent} from './admin.component';
-import { AuthGuard } from '../../Shared/auth.guard';
+import { PaymentGuard } from '../../Shared/payment.guard';
 
 
 const LOGIN_ROUTES: Routes = [
   {
     path: '',
     component: AdminStartComponent,
-    canActivateChild: [AuthGuard],
+    canActivateChild: [PaymentGuard],
     children: [
       {path: '', component: AdminComponent}
     ]

@@ -5,6 +5,8 @@ import { LocalStorageService } from "angular-2-local-storage";
 import { Boot } from "./boot.model";
 import { Query } from "./query.model";
 
+declare var $: any;
+
 @Injectable()
 export class AuthService {
   
@@ -19,6 +21,14 @@ export class AuthService {
   name: string;
   tempName: string;
   token: any;
+  
+  closeModal() {
+    $('#myModal').modal('hide');
+  }
+  
+  openModal() {
+    $('#myModal').modal('show');
+  }
   
   setUser(name: string) {
     console.log("SET CACHE");
@@ -93,8 +103,8 @@ export class AuthService {
   changeEmitted$ = this.emitChangeSource.asObservable();
   
   // Service message commands
-  emitChange(change: any) {
-    this.emitChangeSource.next(change);
+  emitChange(type: string, change: any) {
+    this.emitChangeSource.next({type: type, change: change});
   }
   
   fetchBoot(id){
@@ -141,7 +151,7 @@ export class AuthService {
     }
     localStorage.setItem('boots',JSON.stringify(this.boots));
     localStorage.setItem('quantity',JSON.stringify(this.bootQuantity));
-    this.emitChange(this.cartContents);
+    this.emitChange('cart', this.cartContents);
   }
   
   removeFromCart(boots: Boot[], quantity: number[]) {
@@ -155,7 +165,7 @@ export class AuthService {
     }
     localStorage.setItem('boots',JSON.stringify(this.boots));
     localStorage.setItem('quantity',JSON.stringify(this.bootQuantity));
-    this.emitChange(this.cartContents);
+    this.emitChange('cart', this.cartContents);
   }
   
   getCart() {

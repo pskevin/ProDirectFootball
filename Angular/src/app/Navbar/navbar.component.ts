@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
   logButton: string;
   loggedIn: boolean = false;
   cartContents: string = "";
+  cart: any;
   
   constructor(
     private http: HttpService,
@@ -40,12 +41,15 @@ export class NavbarComponent implements OnInit {
       'rememberme': [false]
     });
     this.auth.changeEmitted$.subscribe(
-      cart => {
-        if(cart === 0){
-          this.cartContents = "";
-        }
-        else {
-          this.cartContents = cart;
+      (event) => {
+        if(event.type === 'cart') {
+          this.cart = event.change;
+          if (this.cart === 0) {
+            this.cartContents = "";
+          }
+          else {
+            this.cartContents = this.cart;
+          }
         }
       });
     this.myForm.valueChanges.subscribe(data => console.log('Form changes', data));
@@ -124,6 +128,6 @@ export class NavbarComponent implements OnInit {
   }
   
   closeModal(){
-    $('#myModal').modal('hide');
+    this.auth.closeModal();
   }
 }
