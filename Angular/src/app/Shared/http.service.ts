@@ -111,4 +111,14 @@ export class HttpService {
       .map((response: Response) => response.json());
   }
   
+  completePurchase(request: any) {
+    const body = request;
+    console.log(body);
+    let headers = new Headers();
+    headers.append('x-access-token', this.auth.getToken());
+    console.log(headers);
+    return this.http.post('https://localhost:3443/user/purchase', body, {headers})
+      .map((response: Response) => response.json());
+  }
+  
 }

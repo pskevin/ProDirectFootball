@@ -154,7 +154,7 @@ router.post('/purchase',Verify.verifyLoggedUser,function(request,response) {
                             profit: profit
                         };
                         k.push(j);
-                        console.log(k);
+                        //console.log(k);
                         callback(null);
                     }
                 });
@@ -175,7 +175,7 @@ router.post('/purchase',Verify.verifyLoggedUser,function(request,response) {
                                 if(err)
                                     response.json(err);
                                 else
-                                    response.json(res);
+                                    response.json("order placed!");
                             });
                         }
                     });
@@ -192,7 +192,7 @@ router.post('/generateOtpPayment',Verify.verifyLoggedUser,function(request,respo
     x= parseInt(x);
     console.log(x);
     var decoded = jwt.decode(token);
-    User.findOne({"username":decoded.username},function(err,data){
+    User.findOne({"username":decoded.data.username},function(err,data){
         if(err)
             response.json(err);
         else {

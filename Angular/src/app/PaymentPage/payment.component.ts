@@ -101,17 +101,25 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
           if(data === 'Successful Transaction!') {
             console.log("Successful");
             this.auth.removeUser();
-            this.valid = {
-              response: 'Transaction has been Successful!',
-              check: 'otp',
-              type: 'success'
-            };
-            setTimeout(
-              () => {
-                this.auth.navigateTo('home');
-              },
-              1500
-            );
+            this.http.completePurchase({data: this.auth.getOrders()})
+              .subscribe(
+                (data) => {
+                  if(data === 'order placed!') {
+                    this.valid = {
+                      response: 'Transaction has been Successful!',
+                      check: 'otp',
+                      type: 'success'
+                    };
+                    setTimeout(
+                      () => {
+                        this.cancelPayment = true;
+                        this.auth.navigateTo('home');
+                      },
+                      1500
+                    );
+                  }
+                }
+              );
           } else {
             this.valid = {
               response: 'OTP match failed. Re-enter the correct OTP please!',

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from "rxjs/Subject";
 import { Router } from "@angular/router";
 import { LocalStorageService } from "angular-2-local-storage";
-import { Boot } from "./boot.model";
+import { Boot, BootOrder } from "./boot.model";
 import { Query } from "./query.model";
 
 declare var $: any;
@@ -92,6 +92,7 @@ export class AuthService {
   bootid: string;
   boots: Boot[] = [];
   bootQuantity: number[] = [];
+  bootOrders: BootOrder[] = [];
   cartContents: number = 0;
   cart : any;
   query: Query;
@@ -174,6 +175,15 @@ export class AuthService {
       quantity: this.bootQuantity
     };
     return this.cart ;
+  }
+  
+  getOrders() {
+    this.bootOrders = [];
+    for(let i in this.boots) {
+      this.bootOrders.push(new BootOrder(this.boots[i].name,this.bootQuantity[i]));
+    }
+    console.log(this.bootOrders);
+    return this.bootOrders;
   }
   
   getCartContents(){

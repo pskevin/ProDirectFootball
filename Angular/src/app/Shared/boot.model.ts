@@ -26,3 +26,16 @@ export class Boot {
     this.status = status;
   }
 }
+
+export class BootOrder {
+  bname: string;
+  quantity: number;
+  
+  constructor(
+    bname: string,
+    quantity: number
+  ) {
+    this.bname = bname;
+    this.quantity = quantity;
+  }
+}
