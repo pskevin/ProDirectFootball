@@ -8,8 +8,9 @@ import {PaymentComponent} from './PaymentPage/payment.component';
 import {ContactusComponent} from './FooterPages/contactus.component';
 import {TandcComponent} from './FooterPages/tandc.component';
 import {PrivacyComponent} from './FooterPages/privacy.component';
-import { PaymentActivateGuard } from "./Shared/paymentActivate.guard";
-import { PaymentDeactivateGuard } from "./Shared/paymentDeactivate.guard";
+import { PaymentActivateGuard } from './Shared/paymentActivate.guard';
+import { PaymentDeactivateGuard } from './Shared/paymentDeactivate.guard';
+import {OrdersComponent} from './MyOrders/orders.component';
 
 const APP_ROUTES: Routes =  [
   {path: 'home', component: HomeComponent},
@@ -25,6 +26,7 @@ const APP_ROUTES: Routes =  [
   },
   {path: 'contact_us', component: ContactusComponent},
   {path: 'tandc', component: TandcComponent},
+  {path: 'my_orders', component: OrdersComponent},
   {path: 'privacy', component: PrivacyComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '**', redirectTo: 'home', pathMatch: 'full'},

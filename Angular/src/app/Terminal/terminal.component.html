@@ -21,24 +21,12 @@
           <div class="carousel-inner">
             <div class="item active">
               <img [src]="'data:image/jpg;base64,'+img1src"/>
-              <div class="carousel-caption">
-                <h3></h3>
-                <p></p>
-              </div>
             </div>
             <div class="item">
               <img [src]="'data:image/jpg;base64,'+img2src"/>
-              <div class="carousel-caption">
-                <h3></h3>
-                <p></p>
-              </div>
             </div>
             <div class="item">
               <img [src]="'data:image/jpg;base64,'+img3src"/>
-              <div class="carousel-caption">
-                <h3></h3>
-                <p></p>
-              </div>
             </div>
           </div>
 
@@ -98,7 +86,7 @@
   class="row" style="margin-top: 20px;">
   <div class="col-sm-offset-2 col-sm-8" style="padding: 0px;">
       <div class="msg">Product Details</div><br>
-      <p [innerHTML]="desc"></p>
+      <p [innerHTML]="desc" style="overflow: auto;max-height: 150px;"></p>
   </div>
 </div>
 <div class="row" style="margin-top: 20px;">

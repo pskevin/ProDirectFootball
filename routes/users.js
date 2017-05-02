@@ -442,8 +442,22 @@ router.get('/orders',Verify.verifyLoggedUser,function(request,response){
         if(err)
             response.json(err);
         else {
+            var x= async.each(result.orders,function(data,callback) {
+                console.log(data);
+                var y = async.each(data.orderId.product, function (b,callback) {
+                    console.log(b);
+                    b.productId.image = b.productId.image[0];
+                    callback("success");
+                    console.log(b);
 
-            response.json(result);
+                },function(res){
+                    callback(res);
+                });
+                return data;
+            },function(res){
+                if(res==="success")
+                response.json(result);
+            });
         }
     });
 });

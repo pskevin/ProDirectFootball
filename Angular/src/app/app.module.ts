@@ -24,6 +24,7 @@ import { PrivacyComponent } from './FooterPages/privacy.component';
 import { ContactusComponent } from './FooterPages/contactus.component';
 import { TandcComponent } from './FooterPages/tandc.component';
 import { PaymentDeactivateGuard } from "./Shared/paymentDeactivate.guard";
+import { OrdersComponent } from './MyOrders/orders.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PaymentDeactivateGuard } from "./Shared/paymentDeactivate.guard";
     PaymentComponent,
     PrivacyComponent,
     ContactusComponent,
-    TandcComponent
+    TandcComponent,
+    OrdersComponent
   ],
   imports: [
     BrowserModule,

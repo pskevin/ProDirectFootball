@@ -7,7 +7,7 @@ export class Boot {
   img: string;
   price: string;
   status: string;
-  
+
   constructor (
     id: string,
     brand: string,
@@ -30,12 +30,27 @@ export class Boot {
 export class BootOrder {
   bname: string;
   quantity: number;
-  
+
   constructor(
     bname: string,
     quantity: number
   ) {
     this.bname = bname;
+    this.quantity = quantity;
+  }
+}
+
+export class Order {
+  no: number;
+  boots: Boot[] = [];
+  quantity: number[] = [];
+  constructor(
+    no : number,
+    boots: Boot[],
+    quantity: number[]
+  ) {
+    this.no = no;
+    this.boots = boots;
     this.quantity = quantity;
   }
 }

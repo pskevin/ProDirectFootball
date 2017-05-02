@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { HttpService } from "../Shared/http.service";
 import { AuthService } from "../Shared/auth.service";
 
@@ -18,7 +18,7 @@ export class RegisterpComponent implements OnInit {
   valid: {response: string, check: string, type: string} ;
   flag: any = -1;
   otp: any;
-  
+
   constructor(
     private auth: AuthService,
     private http: HttpService,
@@ -34,8 +34,9 @@ export class RegisterpComponent implements OnInit {
       'mob_no': ['',[Validators.required]],
       'user_name': ['',[Validators.required]],
       'pass_word': ['',[Validators.required]],
-      're_pass': ['',[Validators.required]]
-    });
+      're_pass': ['',[Validators.required]],
+    }, { validator: this.confirmpass }
+    );
     this.myOtp = formBuilder.group({
       'otp_num': ['',[Validators.required]]
     });
@@ -43,16 +44,24 @@ export class RegisterpComponent implements OnInit {
       response: '',
       check: '',
       type: ''
-      
+
     };
   }
-  
+
   ngOnInit() {
     this.myForm.statusChanges.subscribe(
       (data) => console.log(data)
     );
   }
-  
+
+  confirmpass(group: FormGroup) {
+    if (group.controls['pass_word'].value === group.controls['re_pass'].value) {
+      return null;
+    }
+    else
+      return false;
+  }
+
   onSubmit(data: any, flag: any) {
     if (flag !== 1) {
       this.request = {
@@ -74,7 +83,7 @@ export class RegisterpComponent implements OnInit {
       this.verifyOtp(this.request);
     }
   }
-  
+
   verifyUser(request: any) {
     this.http.registerUser(request)
       .subscribe(
@@ -89,7 +98,7 @@ export class RegisterpComponent implements OnInit {
         }
       );
   }
-  
+
   generateOtpMsg() {
     let user: string = this.auth.getUser();
     console.log(user);
@@ -105,7 +114,7 @@ export class RegisterpComponent implements OnInit {
         }
       );
   }
-  
+
   generateOtpMail() {
     let user: string = this.auth.getUser();
     console.log(user);
@@ -121,7 +130,7 @@ export class RegisterpComponent implements OnInit {
         }
       );
   }
-  
+
   verifyOtp(otp: any) {
     let user: string = this.auth.getUser();
     this.http.verifyOtpAccount({username: user, otp: otp.otp})

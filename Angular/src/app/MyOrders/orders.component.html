@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-sm-8 col-sm-offset-2 buttonholder">
+    <span>Your Orders </span>
+  </div>
+</div>
+<div class="row" *ngFor="let order of orders; let k = index">
+  <table
+    *ngIf = "!isCartEmpty"
+    class="col-sm-8 col-sm-offset-2 order">
+    <tr>
+     Order ID - {{order.no}}
+    </tr>
+    <tr>
+      <th>Item</th>
+      <th>Options</th>
+      <th>Price</th>
+    </tr>
+    <tr
+      *ngFor = "let boot of order.boots; let i = index">
+      <td>
+        <div class="imgholder">
+          <a>
+            <img [src]="'data:image/jpg;base64,'+boot.img"/>
+          </a>
+        </div>
+        <div class="textholder">
+          <p>
+            <a>{{ boot.name }}</a><br>
+          </p>
+        </div>
+      </td>
+      <td>
+        <ul>
+          <li>
+            <p>Quantity - <span>{{ order.quantity[i] }}</span></p>
+          </li>
+        </ul>
+      </td>
+      <td>
+        <h3 style="text-align: center;">£{{ boot.price }}</h3>
+      </td>
+    </tr>
+  </table>
+  <div
+    *ngIf = "!isCartEmpty"
+    class="col-sm-8 col-sm-offset-2 bottomtab" style="padding-left: 0px;padding-right: 0px;">
+    <div class="totalprice">
+      <p>Total - <strong>£{{ totalAmount[k] }}</strong></p>
+    </div>
+  </div>
+</div>
