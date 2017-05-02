@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   loggedIn: boolean = false;
   cartContents: string = "";
   cart: any;
-  
+
   constructor(
     private http: HttpService,
     private formBuilder: FormBuilder,
@@ -58,7 +58,7 @@ export class NavbarComponent implements OnInit {
       check: false
     };
   }
-  
+
   ngOnInit() {
     if(this.auth.isLoggedIn()) {
       this.loggedIn = true;
@@ -70,7 +70,10 @@ export class NavbarComponent implements OnInit {
       this.logButton = "Login";
     }
   }
-  
+  myOrders() {
+
+  }
+
   onSubmit(data: any) {
     console.log("COMES HERE");
     this.request = {
@@ -79,7 +82,7 @@ export class NavbarComponent implements OnInit {
     };
     this.verifyUser(this.request);
   }
-  
+
   verifyUser(request: any) {
     this.http.verifyUser(request)
       .subscribe(
@@ -116,7 +119,7 @@ export class NavbarComponent implements OnInit {
         }
       );
   }
-  
+
   logout(){
     this.http.logOut(this.auth.getToken()).subscribe(
       (response) => {
@@ -129,7 +132,7 @@ export class NavbarComponent implements OnInit {
       }
     );
   }
-  
+
   closeModal(){
     this.auth.closeModal();
   }
