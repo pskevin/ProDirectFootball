@@ -3,17 +3,20 @@
     <span>Your Orders </span>
   </div>
 </div>
-<div class="row" *ngFor="let order of orders">
+<div class="row" *ngFor="let order of orders; let k = index">
   <table
     *ngIf = "!isCartEmpty"
     class="col-sm-8 col-sm-offset-2 order">
+    <tr>
+     Order ID - {{order.no}}
+    </tr>
     <tr>
       <th>Item</th>
       <th>Options</th>
       <th>Price</th>
     </tr>
     <tr
-      *ngFor = "let boot of boots; let i = index">
+      *ngFor = "let boot of order.boots; let i = index">
       <td>
         <div class="imgholder">
           <a>
@@ -29,7 +32,7 @@
       <td>
         <ul>
           <li>
-            <p>Quantity - <span>{{ bootsQuantity[i] }}</span></p>
+            <p>Quantity - <span>{{ order.quantity[i] }}</span></p>
           </li>
         </ul>
       </td>
@@ -42,7 +45,7 @@
     *ngIf = "!isCartEmpty"
     class="col-sm-8 col-sm-offset-2 bottomtab" style="padding-left: 0px;padding-right: 0px;">
     <div class="totalprice">
-      <p>Total - <strong>£{{ totalamount }}</strong></p>
+      <p>Total - <strong>£{{ totalAmount[k] }}</strong></p>
     </div>
   </div>
 </div>

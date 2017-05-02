@@ -8,10 +8,9 @@ import {PaymentComponent} from './PaymentPage/payment.component';
 import {ContactusComponent} from './FooterPages/contactus.component';
 import {TandcComponent} from './FooterPages/tandc.component';
 import {PrivacyComponent} from './FooterPages/privacy.component';
-import { PaymentActivateGuard } from "./Shared/paymentActivate.guard";
-import { PaymentDeactivateGuard } from "./Shared/paymentDeactivate.guard";
-import Order = jasmine.Order;
-import {OrdersComponent} from "./MyOrders/orders.component";
+import { PaymentActivateGuard } from './Shared/paymentActivate.guard';
+import { PaymentDeactivateGuard } from './Shared/paymentDeactivate.guard';
+import {OrdersComponent} from './MyOrders/orders.component';
 
 const APP_ROUTES: Routes =  [
   {path: 'home', component: HomeComponent},
