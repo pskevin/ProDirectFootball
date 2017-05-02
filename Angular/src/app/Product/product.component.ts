@@ -64,6 +64,7 @@ export class ProductComponent implements OnInit {
       .subscribe(
         (x) => {
           console.log(x);
+          console.log(this.collections);
           this.queryMode = 'content';
           this.makePage(x);
         }
@@ -86,15 +87,27 @@ export class ProductComponent implements OnInit {
       this.isCollectionSelected.push(false);
     }
     for(let boot of x.data) {
-      this.boots.push(new Boot(
-        boot._id,
-        boot.brand,
-        boot.bname,
-        boot.coll,
-        boot.image[0].data,
-        boot.saleprice,
-        boot.status
-      ));
+      if(boot.status === 'none') {
+        this.boots.push(new Boot(
+          boot._id,
+          boot.brand,
+          boot.bname,
+          boot.coll,
+          boot.image[0].data,
+          boot.saleprice,
+          ''
+        ));
+      } else {
+        this.boots.push(new Boot(
+          boot._id,
+          boot.brand,
+          boot.bname,
+          boot.coll,
+          boot.image[0].data,
+          boot.saleprice,
+          boot.status
+        ));
+      }
     }
     if(this.boots.length >= 1) {
       this.displayedBoots.push(this.boots[0]);
@@ -153,7 +166,7 @@ export class ProductComponent implements OnInit {
   }
   
   toggleBrand(i) {
-    let index: string;
+    let index: string = '-1';
     
     if(this.isBrandSelected[i]){
       this.isBrandSelected[i] = false;
@@ -162,17 +175,19 @@ export class ProductComponent implements OnInit {
       this.isBrandSelected[i] = true;
     }
     for(let j in this.queryStack) {
+      index = j;
+      console.log('index - '+index);
       if(
         this.queryStack[j].clicked == 'brand' &&
         this.queryStack[j].selected == this.brands[i] &&
         (!this.isBrandSelected[i])
       ) {
-        index = j;
         break;
       }
     }
-    if(index != i) {
+    if((index == '-1') || (this.queryStack[(+index)].selected != this.brands[i])) {
       this.queryStack.push (new QueryStack ("brand", this.brands[ i ], this.activePage));
+      console.log(this.queryStack);
     } else {
       this.queryStack.splice((+index),1);
     }
@@ -181,7 +196,7 @@ export class ProductComponent implements OnInit {
   }
   
   toggleCollection(i) {
-    let index: string;
+    let index: string = '-1';
     
     if(this.isCollectionSelected[i]){
       this.isCollectionSelected[i] = false;
@@ -190,16 +205,16 @@ export class ProductComponent implements OnInit {
       this.isCollectionSelected[i] = true;
     }
     for(let j in this.queryStack) {
+      index = j;
       if(
         this.queryStack[j].clicked == 'collection' &&
         this.queryStack[j].selected == this.collections[i] &&
         (!this.isCollectionSelected[i])
       ) {
-        index = j;
         break;
       }
     }
-    if(index != i) {
+    if((index == '-1') || (this.queryStack[(+index)].selected != this.collections[i])) {
       this.queryStack.push (new QueryStack ("collection", this.collections[ i ], this.activePage));
     } else {
       this.queryStack.splice((+index),1);
@@ -209,33 +224,45 @@ export class ProductComponent implements OnInit {
   }
   
   togglePrice(i) {
-    let index: string;
+    let index: string = '-1';
     
-    for(index in this.isPriceSelected) {
-      if(index == i) {
-        console.log('Index IN'+index+'-'+i);
-        if (this.isPriceSelected[ index ]) {
-          this.isPriceSelected[ index ] = false;
+    for(let j in this.isPriceSelected) {
+      if(j == i) {
+        if (this.isPriceSelected[ j ]) {
+          this.isPriceSelected[ j ] = false;
         }
         else {
-          this.isPriceSelected[ index ] = true;
+          this.isPriceSelected[ j ] = true;
         }
       } else {
-        console.log('Index OUT'+index+'-'+i);
-        this.isPriceSelected [ index ] = false;
+        this.isPriceSelected [ j ] = false;
       }
     }
-    for(let i in this.queryStack) {
-      if(this.queryStack[i].clicked === 'price') {
-        index = i;
+    
+    for(let j in this.queryStack) {
+      index = j;
+      if(
+        this.queryStack[j].clicked == 'price' &&
+        this.queryStack[j].selected == this.prices[i] &&
+        (!this.isPriceSelected[i])
+      ) {
         break;
       }
     }
-    this.queryStack.splice((+index),1);
-    this.queryStack.push(new QueryStack("price", this.prices[i],this.activePage));
+    if((index == '-1') || (this.queryStack[(+index)].selected != this.prices[i])) {
+      for(let j in this.queryStack) {
+        if(this.queryStack[j].clicked === 'price') {
+          this.queryStack.splice((+j),1);
+        }
+      }
+      this.queryStack.push (new QueryStack ("price", this.prices[ i ], this.activePage));
+    } else {
+      this.queryStack.splice((+index),1);
+    }
     this.queryMode = 'content';
     this.fireQuery();
   }
+  
   
   fireQuery() {
     console.log(this.queryStack);
@@ -264,6 +291,7 @@ export class ProductComponent implements OnInit {
     this.http.filterBoots(this.query.makeQuery())
       .subscribe(
         (x) => {
+          console.log("MAKING PAGE");
           console.log(x);
           this.makePage(x);
         }
@@ -287,12 +315,14 @@ export class ProductComponent implements OnInit {
     this.isBrandSelected = [];
     this.isCollectionSelected = [];
     this.isPriceSelected = [false,false,false];
+    console.log("RESETTTT");
+    console.log(this.collections);
   }
   
   reset(){
+    console.log("STARTING RESET");
     this.query = null;
     this.queryStack = [];
-    this.clear();
     this.clearQueryVariables();
     this.startBoots();
   }

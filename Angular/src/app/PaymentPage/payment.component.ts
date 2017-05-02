@@ -110,6 +110,7 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
                       check: 'otp',
                       type: 'success'
                     };
+                    this.auth.emptyCart();
                     setTimeout(
                       () => {
                         this.cancelPayment = true;

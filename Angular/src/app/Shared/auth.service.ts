@@ -141,6 +141,15 @@ export class AuthService {
     }
   }
   
+  emptyCart(){
+    this.cartContents = 0;
+    this.boots = [];
+    this.bootQuantity = [];
+    localStorage.removeItem('boots');
+    localStorage.removeItem('quantity');
+    this.emitChange('cart',this.cartContents);
+  }
+  
   addToCart(boot: Boot, quantity: number) {
     this.checkCache();
     this.cartContents += 1;
