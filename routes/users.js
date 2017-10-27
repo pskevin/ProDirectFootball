@@ -478,7 +478,7 @@ router.get('/logout',Verify.verifyLoggedUser,function(request, response){
         {
             decoded.data.logged = false;
             console.log(decoded.data);
-            User.findByIdAndUpdate(decoded.data._id,{$set : decoded.data},
+            User.findByIdAndUpdate(decoded.data._id,{$set :{"logged":false}},
                 { new : true},function(error,new_data){
                     if(error)
                         response.json(error);

@@ -78,7 +78,7 @@
         @bootState
         class="col-sm-3 cell" style="height: 320px;"
         (@bootState.done) = "bootAnimated($event,i)"
-        *ngFor = "let boot of boots; let i = index">
+        *ngFor = "let boot of displayedBoots; let i = index">
         <span class="small-brand-logo {{boot.brand}}">{{ boot.brand }}</span>
         <p class="typetext" [innerHTML]="boot.collection"></p>
         <div class="imgholder">

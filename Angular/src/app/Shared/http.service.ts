@@ -127,12 +127,5 @@ export class HttpService {
     console.log(headers);
     return this.http.get('https://localhost:3443/user/orders', {headers})
       .map((response: Response) => response.json());
-      /*{
-        console.log(response);
-        console.log('SDD');
-        console.log(response.json());
-      }
-      );*/
-
   }
 }
