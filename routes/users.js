@@ -124,10 +124,11 @@ router.post('/login',function(request, response,next){
   })(request,response,next);
 });
 
-router.post('/checkStock',Verify.verifyLoggedUser,function(request,response) {
-  var token = request.body.token || request.query.token || request.headers['x-access-token'];
-  var decoded = jwt.decode(token);
-  var dat = request.body.data;
+router.post('/checkStock',function(request,response) {
+  // var token = request.body.token || request.query.token || request.headers['x-access-token'];
+  // var decoded = jwt.decode(token);
+  var dat = request.body;
+  console.log(dat);
   var k = [];
   var x = async.each(dat, function (data, callback) {
     console.log(data);
@@ -140,11 +141,12 @@ router.post('/checkStock',Verify.verifyLoggedUser,function(request,response) {
       if (err)
       callback(err);
       else {
-        if(request.stock<data.quantity)
+        console.log(result.stock+'here!'+data.quantity);
+        if(parseInt(result.stock)<parseInt(data.quantity))
         {
-          var j = {bname:result.bname,stock : result.stock};
-        }  k.push(j)
-
+          console.log('inside!!');
+          k.push({bname:data.bname,stock : result.stock});
+        }
         callback(null);
       }
     });
