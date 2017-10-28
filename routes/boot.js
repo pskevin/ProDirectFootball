@@ -83,13 +83,13 @@ router.post('/',function(request,response){
         var s = _.countBy(res,function(num){
           return 'count';
         });
-        var p = Math.ceil(s.count/10);
+        var p = Math.ceil(s.count/8);
         res=_.sortBy(res,'status');
         console.log(res);
         res = _.filter(res,function(num){
-          return res.indexOf(num)>=(10*x);
+          return res.indexOf(num)>=(8*x);
         });
-        res = _.first(res,10);
+        res = _.first(res,8);
         res=_.shuffle(res);
         for(var e in res)
         {
