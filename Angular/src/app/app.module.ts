@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { ChartsModule } from "ng2-charts";
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './Navbar/navbar.component';
@@ -50,6 +51,7 @@ import { OrdersComponent } from './MyOrders/orders.component';
     HttpModule,
     ROUTES,
     RouterModule,
+    ChartsModule,
     ReactiveFormsModule,
     LocalStorageModule.withConfig({
       prefix: 'pdf-app',

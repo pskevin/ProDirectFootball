@@ -5,7 +5,13 @@
   <div class="col-sm-2 sidebar">
     <div class="row">
       <div class="col-sm-12 represent">
-        Top Chart
+        <canvas baseChart
+        [data]="doughnutChartData"
+        [labels]="doughnutChartLabels"
+        [legend]="false"
+        [chartType]="doughnutChartType"
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)"></canvas>
       </div>
       <div class="col-sm-12 filter">
         <div
