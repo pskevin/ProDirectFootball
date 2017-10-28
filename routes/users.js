@@ -1,7 +1,7 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 var express = require('express');
 var router = express();
 var http = require('http');
-var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var dateformat = require('dateformat');
 var path = require('path');
@@ -11,6 +11,7 @@ var User = require('../models/user');
 var Boot = require('../models/boots');
 var Order = require('../models/order');
 var passport = require('passport');
+var request_module = require("request");
 var LocalStrategy = require('passport-local').Strategy;
 var Verify = require('./verify');
 var _ = require('underscore');
@@ -27,9 +28,6 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-//====================================================================================
-//===========================IMPLEMENTATION===========================================
-router.use(morgan('dev'));
 //====================================================================================
 //===========================ROUTING==================================================
 router.post('/register',Verify.verifyUsername,function(request, response){
@@ -126,37 +124,52 @@ router.post('/login',function(request, response,next){
   })(request,response,next);
 });
 
-router.post('/lock',function(request,response){
-  var token = request.body.token || request.query.token || request.headers['x-access-token'];
-  var decoded = jwt.decode(token);
+router.post('/checkout',function(request,response){
   var dat = request.body;
-  var j;
-  var x = async.each(dat, function (data, callback) {
-    console.log(data);
-    Boot.findOne({"bname": data.bname}, {
-      "_id": "1",
-      "costprice": "1",
-      "saleprice": "1",
-      "stock" : "1"
-    }, function (err, result) {
-      if (err)
-      callback(err);
-      else {
-          j =  parseInt(result.stock) - parseInt(data.quantity);
-          console.log(j);
-        Boot.findByIdAndUpdate(result._id, {$set:{"stock":parseInt(j)}},{new: true}, function (error, new_data) {
-          if(error)
-            response.json(error);
-        });
-        callback(null);
-      }
-    });
-  }, function (err,bname) {
-    if (err) {
-      response.json(err);
-    }
+  console.log(dat);
+  request_module.post({
+    uri: "https://127.0.0.1:3443/user/checkStock",
+    json:dat
+  }, function(error, res, body) {
+    if(error)
+    response.json(error);
     else {
-      response.json('Locked the resources!');
+      console.log(body);
+      if(body.length==0)
+      {
+        var j;
+        var x = async.each(dat, function (data, callback) {
+          console.log(data);
+          Boot.findOne({"bname": data.bname}, {
+            "_id": "1",
+            "costprice": "1",
+            "saleprice": "1",
+            "stock" : "1"
+          }, function (err, result) {
+            if (err)
+            callback(err);
+            else {
+              j =  parseInt(result.stock) - parseInt(data.quantity);
+              console.log(j);
+              Boot.findByIdAndUpdate(result._id, {$set:{"stock":parseInt(j)}},{new: true}, function (error, new_data) {
+                if(error)
+                response.json(error);
+              });
+              callback(null);
+            }
+          });
+        }, function (err,bname) {
+          if (err) {
+            response.json(err);
+          }
+          else {
+            response.json('Locked the resources!');
+          }
+        });
+      }
+      else {
+        response.json({"status":"-1","data":body});
+      }
     }
   });
 });
@@ -181,7 +194,7 @@ router.post('/release',function(request,response){
         console.log(j);
         Boot.findByIdAndUpdate(result._id, {$set:{"stock":j}},{new: true}, function (error, new_data) {
           if(error)
-            response.json(error);
+          response.json(error);
         });
         callback(null);
       }
