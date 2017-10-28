@@ -128,4 +128,11 @@ export class HttpService {
     return this.http.get('https://localhost:3443/user/orders', {headers})
       .map((response: Response) => response.json());
   }
+
+  sendComment(request: any) {
+    let headers = new Headers();
+    headers.append('x-access-token', this.auth.getToken());
+    return this.http.get('https://localhost:3443/user/orders', {headers})
+      .map((response: Response) => response.json());
+  }
 }

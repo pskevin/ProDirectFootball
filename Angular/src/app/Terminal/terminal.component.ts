@@ -33,7 +33,6 @@ export class TerminalComponent implements OnInit {
   status: string;
   quantity: number = 0;
   boot: Boot;
-  flag: any = -1;
   rating: number;
   comment: string;
 
@@ -106,7 +105,24 @@ export class TerminalComponent implements OnInit {
     else {
       this.comment = data.comment;
       this.rating = data.rating;
+      let request: any;
+      request = {
+        bootId: this.id,
+        comment: this.comment,
+        rating: this.rating
+      };
+      console.log(request);
+      /*this.http.sendComment(request)
+        .subscribe(
+          (result) => {
+            console.log(result);
+            if(result.status === 1){
+              alert('Comment Submitted! Thank you for the review.');
+            }
+            else{
+              alert('Boot has not been purchased by user!`');
+            }
+        );*/
     }
-
   }
 }

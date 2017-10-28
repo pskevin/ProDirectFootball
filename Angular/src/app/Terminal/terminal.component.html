@@ -61,7 +61,7 @@
       <form
         class="text-center"
         [formGroup]="myForm"
-        (ngSubmit)="onSubmit(myForm.value, flag); flag=1">
+        (ngSubmit)="onSubmit(myForm.value, -1)">
         <p class="quantityfield">Quantity<span>&nbsp;&nbsp;</span><input
           type="number"
           class="form-control"
@@ -76,7 +76,7 @@
           Designed for acceleration, comfort and enhanced traction.
           Usually moulded and conical or bladed in shape.
         </p>
-        <button type="submit" class="checkout">Add to Cart</button>
+        <button type="submit" class="checkout" [disabled]="!myForm.valid">Add to Cart</button>
       </form>
     </div>
   </div>
@@ -90,11 +90,11 @@
   </div>
 </div>
 <div class="row" style="margin-top: 20px;">
-  <form [formGroup]="myComment" (ngSubmit)="onSubmit(myComment.value, flag)">
+  <form [formGroup]="myComment" (ngSubmit)="onSubmit(myComment.value, 1)">
     <div class="col-sm-offset-2 col-sm-5" style="padding: 0px;">
       <p>Leave a review</p>
       <textarea rows="6" class="form-control" formControlName="comment" placeholder="Enter text here..."></textarea>
-      <button type="submit" class="checkout">Submit Comment</button>
+      <button type="submit" class="checkout" [disabled]="!myComment.valid">Submit Comment</button>
     </div>
     <div class="col-sm-3">
       <p>Rate the boot</p>
@@ -102,4 +102,4 @@
       <span style="font-size: 25px;">&nbsp;/&nbsp;5</span>
     </div>
   </form>
-</div>
+</div><br />

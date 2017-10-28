@@ -4,12 +4,13 @@
   <div class="col-sm-1"></div>
   <div class="col-sm-2 sidebar">
     <div class="row">
-      <div class="col-sm-12 represent">
-        <canvas baseChart
+      <div *ngIf="loadCanvas" class="col-sm-12 represent">
+        <canvas baseChart *ngIf="loaded"
         [data]="doughnutChartData"
         [labels]="doughnutChartLabels"
         [legend]="false"
         [chartType]="doughnutChartType"
+        [options]="doughnutChartOptions"
         (chartHover)="chartHovered($event)"
         (chartClick)="chartClicked($event)"></canvas>
       </div>
