@@ -48,6 +48,7 @@ export class BasketComponent implements OnInit {
   
   routeToPayment() {
     if(this.auth.isLoggedIn()) {
+
       this.auth.navigateTo ('payment');
     }
     else {
