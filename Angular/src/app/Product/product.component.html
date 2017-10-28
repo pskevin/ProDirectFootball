@@ -6,11 +6,11 @@
     <div class="row">
       <div *ngIf="loadCanvas" class="col-sm-12 represent">
         <canvas baseChart *ngIf="loaded"
+        [colors]="doughnutChartColors"
         [data]="doughnutChartData"
         [labels]="doughnutChartLabels"
         [legend]="false"
         [chartType]="doughnutChartType"
-        [options]="doughnutChartOptions"
         (chartHover)="chartHovered($event)"
         (chartClick)="chartClicked($event)"></canvas>
       </div>
