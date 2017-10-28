@@ -16,6 +16,10 @@ import { Query, QueryStack } from "../Shared/query.model";
   ]
 })
 export class ProductComponent implements OnInit {
+  public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
+  public doughnutChartData:number[] = [350, 450, 100];
+  public doughnutChartType:string = 'doughnut';
+
   img: any;
   brands: string[] = [];
   collections: string[] = [];
