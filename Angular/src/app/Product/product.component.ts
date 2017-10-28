@@ -16,10 +16,15 @@ import { Query, QueryStack } from "../Shared/query.model";
   ]
 })
 export class ProductComponent implements OnInit {
-  public doughnutChartLabels:string[] = ['Download Sales', 'In-Store Sales', 'Mail-Order Sales'];
-  public doughnutChartData:number[] = [350, 450, 100];
-  public doughnutChartType:string = 'doughnut';
-
+  doughnutChartLabels:string[] = ['Results', 'Total'];
+  doughnutChartData:number[] = [];
+  doughnutChartType:string = 'doughnut';
+  doughnutChartOptions = {
+    responsive: true,
+    color: ['grey', 'black']
+  };
+  loadCanvas: boolean = false;
+  loaded: boolean = false;
   img: any;
   brands: string[] = [];
   collections: string[] = [];
@@ -68,6 +73,10 @@ export class ProductComponent implements OnInit {
       .subscribe(
         (x) => {
           console.log(x);
+          this.doughnutChartData[0] = x.count;
+          this.doughnutChartData[1] = x.total - x.count;
+          this.loaded = true;
+          this.loadCanvas = true;
           console.log(this.collections);
           this.queryMode = 'content';
           this.makePage(x);
@@ -297,12 +306,18 @@ export class ProductComponent implements OnInit {
         (x) => {
           console.log("MAKING PAGE");
           console.log(x);
+          this.doughnutChartData[0] = x.count;
+          this.doughnutChartData[1] = x.total - x.count;
+          this.loaded = true;
+          this.loadCanvas = true;
           this.makePage(x);
         }
       )
   }
   
   clearQueryVariables(){
+    this.loadCanvas = false;
+    this.loaded = false;
     this.qbrands = [];
     this.qcollections = [];
     this.qprice = 0;
