@@ -1,14 +1,22 @@
+html{
+  height: 100%;
+}
 body{
   background-image: url("./assets/images/siteimages/global/wembley/spotlight.jpg");
-  /*background-repeat: no-repeat;*/
+  height: 100% !important;
   background-size: cover;
   color: white;
 }
+
 footer{
-
-
-
+ margin-top: -50px;
 }
+
+.not-footer{
+  padding-bottom: 50px;
+  min-height: 100%;
+}
+
 footer li{
   border-right: 1px solid white;
   color: #9d9d9d;
@@ -335,6 +343,7 @@ table.order tr td ul li span{
   width: 100%;
   margin: 0 auto;
   text-align: left;
+  padding-bottom: 10px;
 }
 .innercontent{
   background: #000;
@@ -492,4 +501,8 @@ p.itemprice{
   border-radius: 5px;
   padding: 5px;
   margin-bottom: 20px;
+}
+
+button[disabled]{
+  cursor: not-allowed;
 }

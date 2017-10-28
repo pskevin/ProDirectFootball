@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpService} from "../Shared/http.service";
-import {Boot, Order} from "../Shared/boot.model";
+import {HttpService} from '../Shared/http.service';
+import {Boot, Order} from '../Shared/boot.model';
 
 @Component({
   selector: 'pdf-orders',
@@ -43,10 +43,9 @@ export class OrdersComponent implements OnInit {
             console.log(this.orders);
           }
         );
+  }
 
-    }
-
-  ngOnInit() {
+  ngOnInit(){
   }
 
   total(boots: Boot[]){
