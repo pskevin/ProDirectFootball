@@ -13,13 +13,12 @@ var Order = require('../models/order');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var Verify = require('./verify');
-var twilio = require('twilio');
 var _ = require('underscore');
 var async = require('async');
 var api_key = 'key-3817130671e1c1f13919a3469f5e1386';
 var domain = 'sandbox127c4a0962454b07a273d25721d8887d.mailgun.org';
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-var client = new twilio.RestClient('AC7f3c18f7892caa2aaee44f474017e2c8','6ff1819b8dc09ebd338d35aafde0a76c');
+var client = require('twilio')('AC7f3c18f7892caa2aaee44f474017e2c8','6ff1819b8dc09ebd338d35aafde0a76c');
 var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : true}));
@@ -203,19 +202,19 @@ router.post('/generateOtpPayment',Verify.verifyLoggedUser,function(request,respo
                 else{
                     var text='\nPRODIRECT FOOTBALL PAYMENT GATEWAY.\nYour One Time Password(OTP) :'+x;
 
-                    client.sms.messages.create({
+                    client.messages.create({
                         to: "+91"+data.mobno,
-                        from: '+12053796263',
+                        from: '+15752147818',
                         body: text
-                    }, function (error, message) {
-                        if (!error) {
+                    }).then(function(message) {
+                        if (message.err_code === null) {
                             console.log('Success! The SID for this SMS message is:');
                             console.log(message.sid);
                             console.log('Message sent on:');
                             console.log(message.dateCreated);
                             response.json(message);
                         } else {
-                            console.log('Oops! There was an error.' + err);
+                            console.log('Oops! There was an error.' + message.err_message);
                         }
                     });
                 }
@@ -242,19 +241,19 @@ router.post('/generateOtpVerifyMessage',function(request,response){
                 else{
                     var text="Hello "+data.Fname+",Your One Time Password(OTP) :"+x;
 
-                    client.sms.messages.create({
+                    client.messages.create({
                         to: "+91"+data.mobno,
-                        from: '+12053796263',
+                        from: '+15752147818',
                         body: text
-                    }, function (error, message) {
-                        if (!error) {
+                    }).then(function(message) {
+                        if (message.err_code === null) {
                             console.log('Success! The SID for this SMS message is:');
                             console.log(message.sid);
                             console.log('Message sent on:');
                             console.log(message.dateCreated);
                             response.json(message);
                         } else {
-                            response.json(err);
+                            console.log('Oops! There was an error.' + message.err_message);
                         }
                     });
                 }
@@ -349,18 +348,19 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
                         console.log(body);
                     }
                 });
-                client.sms.messages.create({
+                var text = 'PRODIRECT FOOTBALL.Hello '+data.Fname+", transaction successful.Amount deducted from account -"+request.body.total+" pounds.";
+                client.messages.create({
                     to: "+91"+data.mobno,
-                    from: '+12053796263',
-                    body:'PRODIRECT FOOTBALL.Hello '+data.Fname+", transaction successful.Amount deducted from account -"+request.body.total+" pounds."
-                }, function (error, message) {
-                    if (!error) {
+                    from: '+15752147818',
+                    body: text
+                }).then(function(message) {
+                    if (message.err_code === null) {
                         console.log('Success! The SID for this SMS message is:');
                         console.log(message.sid);
                         console.log('Message sent on:');
                         console.log(message.dateCreated);
                     } else {
-                        response.json('Oops! There was an error.' + err);
+                        console.log('Oops! There was an error.' + message.err_message);
                     }
                 });
                 response.json("Successful Transaction!");
