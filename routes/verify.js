@@ -59,10 +59,10 @@ exports.verifyLoggedUser = function(request, response, next) {
     }
     else
     {
+      console.log('no t!!!!!');
         // if there is no token
         // return an error
-        var err = new Error('No token provided!');
-        response.json(err);
+        response.json('No token provided!!!');
     }
 };
 

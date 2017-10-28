@@ -17,11 +17,18 @@ import { Query, QueryStack } from "../Shared/query.model";
 })
 export class ProductComponent implements OnInit {
   doughnutChartLabels:string[] = ['Results', 'Total'];
-  doughnutChartData:number[] = [];
+  doughnutChartData:number[] = [0,0];
   doughnutChartType:string = 'doughnut';
+  doughnutChartColors: Array<any> = [
+    {
+      backgroundColor: [
+        '#D3D3D3',
+        '#191919'
+      ]
+    }
+  ];
   doughnutChartOptions = {
-    responsive: true,
-    color: ['grey', 'black']
+    responsive: true
   };
   loadCanvas: boolean = false;
   loaded: boolean = false;
