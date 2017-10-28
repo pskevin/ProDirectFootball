@@ -72,6 +72,8 @@ router.post('/register',Verify.verifyUsername,function(request, response){
     });
   });
 });
+
+
 router.post('/login',function(request, response,next){
   passport.authenticate("local",function(err,user){
     console.log("\n\n\n\n");
@@ -124,9 +126,42 @@ router.post('/login',function(request, response,next){
   })(request,response,next);
 });
 
+router.post('/lock',function(request,response){
+  var token = request.body.token || request.query.token || request.headers['x-access-token'];
+  var decoded = jwt.decode(token);
+  User.findOne({"username": decoded.data.username}, {"_id": "1","orders":"1"}, function (err, user) {
+    if (err)
+    response.json(err);
+    else {
+      var dat = request.body.data;
+      var k = [];
+      var x = async.each(dat, function (data, callback) {
+        console.log(data);
+        Boot.findOne({"bname": data.bname}, {
+          "_id": "1",
+          "costprice": "1",
+          "saleprice": "1"
+        }, function (err, result) {
+          if (err)
+          callback(err);
+          else {
+
+          }
+        });
+      }, function (err,bname) {
+        if (err) {
+          response.json(err);
+        }
+        else {
+          response.json(k);
+        }
+      });
+    }
+  });
+});
+
+
 router.post('/checkStock',function(request,response) {
-  // var token = request.body.token || request.query.token || request.headers['x-access-token'];
-  // var decoded = jwt.decode(token);
   var dat = request.body;
   console.log(dat);
   var k = [];
@@ -163,11 +198,11 @@ router.post('/checkStock',function(request,response) {
 router.post('/purchase',Verify.verifyLoggedUser,function(request,response) {
   var token = request.body.token || request.query.token || request.headers['x-access-token'];
   var decoded = jwt.decode(token);
-  var dat = request.body.data;
   User.findOne({"username": decoded.data.username}, {"_id": "1","orders":"1"}, function (err, user) {
     if (err)
     response.json(err);
     else {
+      var dat = request.body.data;
       var k = [];
       var x = async.each(dat, function (data, callback) {
         console.log(data);
@@ -420,7 +455,6 @@ router.post('/comment',function(request,response){
         if(err)
         response.json(err);
         else {
-          //console.log(result.orders);
           var x= async.each(result.orders,function(data,callback) {
             console.log(data);
             var y = async.each(data.orderId.product, function (b,callback) {
@@ -453,14 +487,14 @@ router.post('/comment',function(request,response){
                 response.json(err);
                 else {
                   //            console.log(data);
-                  response.json("successfully added comment!")
+                  response.json({status:"1",message:"successfully added comment!"})
                 }
               });
 
             }
             else
             {
-              response.json("Buy before talking about it!");
+              response.json({status:"-1",message:"Buy before talking about it!"});
             }
           });
           //console.log("boot:"+boot);
