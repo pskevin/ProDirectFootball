@@ -129,37 +129,72 @@ router.post('/login',function(request, response,next){
 router.post('/lock',function(request,response){
   var token = request.body.token || request.query.token || request.headers['x-access-token'];
   var decoded = jwt.decode(token);
-  User.findOne({"username": decoded.data.username}, {"_id": "1","orders":"1"}, function (err, user) {
-    if (err)
-    response.json(err);
-    else {
-      var dat = request.body.data;
-      var k = [];
-      var x = async.each(dat, function (data, callback) {
-        console.log(data);
-        Boot.findOne({"bname": data.bname}, {
-          "_id": "1",
-          "costprice": "1",
-          "saleprice": "1"
-        }, function (err, result) {
-          if (err)
-          callback(err);
-          else {
-
-          }
+  var dat = request.body;
+  var j;
+  var x = async.each(dat, function (data, callback) {
+    console.log(data);
+    Boot.findOne({"bname": data.bname}, {
+      "_id": "1",
+      "costprice": "1",
+      "saleprice": "1",
+      "stock" : "1"
+    }, function (err, result) {
+      if (err)
+      callback(err);
+      else {
+          j =  parseInt(result.stock) - parseInt(data.quantity);
+          console.log(j);
+        Boot.findByIdAndUpdate(result._id, {$set:{"stock":parseInt(j)}},{new: true}, function (error, new_data) {
+          if(error)
+            response.json(error);
         });
-      }, function (err,bname) {
-        if (err) {
-          response.json(err);
-        }
-        else {
-          response.json(k);
-        }
-      });
+        callback(null);
+      }
+    });
+  }, function (err,bname) {
+    if (err) {
+      response.json(err);
+    }
+    else {
+      response.json('Locked the resources!');
     }
   });
 });
 
+router.post('/release',function(request,response){
+  var token = request.body.token || request.query.token || request.headers['x-access-token'];
+  var decoded = jwt.decode(token);
+  var dat = request.body;
+  var j;
+  var x = async.each(dat, function (data, callback) {
+    console.log(data);
+    Boot.findOne({"bname": data.bname}, {
+      "_id": "1",
+      "costprice": "1",
+      "saleprice": "1",
+      "stock" : "1"
+    }, function (err, result) {
+      if (err)
+      callback(err);
+      else {
+        j =  parseInt(result.stock) + parseInt(data.quantity);
+        console.log(j);
+        Boot.findByIdAndUpdate(result._id, {$set:{"stock":j}},{new: true}, function (error, new_data) {
+          if(error)
+            response.json(error);
+        });
+        callback(null);
+      }
+    });
+  }, function (err,bname) {
+    if (err) {
+      response.json(err);
+    }
+    else {
+      response.json('Released the resources!');
+    }
+  });
+});
 
 router.post('/checkStock',function(request,response) {
   var dat = request.body;
