@@ -132,7 +132,7 @@ export class HttpService {
   sendComment(request: any) {
     let headers = new Headers();
     headers.append('x-access-token', this.auth.getToken());
-    return this.http.get('https://localhost:3443/user/orders', {headers})
+    return this.http.get('https://localhost:3443/user/comment', {headers})
       .map((response: Response) => response.json());
   }
 }

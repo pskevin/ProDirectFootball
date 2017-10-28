@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { ChartsModule } from "ng2-charts";
+import { ChartsModule } from 'ng2-charts';
 
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './Navbar/navbar.component';
@@ -24,7 +24,7 @@ import { PaymentComponent } from './PaymentPage/payment.component';
 import { PrivacyComponent } from './FooterPages/privacy.component';
 import { ContactusComponent } from './FooterPages/contactus.component';
 import { TandcComponent } from './FooterPages/tandc.component';
-import { PaymentDeactivateGuard } from "./Shared/paymentDeactivate.guard";
+import { PaymentDeactivateGuard } from './Shared/paymentDeactivate.guard';
 import { OrdersComponent } from './MyOrders/orders.component';
 
 @NgModule({
