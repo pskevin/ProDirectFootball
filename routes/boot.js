@@ -59,8 +59,8 @@ router.get('/setStock',Verify.verifyLoggedUser,Verify.verifyAdmin,function(reque
   });
 });
 
-router.get('/updateStockPage',function(request,reponse){
-  var link="../public/html/updataStock.html";
+router.get('/updateStockPage',function(request,response){
+  var link="../public/html/updateStock.html";
   link = path.join(__dirname,link);
   console.log(link+"-"+fs.existsSync(link));
   var stream=fs.createReadStream(link);
