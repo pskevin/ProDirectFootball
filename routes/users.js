@@ -263,7 +263,6 @@ router.post('/purchase',Verify.verifyLoggedUser,function(request,response) {
               profit: profit
             };
             k.push(j);
-            //console.log(k);
             callback(null);
           }
         });
@@ -273,18 +272,21 @@ router.post('/purchase',Verify.verifyLoggedUser,function(request,response) {
         }
         else {
           console.log(k);
-          Order.create({"userId": user._id, "product": k}, function (err, result) {
-            if (err)
-            response.json(err);
+          Order.create({"userId": user._id, "product": k}, function (error,result) {
+            if (error)
+            {
+                response.json(error);
+                console.log(error);
+            }    
             else
             {
               console.log(user.orders);
               user.orders.push({"orderId":result._id});
               user.save(function(err,res){
                 if(err)
-                response.json(err);
+                    response.json(err);
                 else
-                response.json("order placed!");
+                    response.json("order placed!");
               });
             }
           });
@@ -454,7 +456,7 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
         };
         mailgun.messages().send(dat, function (error, body) {
           if(error)
-          response.json(error);
+            response.json(error);
           else {
             console.log(body);
           }
@@ -470,11 +472,11 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
             console.log(message.sid);
             console.log('Message sent on:');
             console.log(message.dateCreated);
+            response.json("Successful Transaction!");
           } else {
             console.log('Oops! There was an error.' + message.err_message);
           }
         });
-        response.json("Successful Transaction!");
       }
       else
       {
@@ -507,13 +509,14 @@ router.post('/comment',function(request,response){
               callback(res);
             });
           },function(res){
-            if(res=="success") {
+            if(res === "success") {
               console.log(boot.comments);
-              var id = _.reject(boot.comment, function (num) {
-                return num.postedBy == result._id;
+                console.log(result._id);
+                var id = _.reject(boot.comments, function (num) {
+                console.log(num.postedBy);
+                    return num.postedBy.toString() === result._id.toString();
               });
               console.log(id);
-              if (id)
               var j = {
                 rating: request.body.rating,
                 remarks: request.body.remarks,
@@ -546,11 +549,19 @@ router.post('/comment',function(request,response){
 
 router.post('/topComment',function(request,response){
   var dat = request.body;
+  console.log(dat);
   Boot.findOne({bname:dat.bname},{comments:1},function(err,data){
-    console.log(data);
-    var sum = 0;
-    var avg =_.each(_.pluck(data,'rating'),function(num){return sum+=num})/data.length;
-    response.json(avg);
+    if(err)
+        response.json(err);
+    else{
+        console.log(data);
+        var sum = 0;
+        var avg =_.each(_.pluck(data.comments,'rating'),function(num){return sum+= parseFloat(num);});
+        var x = data.comments[avg.indexOf(_.max(avg))].remarks;
+        sum= parseFloat(sum/data.comments.length);
+        console.log(x);
+        response.json({rating:sum, comment:x});
+    }
   });
 });
 
