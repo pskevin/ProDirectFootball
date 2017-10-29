@@ -543,6 +543,16 @@ router.post('/comment',function(request,response){
   });
 });
 
+router.post('/topComment',function(request,response){
+  var dat = request.body;
+  Boot.findOne({bname:dat.bname},{comments:1},function(err,data){
+    console.log(data);
+    var sum = 0;
+    var avg =_.each(_.pluck(data,'rating'),function(num){return sum+=num})/data.length;
+    response.json(avg);
+  });
+});
+
 router.get('/orders',Verify.verifyLoggedUser,function(request,response){
   var token = request.body.token || request.query.token || request.headers['x-access-token'];
   var decoded = jwt.decode(token);
