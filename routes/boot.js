@@ -1,13 +1,17 @@
 //-----------------------------------------------------------
 var express = require('express');
 var router =express();
+var HashMap = require('hashmap');
 var fs = require('fs');
 var path = require('path');
 var Boot = require('../models/boots');
 var bodyParser = require('body-parser');
 var mime=require('mime');
+var async = require('async');
+var Order = require('../models/order');
 var _ = require('underscore');
 var Verify = require('./verify');
+var dateformat = require('dateformat');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : false}));
 
@@ -52,7 +56,7 @@ router.post('/add',function(request,response){
 router.get('/setStock',Verify.verifyLoggedUser,Verify.verifyAdmin,function(request,response){
   Boot.update({},{$set:{stock:50}},{multi:true},function(err,data){
     if(err)
-      response.json(err);
+    response.json(err);
     else {
       response.json(data);
     }
@@ -71,7 +75,7 @@ router.post('/updateStock',function(request,response){
   var dat = request.body;
   Boot.findOneAndUpdate({"bname":dat.bname},{$set:{stock:dat.quantity}},function(err,data){
     if(err)
-      response.json(err);
+    response.json(err);
     else {
       response.json({status:"1",data:data.stock});
     }
@@ -81,7 +85,7 @@ router.post('/updateStock',function(request,response){
 router.get('/list',function(request,response){
   Boot.find({},{"bname":1,"stock":"1"},function(err,data){
     if(err)
-      response.json(err);
+    response.json(err);
     else {
       response.json(data);
     }
@@ -162,5 +166,42 @@ router.post('/landing',function(request,response){
   });
 });
 
+router.post('/statistics',function(request,response){
+  var year,y,m;
+  var now = new Date();
+  var profit = new HashMap();
+  var total = new HashMap();
+  var sales = new Array(12);
+  if(request.body.year)
+    year = request.body.year;
+  else
+    year = dateformat(now,'yyyy');
+  Order.find({}).populate({path:"product.productId",select:["bname"]}).exec(function(err,result){
+    var x = async.each(result, function (data, callback){
+      y = dateformat(data.createdAt,'yyyy');
+      m = dateformat(data.createdAt,'mm');
+      if(year.toString === y.toString){
+        console.log(data.product);
+        var x = _.each(data.product,function(num){
+          p = profit.get(num.productId.bname);
+          s = total.get(num.productId.bname);
+          console.log(p);
+          console.log(s);
+          if(p == undefined || s == undefined){
+            profit.set(num.productId.bname.toString(),parseInt(num.profit).toString());
+            total.set(num.productId.bname.toString(),parseInt(num.salecost).toString());
+          }
+          else {
+            profit.set(num.productId.bname,parseInt(p)+parseInt(num.profit));
+            total.set(num.productId.bname,parseInt(s)+parseInt(num.profit));
+          }
+        });
+        console.log(profit.entries());
+      }
+    },function(err){
+    });
+
+  });
+});
 
 module.exports= router;
