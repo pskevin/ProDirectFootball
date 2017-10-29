@@ -573,9 +573,9 @@ router.post('/topComment',function(request,response){
 router.get('/orders',Verify.verifyLoggedUser,function(request,response){
   var token = request.body.token || request.query.token || request.headers['x-access-token'];
   var decoded = jwt.decode(token);
-  User.findOne({"username":decoded.data.username}, {"orders.orderId": "1"}).populate({path:"orders.orderId",select:"product",populate:cv}).exec(function (err, result) {
-    if(err)
-    response.json(err);
+    User.findOne({"username":decoded.data.username}, {"orders.orderId": "1"}).populate({path:"orders.orderId",select:"product",populate:{path:"product.productId",select:["bname","image"]}}).exec(function (err, result) {
+        if(err)
+            response.json(err);
     else {
       var x= async.each(result.orders,function(data,callback) {
         console.log(data);

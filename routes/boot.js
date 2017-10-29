@@ -168,6 +168,7 @@ router.post('/landing',function(request,response){
 
 router.post('/statistics',function(request,response){
   var year,y,m;
+  var t_p=0,t_s=0;
   var now = new Date();
   var profit = new HashMap();
   var total = new HashMap();
@@ -198,17 +199,18 @@ router.post('/statistics',function(request,response){
           }
           total_monthly[parseInt(m)-1] += parseInt(num.salecost);
           profit_monthly[parseInt(m)-1] += parseInt(num.profit);
+          t_s += parseInt(num.salecost);
+          t_p += parseInt(num.profit);
         });
-        callback(null)
+        callback(null);
       }
     },function(err){
       if(err)
         response.json(err);
       else {
-        response.json({'profit_monthly':profit_monthly,'total_monthly':total_monthly,profit_boot:profit.entries(),total_boot:total.entries()});
+        response.json({'gross_profit':t_p,'gross_sales':t_s,'profit_monthly':profit_monthly,'total_monthly':total_monthly,profit_boot:profit.entries(),total_boot:total.entries()});
       }
     });
-
   });
 });
 
