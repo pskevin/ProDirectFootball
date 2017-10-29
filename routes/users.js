@@ -502,14 +502,26 @@ router.post('/comment',function(request,response){
             var y = async.each(data.orderId.product, function (b,callback) {
               console.log(b);
               if (b.productId.bname === boot.bname)
-              callback("success");
+              {
+                  callback("success");
+                  console.log('match!!!');
+              }
               else
-              callback("not found");
-            },function(res){
-              callback(res);
+              if((parseInt(data.orderId.product.indexOf(b)) === parseInt(data.orderId.product.length)-1)&&(parseInt(result.orders.indexOf(data)) === parseInt(result.orders.length)-1))
+              {
+                  console.log('matched123213');
+                  callback("failed");
+              }
+            },function(success){
+              callback(success);
             });
-          },function(res){
-            if(res === "success") {
+            console.log(parseInt(result.orders.indexOf(data)));
+            console.log(parseInt(result.orders.length)-1);
+
+          },function(success){
+              console.log(success);
+            if(success === "success") {
+                console.log('reached!!');
               console.log(boot.comments);
               console.log(result._id);
               var id = _.reject(boot.comments, function (num) {
@@ -529,17 +541,16 @@ router.post('/comment',function(request,response){
                 if (err)
                 response.json(err);
                 else {
-                  //            console.log(data);
-                  response.json({status:"1",message:"successfully added comment!"})
+                  response.json({status:"1",message:"successfully added comment!"});
                 }
               });
             }
             else
             {
+                console.log('failed!');
               response.json({status:"-1",message:"Buy before talking about it!"});
             }
           });
-          //console.log("boot:"+boot);
         }
       });
     }
