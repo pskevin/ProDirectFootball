@@ -171,7 +171,8 @@ router.post('/statistics',function(request,response){
   var now = new Date();
   var profit = new HashMap();
   var total = new HashMap();
-  var sales = new Array(12);
+  var total_monthly = [0,0,0,0,0,0,0,0,0,0,0,0];
+  var profit_monthly = [0,0,0,0,0,0,0,0,0,0,0,0];
   if(request.body.year)
     year = request.body.year;
   else
@@ -193,12 +194,19 @@ router.post('/statistics',function(request,response){
           }
           else {
             profit.set(num.productId.bname,parseInt(p)+parseInt(num.profit));
-            total.set(num.productId.bname,parseInt(s)+parseInt(num.profit));
+            total.set(num.productId.bname,parseInt(s)+parseInt(num.salecost));
           }
+          total_monthly[parseInt(m)-1] += parseInt(num.salecost);
+          profit_monthly[parseInt(m)-1] += parseInt(num.profit);
         });
-        console.log(profit.entries());
+        callback(null)
       }
     },function(err){
+      if(err)
+        response.json(err);
+      else {
+        response.json({'profit_monthly':profit_monthly,'total_monthly':total_monthly,profit_boot:profit.entries(),total_boot:total.entries()});
+      }
     });
 
   });
