@@ -144,7 +144,7 @@ router.post('/checkout',function(request,response){
           console.log(j);
           Boot.findOneAndUpdate({"bname":data.bname},{$inc:{stock:j}},function(err,result){
             if(err)
-              callback(err);
+            callback(err);
             else{
               callback(null);
             }
@@ -275,18 +275,18 @@ router.post('/purchase',Verify.verifyLoggedUser,function(request,response) {
           Order.create({"userId": user._id, "product": k}, function (error,result) {
             if (error)
             {
-                response.json(error);
-                console.log(error);
-            }    
+              response.json(error);
+              console.log(error);
+            }
             else
             {
               console.log(user.orders);
               user.orders.push({"orderId":result._id});
               user.save(function(err,res){
                 if(err)
-                    response.json(err);
+                response.json(err);
                 else
-                    response.json("order placed!");
+                response.json("order placed!");
               });
             }
           });
@@ -456,7 +456,7 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
         };
         mailgun.messages().send(dat, function (error, body) {
           if(error)
-            response.json(error);
+          response.json(error);
           else {
             console.log(body);
           }
@@ -511,10 +511,10 @@ router.post('/comment',function(request,response){
           },function(res){
             if(res === "success") {
               console.log(boot.comments);
-                console.log(result._id);
-                var id = _.reject(boot.comments, function (num) {
+              console.log(result._id);
+              var id = _.reject(boot.comments, function (num) {
                 console.log(num.postedBy);
-                    return num.postedBy.toString() === result._id.toString();
+                return num.postedBy.toString() === result._id.toString();
               });
               console.log(id);
               var j = {
@@ -552,15 +552,20 @@ router.post('/topComment',function(request,response){
   console.log(dat);
   Boot.findOne({bname:dat.bname},{comments:1},function(err,data){
     if(err)
-        response.json(err);
+    response.json(err);
     else{
-        console.log(data);
+      console.log(data);
+      if(data.comments.length !== 0){
         var sum = 0;
         var avg =_.each(_.pluck(data.comments,'rating'),function(num){return sum+= parseFloat(num);});
         var x = data.comments[avg.indexOf(_.max(avg))].remarks;
         sum= parseFloat(sum/data.comments.length);
         console.log(x);
         response.json({rating:sum, comment:x});
+      }
+      else {
+        response.json({rating:"-",comment:"Not been reviewed yet!"});
+      }
     }
   });
 });
@@ -568,7 +573,7 @@ router.post('/topComment',function(request,response){
 router.get('/orders',Verify.verifyLoggedUser,function(request,response){
   var token = request.body.token || request.query.token || request.headers['x-access-token'];
   var decoded = jwt.decode(token);
-  User.findOne({"username":decoded.data.username}, {"orders.orderId": "1"}).populate({path:"orders.orderId",select:"product",populate:{path:"product.productId",select:["bname","image"]}}).exec(function (err, result) {
+  User.findOne({"username":decoded.data.username}, {"orders.orderId": "1"}).populate({path:"orders.orderId",select:"product",populate:cv}).exec(function (err, result) {
     if(err)
     response.json(err);
     else {
