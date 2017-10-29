@@ -108,7 +108,7 @@ export class TerminalComponent implements OnInit {
       let request: any;
       request = {
         bname: this.name,
-        comment: this.comment,
+        remarks: this.comment,
         rating: this.rating
       };
       console.log(request);
@@ -116,11 +116,11 @@ export class TerminalComponent implements OnInit {
         .subscribe(
           (result) => {
             console.log(result);
-            if (result.status === 1){
+            if (result.status === '1') {
               alert('Comment Submitted! Thank you for the review.');
             }
             else{
-              alert('Boot has not been purchased by user!`');
+              alert('Boot has not been purchased by user! ');
             }
           }
         );
