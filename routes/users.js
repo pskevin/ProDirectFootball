@@ -317,7 +317,8 @@ router.post('/generateOtpPayment',Verify.verifyLoggedUser,function(request,respo
             from: '+15752147818',
             body: text
           }).then(function(message) {
-            if (message.err_code === null) {
+            console.log(message.err_code);
+            if (message.err_code === undefined) {
               console.log('Success! The SID for this SMS message is:');
               console.log(message.sid);
               console.log('Message sent on:');
@@ -356,7 +357,7 @@ router.post('/generateOtpVerifyMessage',function(request,response){
             from: '+15752147818',
             body: text
           }).then(function(message) {
-            if (message.err_code === null) {
+            if (message.err_code === undefined) {
               console.log('Success! The SID for this SMS message is:');
               console.log(message.sid);
               console.log('Message sent on:');
@@ -464,7 +465,7 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
           from: '+15752147818',
           body: text
         }).then(function(message) {
-          if (message.err_code === null) {
+          if (message.err_code === undefined) {
             console.log('Success! The SID for this SMS message is:');
             console.log(message.sid);
             console.log('Message sent on:');

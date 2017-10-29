@@ -28,7 +28,7 @@
               *ngFor="let brand of brands; let b = index">
               <li
                 (click)="toggleBrand(b)"
-                [ngClass]="{'selected': isBrandSelected[b]}">
+                [ngClass]="{'selected': isBrandSelected[b] && active()}">
                 <a>{{ brand }}</a>
               </li>
             </ul>
@@ -40,7 +40,7 @@
               *ngFor="let collection of collections; let c = index">
               <li
                 (click)="toggleCollection(c)"
-                [ngClass]="{'selected': isCollectionSelected[c]}">
+                [ngClass]="{'selected': isCollectionSelected[c] && active()}">
                 <a>{{ collection }}</a>
               </li>
             </ul>
@@ -52,7 +52,7 @@
               *ngFor="let price of prices; let p = index">
               <li
                 (click)="togglePrice(p)"
-                [ngClass]="{'selected': isPriceSelected[p]}">
+                [ngClass]="{'selected': isPriceSelected[p] && active()}">
                 <a>{{ price }}</a>
               </li>
             </ul>
@@ -71,10 +71,12 @@
       <div class="col-sm-12 pagebar" style="padding: 0px">
         <ul class="pagination">
           <li
+            [ngClass]="{active: active(), disabled: !active()}" 
             (click) = "previousPage()"
             class="prevpage"><a>Previous Page</a></li>
           <li style="margin-top:5px;">Page <strong>{{ activePage + 1}}</strong> / {{ totalPages }}</li>
           <li
+            [ngClass]="{active: active(), disabled: !active()}" 
             (click) = "nextPage()"
             class="nextpage"><a>Next Page</a></li>
         </ul>
@@ -89,12 +91,12 @@
         <span class="small-brand-logo {{boot.brand}}">{{ boot.brand }}</span>
         <p class="typetext" [innerHTML]="boot.collection"></p>
         <div class="imgholder">
-          <a (click)="fetchBoot(i)">
+          <a [ngClass]="{active: active(), disabled: !active()}" (click)="fetchBoot(i)">
             <img [src]="'data:image/jpg;base64,'+boot.img"/>
           </a>
           <span class="{{ boot.status }}" [innerHTML]="boot.status"></span>
         </div>
-        <div class="bootdesc" style="">
+        <div class="bootdesc">
           <p><a (click)="fetchBoot(i)">{{boot.name}}</a><br>
             Price:&nbsp;<span style="font-size: 20px;">£{{boot.price}}</span></p>
         </div>

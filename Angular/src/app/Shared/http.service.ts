@@ -132,7 +132,8 @@ export class HttpService {
   sendComment(request: any) {
     let headers = new Headers();
     headers.append('x-access-token', this.auth.getToken());
-    return this.http.get('https://localhost:3443/user/orders', {headers})
+    const body = request;
+    return this.http.post('https://localhost:3443/user/comment', body, {headers})
       .map((response: Response) => response.json());
   }
 }
