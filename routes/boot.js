@@ -49,6 +49,45 @@ router.post('/add',function(request,response){
 
 });
 
+router.get('/setStock',Verify.verifyLoggedUser,Verify.verifyAdmin,function(request,response){
+  Boot.update({},{$set:{stock:50}},{multi:true},function(err,data){
+    if(err)
+      response.json(err);
+    else {
+      response.json(data);
+    }
+  });
+});
+
+router.get('/updateStockPage',function(request,response){
+  var link="../public/html/updateStock.html";
+  link = path.join(__dirname,link);
+  console.log(link+"-"+fs.existsSync(link));
+  var stream=fs.createReadStream(link);
+  stream.pipe(response);
+});
+
+router.post('/updateStock',function(request,response){
+  var dat = request.body;
+  Boot.findOneAndUpdate({"bname":dat.bname},{$set:{stock:dat.quantity}},function(err,data){
+    if(err)
+      response.json(err);
+    else {
+      response.json({status:"1",data:data.stock});
+    }
+  });
+});
+
+router.get('/list',function(request,response){
+  Boot.find({},{"bname":1,"stock":"1"},function(err,data){
+    if(err)
+      response.json(err);
+    else {
+      response.json(data);
+    }
+  });
+});
+
 router.post('/set',Verify.verifyLoggedUser,Verify.verifyAdmin,function(result,response){
   Boot.update({},{"status":"none"},{"multi":true},function(err,data){
     if(err)

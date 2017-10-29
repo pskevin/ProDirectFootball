@@ -27,6 +27,7 @@ const APP_ROUTES: Routes =  [
   {path: 'contact_us', component: ContactusComponent},
   {path: 'tandc', component: TandcComponent},
   {path: 'my_orders', component: OrdersComponent},
+  {path: 'admin', loadChildren: 'app/Admin/admin.module#AdminModule'},
   {path: 'privacy', component: PrivacyComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '**', redirectTo: 'home', pathMatch: 'full'},
