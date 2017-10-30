@@ -135,7 +135,7 @@ router.post('/checkout',function(request,response){
     response.json(error);
     else {
       console.log(body);
-      if(body.length==0)
+      if(body.status === "1")
       {
         var j;
         var x = async.each(dat, function (data, callback) {
@@ -159,7 +159,7 @@ router.post('/checkout',function(request,response){
         });
       }
       else {
-        response.json({status:"-1",data:body});
+        response.json({status:"-1",data:body.data});
       }
     }
   });
@@ -195,7 +195,7 @@ router.post('/release',function(request,response){
       response.json(err);
     }
     else {
-      response.json('Released the resources!');
+      response.json({"status":"1",data:'Released the resources!'});
     }
   });
 });
@@ -215,6 +215,7 @@ router.post('/checkStock',function(request,response) {
       if (err)
       callback(err);
       else {
+        console.log(result);
         console.log(result.stock+'here!'+data.quantity);
         if(parseInt(result.stock)<parseInt(data.quantity))
         {
@@ -229,7 +230,11 @@ router.post('/checkStock',function(request,response) {
       response.json(err);
     }
     else {
-      response.json(k);
+      if(k.length==0)
+        response.json({"status":"1","data":k});
+      else {
+        response.json({"status":"-1","data":k});
+      }
     }
   });
 });
@@ -573,9 +578,9 @@ router.post('/topComment',function(request,response){
 router.get('/orders',Verify.verifyLoggedUser,function(request,response){
   var token = request.body.token || request.query.token || request.headers['x-access-token'];
   var decoded = jwt.decode(token);
-    User.findOne({"username":decoded.data.username}, {"orders.orderId": "1"}).populate({path:"orders.orderId",select:"product",populate:{path:"product.productId",select:["bname","image"]}}).exec(function (err, result) {
-        if(err)
-            response.json(err);
+  User.findOne({"username":decoded.data.username}, {"orders.orderId": "1"}).populate({path:"orders.orderId",select:"product",populate:{path:"product.productId",select:["bname","image"]}}).exec(function (err, result) {
+    if(err)
+    response.json(err);
     else {
       var x= async.each(result.orders,function(data,callback) {
         console.log(data);
