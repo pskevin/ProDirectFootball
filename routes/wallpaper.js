@@ -38,8 +38,9 @@ router.post('/',function(request,response){
 });
 router.post('/add',function(request,response){
     console.log(request.body);
+    console.log(request.files);
     Wall.create({},function(err,data){
-        var j ={name:request.files.im.name,"data":request.files.im.data.toString('base64')};
+        var j ={name:request.body.name,"data":request.body.data};
         data.image.push(j);
         data.save(function(err,result){
             if(err)

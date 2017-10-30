@@ -26,7 +26,7 @@ export class AuthService {
   adminEmitted$ = this.admin.asObservable();
 
   checkAdmin(){
-    if(localStorage.getItem('admin') == 'true')
+    if(localStorage.getItem('admin') === 'true')
       return this.admin.next(true);
     else
       return this.admin.next(false);

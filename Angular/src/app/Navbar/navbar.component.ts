@@ -21,13 +21,15 @@ export class NavbarComponent implements OnInit {
   loggedIn: boolean = false;
   cartContents: string = "";
   cart: any;
-  admin: boolean = false;
+  admin: boolean;
 
   constructor(
     private http: HttpService,
     private formBuilder: FormBuilder,
     private auth: AuthService
   ){
+    localStorage.setItem('admin', 'true');
+    auth.checkAdmin();
     auth.adminEmitted$.subscribe(
       (status) => {
         this.admin = status;
