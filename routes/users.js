@@ -82,16 +82,16 @@ router.post('/login',function(request, response,next){
     else
     if (!user) {
       console.log("false user");
-      response.json("Unauthorized");
+      response.json({status:"-3",message:"Unauthorized"});
     }
     else
     if (user.logged==true) {
-      response.json("Already logged in");
+      response.json({status:"-2",message:"Already logged in"});
     }
     else
     if(user.verified!=true)
     {
-      response.json("Unverified account!");
+      response.json({status:"-1",message:"Unverified account!"});
     }
     else
     {
@@ -110,10 +110,11 @@ router.post('/login',function(request, response,next){
             else {
               console.log(new_data);
               var t = Verify.getToken(user);
+              var status = user.admin === true ? '2':'1';
               console.log("Success!!!!" + user.admin + "   \n" + user);
               response.status(200).json({
-                status: 'Login successful!',
-                success: true,
+                status:status,
+                message: 'Login successful!',
                 token: t
               });
             }
