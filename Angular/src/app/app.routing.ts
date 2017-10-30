@@ -8,7 +8,7 @@ import {PaymentComponent} from './PaymentPage/payment.component';
 import {ContactusComponent} from './FooterPages/contactus.component';
 import {TandcComponent} from './FooterPages/tandc.component';
 import {PrivacyComponent} from './FooterPages/privacy.component';
-import { PaymentActivateGuard } from './Shared/paymentActivate.guard';
+import {ActivateAdmin, PaymentActivateGuard} from './Shared/paymentActivate.guard';
 import { PaymentDeactivateGuard } from './Shared/paymentDeactivate.guard';
 import {OrdersComponent} from './MyOrders/orders.component';
 
@@ -27,7 +27,7 @@ const APP_ROUTES: Routes =  [
   {path: 'contact_us', component: ContactusComponent},
   {path: 'tandc', component: TandcComponent},
   {path: 'my_orders', component: OrdersComponent},
-  {path: 'admin', loadChildren: 'app/Admin/admin.module#AdminModule'},
+  {path: 'admin', canActivate: [ActivateAdmin], loadChildren: 'app/Admin/admin.module#AdminModule'},
   {path: 'privacy', component: PrivacyComponent},
   {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: '**', redirectTo: 'home', pathMatch: 'full'},

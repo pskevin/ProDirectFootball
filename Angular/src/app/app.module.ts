@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './Navbar/navbar.component';
 import { HomeComponent } from './Home/home.component';
 import { AuthService } from './Shared/auth.service';
-import { PaymentActivateGuard } from './Shared/paymentActivate.guard';
+import {ActivateAdmin, PaymentActivateGuard} from './Shared/paymentActivate.guard';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './Login/login.component';
@@ -62,6 +62,7 @@ import { OrdersComponent } from './MyOrders/orders.component';
     AuthService,
     PaymentActivateGuard,
     PaymentDeactivateGuard,
+    ActivateAdmin,
     HttpService
   ],
   bootstrap: [AppComponent]
