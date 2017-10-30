@@ -21,13 +21,20 @@ export class NavbarComponent implements OnInit {
   loggedIn: boolean = false;
   cartContents: string = "";
   cart: any;
+  admin: boolean = false;
 
   constructor(
     private http: HttpService,
     private formBuilder: FormBuilder,
     private auth: AuthService
-  ) {
-    if(this.auth.checkCache()){
+  ){
+    auth.adminEmitted$.subscribe(
+      (status) => {
+        this.admin = status;
+      }
+    );
+
+    if (this.auth.checkCache()){
       if(this.auth.getCartContents() === 0){
         this.cartContents = "";
       }
@@ -35,6 +42,8 @@ export class NavbarComponent implements OnInit {
         this.cartContents = JSON.stringify(this.auth.getCartContents());
       }
     }
+
+
     this.myForm = formBuilder.group({
       'username': ['',[Validators.required]],
       'password': ['',[Validators.required]],
@@ -60,6 +69,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.auth.checkAdmin();
     if(this.auth.isLoggedIn()) {
       this.loggedIn = true;
       this.logButton = "Logout";

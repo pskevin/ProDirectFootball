@@ -1,0 +1,18 @@
+<div class="row">
+  <div id="msgbar" class="col-sm-4">
+    <ul class="account-menu" style="list-style-type: none;">
+      <li class="ul-li"><a [routerLink]="['/admin/statistics']">Statistics<span></span></a></li>
+      <li class="selected ul-li"><a [routerLink]="['/admin/stock']">Stock Update</a></li>
+      <li class="ul-li"><a [routerLink]="['']">Add Wall Paper</a></li>
+      <li class="ul-li"><a [routerLink]="['']">Add Boots</a></li>
+    </ul>
+  </div>
+  <div id="msgbar" class="col-sm-8">
+    <form [formGroup]="myForm" method="post" (ngSubmit)="onSubmit(myForm.data)">
+      <label>Addition in Stock:
+        <input class="form-control" formControlName="addition" type="text"><br />
+      </label>
+      <button class="btn checkout" type="submit">Update Stock</button>
+    </form>
+  </div>
+</div>
