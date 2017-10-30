@@ -83,8 +83,7 @@ export class TerminalComponent implements OnInit {
       );
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onSubmit(data: any, flag: any) {
     if (flag === -1) {
@@ -101,8 +100,7 @@ export class TerminalComponent implements OnInit {
       console.log(this.quantity);
       console.log(this.boot);
       this.auth.addToCart(this.boot,this.quantity);
-    }
-    else {
+    } else {
       this.comment = data.comment;
       this.rating = data.rating;
       let request: any;
@@ -118,8 +116,7 @@ export class TerminalComponent implements OnInit {
             console.log(result);
             if (result.status === '1') {
               alert('Comment Submitted! Thank you for the review.');
-            }
-            else{
+            } else {
               alert('Boot has not been purchased by user! ');
             }
           }

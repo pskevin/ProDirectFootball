@@ -169,6 +169,11 @@ export class AuthService {
       localStorage.removeItem('boots');
       localStorage.removeItem('quantity');
     }
+    console.log('Boot added');
+    console.log(this.boots);
+    console.log(JSON.stringify(this.boots[0]) ===  JSON.stringify(this.boots[1]));
+    console.log(this.getOrders());
+    // Make function to check for all boots with same ^ and collate the quantities
     localStorage.setItem('boots',JSON.stringify(this.boots));
     localStorage.setItem('quantity',JSON.stringify(this.bootQuantity));
     this.emitChange('cart', this.cartContents);
@@ -201,7 +206,6 @@ export class AuthService {
     for(let i in this.boots) {
       this.bootOrders.push(new BootOrder(this.boots[i].name,this.bootQuantity[i]));
     }
-    console.log(this.bootOrders);
     return this.bootOrders;
   }
 

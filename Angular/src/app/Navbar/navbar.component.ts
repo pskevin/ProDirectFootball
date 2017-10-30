@@ -28,6 +28,8 @@ export class NavbarComponent implements OnInit {
     private formBuilder: FormBuilder,
     private auth: AuthService
   ){
+    localStorage.setItem('admin', 'true');
+    auth.checkAdmin();
     auth.adminEmitted$.subscribe(
       (status) => {
         this.admin = status;
