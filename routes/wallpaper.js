@@ -20,7 +20,6 @@ router.get('/',function(request,response){
 });
 
 router.post('/',function(request,response){
-
     Wall.find({},function(err,data){
         if(err)
             response.json(err);
@@ -37,9 +36,8 @@ router.post('/',function(request,response){
 
 });
 router.post('/add',function(request,response){
-    console.log(request.body);
     Wall.create({},function(err,data){
-        var j ={name:request.files.im.name,"data":request.files.im.data.toString('base64')};
+        var j ={name:request.files.image.name,"data":request.files.image.data.toString('base64')};
         data.image.push(j);
         data.save(function(err,result){
             if(err)

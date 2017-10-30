@@ -172,13 +172,14 @@ router.post('/statistics',function(request,response){
   var now = new Date();
   var profit = new HashMap();
   var total = new HashMap();
+  var img = new HashMap();
   var total_monthly = [0,0,0,0,0,0,0,0,0,0,0,0];
   var profit_monthly = [0,0,0,0,0,0,0,0,0,0,0,0];
   if(request.body.year)
     year = request.body.year;
   else
     year = dateformat(now,'yyyy');
-  Order.find({}).populate({path:"product.productId",select:["bname"]}).exec(function(err,result){
+  Order.find({}).populate({path:"product.productId",select:["bname","image"]}).exec(function(err,result){
     var x = async.each(result, function (data, callback){
       y = dateformat(data.createdAt,'yyyy');
       m = dateformat(data.createdAt,'mm');
@@ -192,6 +193,7 @@ router.post('/statistics',function(request,response){
           if(p == undefined || s == undefined){
             profit.set(num.productId.bname.toString(),parseInt(num.profit).toString());
             total.set(num.productId.bname.toString(),parseInt(num.salecost).toString());
+            img.set(num.productId.bname,num.productId.image[0].data);
           }
           else {
             profit.set(num.productId.bname,parseInt(p)+parseInt(num.profit));
@@ -208,7 +210,7 @@ router.post('/statistics',function(request,response){
       if(err)
         response.json(err);
       else {
-        response.json({'gross_profit':t_p,'gross_sales':t_s,'profit_monthly':profit_monthly,'total_monthly':total_monthly,profit_boot:profit.entries(),total_boot:total.entries()});
+        response.json({'gross_profit':t_p,'gross_sales':t_s,'profit_monthly':profit_monthly,'total_monthly':total_monthly,profit_boot:profit.entries(),total_boot:total.entries(),icons:img.entries()});
       }
     });
   });
