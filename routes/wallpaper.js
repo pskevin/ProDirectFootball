@@ -31,7 +31,7 @@ router.post('/',function(request,response){
             console.log(s.count);
             var x = Math.ceil(Math.random() * s.count);
             console.log(x-1);
-            response.json(data[x-1]);
+            response.json(data[x-1].image[0].data);
         }
     });
 
