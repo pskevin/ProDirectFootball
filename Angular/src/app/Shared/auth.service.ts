@@ -9,45 +9,55 @@ declare var $: any;
 
 @Injectable()
 export class AuthService {
-  
+
   constructor(
     private router: Router,
     private local: LocalStorageService
   ) {}
-  
+
   /*---> USER RELATED STORAGE SERVICES <---*/
   //Declaring user service variables
   log: boolean = false;
   name: string;
   tempName: string;
   token: any;
-  
+
+  private admin = new Subject<any>();
+  adminEmitted$ = this.admin.asObservable();
+
+  checkAdmin(){
+    if(localStorage.getItem('admin') == 'true')
+      return this.admin.next(true);
+    else
+      return this.admin.next(false);
+  }
+
   closeModal() {
     $('#myModal').modal('hide');
   }
-  
+
   openModal() {
     $('#myModal').modal('show');
   }
-  
+
   setUser(name: string) {
     console.log("SET CACHE");
     localStorage.setItem('tempUser',name);
   }
-  
+
   getUser() {
     return localStorage.getItem('tempUser');
   }
-  
+
   removeUser() {
     localStorage.removeItem('tempUser');
   }
-  
+
   isLoggedIn() {
     console.log("CHECKING");
     return this.bool(localStorage.getItem('log'));
   }
-  
+
   loggedIn(data: any) {
     console.log("LOGGED IN");
     this.storeLocally(data);
@@ -55,13 +65,13 @@ export class AuthService {
     this.token = data.userdata.token;
     this.log = true;
   }
-  
+
   storeLocally(data: any) {
     localStorage.setItem('name',data.userdata.username);
     localStorage.setItem('token',data.userdata.token);
     localStorage.setItem('log','true');
   }
-  
+
   bool(str: string): boolean {
     if(str === 'true')
       return true;
@@ -69,24 +79,24 @@ export class AuthService {
     if(str === 'false')
       return false;
   }
-  
+
   getToken() {
     return localStorage.getItem('token');
   }
-  
+
   loggedOut() {
     localStorage.setItem('log','false');
     this.log = false;
     this.clear();
   }
-  
+
   clear() {
     console.log("REMOVING");
     localStorage.removeItem('name');
     localStorage.removeItem('token');
     console.log(localStorage);
   }
-  
+
   /*---> BOOT RELATED STORAGE SERVICES <---*/
   //Declaring boot service variables
   bootid: string;
@@ -96,32 +106,32 @@ export class AuthService {
   cartContents: number = 0;
   cart : any;
   query: Query;
-  
+
   // Observable string sources
   private emitChangeSource = new Subject<any>();
-  
+
   // Observable string streams
   changeEmitted$ = this.emitChangeSource.asObservable();
-  
+
   // Service message commands
   emitChange(type: string, change: any) {
     this.emitChangeSource.next({type: type, change: change});
   }
-  
+
   fetchBoot(id){
     this.bootid = id;
     this.navigateTo("terminal");
   }
-  
+
   getBootID(){
     return this.bootid;
   }
-  
+
   navigateTo(url: string) {
     console.log("ZABARDASTI");
     this.router.navigate(['./'+url]);
   }
-  
+
   checkCache() {
     if(localStorage.getItem('boots') && localStorage.getItem('quantity')){
       this.boots = JSON.parse (localStorage.getItem ('boots'));
@@ -140,7 +150,7 @@ export class AuthService {
       return false;
     }
   }
-  
+
   emptyCart(){
     this.cartContents = 0;
     this.boots = [];
@@ -149,7 +159,7 @@ export class AuthService {
     localStorage.removeItem('quantity');
     this.emitChange('cart',this.cartContents);
   }
-  
+
   addToCart(boot: Boot, quantity: number) {
     this.checkCache();
     this.cartContents += 1;
@@ -163,7 +173,7 @@ export class AuthService {
     localStorage.setItem('quantity',JSON.stringify(this.bootQuantity));
     this.emitChange('cart', this.cartContents);
   }
-  
+
   removeFromCart(boots: Boot[], quantity: number[]) {
     this.checkCache();
     this.cartContents -= 1;
@@ -177,7 +187,7 @@ export class AuthService {
     localStorage.setItem('quantity',JSON.stringify(this.bootQuantity));
     this.emitChange('cart', this.cartContents);
   }
-  
+
   getCart() {
     this.cart = {
       boots: this.boots,
@@ -185,7 +195,7 @@ export class AuthService {
     };
     return this.cart ;
   }
-  
+
   getOrders() {
     this.bootOrders = [];
     for(let i in this.boots) {
@@ -194,7 +204,7 @@ export class AuthService {
     console.log(this.bootOrders);
     return this.bootOrders;
   }
-  
+
   getCartContents(){
     this.checkCache();
     return this.boots.length;

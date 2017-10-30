@@ -31,8 +31,14 @@
     <button
       class="btn btn-primary"
       [routerLink]="['./my_orders']"
-      *ngIf = "loggedIn">
+      *ngIf = "loggedIn && !admin">
       My Orders
+    </button>
+    <button
+      class="btn btn-primary"
+      [routerLink]="['./admin']"
+      *ngIf = "admin">
+      Admin Pages
     </button>
     <button
       class="btn btn-danger"
