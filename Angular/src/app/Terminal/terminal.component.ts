@@ -100,20 +100,27 @@ export class TerminalComponent implements OnInit {
       );
       console.log(this.quantity);
       console.log(this.boot);
-      swal(
-        'Good job!',
-        'You clicked the button!',
-        'success'
-      )
       this.http.verifyStock([new BootOrder(this.boot.name, this.quantity).json()])
         .subscribe( 
           (res) => {
             if (res.status === '1') {
               console.log('Success');
-              this.auth.addToCart(this.boot,this.quantity);
+              swal({
+                type: 'success',
+                title: 'Added to Cart!',
+                showConfirmButton: false,
+                timer: 1500
+              }).catch((dismiss) => {
+                  console.log(dismiss);
+                  this.auth.addToCart(this.boot,this.quantity);
+                });
             } else {
               console.log('Fail');
-              console.log(res.data);
+              swal(
+                'Oops!',
+                'Only '+res.data[0].stock+' boots available!',
+                'error'
+              ).catch(swal.noop);
             }
           }
         );
