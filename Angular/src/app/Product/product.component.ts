@@ -215,6 +215,7 @@ export class ProductComponent implements OnInit {
         }
       }
       if ((index == '-1') || (this.queryStack[(+index)].selected != this.brands[i])) {
+        this.activePage = 0;
         this.queryStack.push(new QueryStack("brand", this.brands[i], this.activePage));
         console.log(this.queryStack);
       } else {
@@ -246,6 +247,7 @@ export class ProductComponent implements OnInit {
         }
       }
       if ((index == '-1') || (this.queryStack[(+index)].selected != this.collections[i])) {
+        this.activePage = 0;
         this.queryStack.push(new QueryStack("collection", this.collections[i], this.activePage));
       } else {
         this.queryStack.splice((+index), 1);
@@ -287,6 +289,7 @@ export class ProductComponent implements OnInit {
             this.queryStack.splice((+j), 1);
           }
         }
+        this.activePage = 0;
         this.queryStack.push(new QueryStack("price", this.prices[i], this.activePage));
       } else {
         this.queryStack.splice((+index), 1);
@@ -319,7 +322,9 @@ export class ProductComponent implements OnInit {
         this.qprice = 0;
       }
     }
-    this.query = new Query(this.page.indexOf(1), this.qbrands, this.qcollections, this.qprice);
+    console.log(this.page);
+    console.log(this.activePage);
+    this.query = new Query(this.activePage, this.qbrands, this.qcollections, this.qprice);
     this.http.filterBoots(this.query.makeQuery())
       .subscribe(
         (x) => {
