@@ -331,7 +331,7 @@ export class ProductComponent implements OnInit {
     // console.log(this.page);
     // console.log(this.activePage);
     this.query = new Query(this.activePage, this.qbrands, this.qcollections, this.qprice);
-    this.http.filterBoots(this.query.makeQuery())
+    this.http.filterBoots(this.query.json())
       .subscribe(
         (x) => {
           // console.log("MAKING PAGE");

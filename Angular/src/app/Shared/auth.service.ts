@@ -41,7 +41,7 @@ export class AuthService {
   }
 
   setUser(name: string) {
-    console.log("SET CACHE");
+    // console.log("SET CACHE");
     localStorage.setItem('tempUser',name);
   }
 
@@ -54,12 +54,12 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    console.log("CHECKING");
+    // console.log("CHECKING");
     return this.bool(localStorage.getItem('log'));
   }
 
   loggedIn(data: any) {
-    console.log("LOGGED IN");
+    // console.log("LOGGED IN");
     this.storeLocally(data);
     this.name = data.userdata.username;
     this.token = data.userdata.token;
@@ -91,10 +91,10 @@ export class AuthService {
   }
 
   clear() {
-    console.log("REMOVING");
+    // console.log("REMOVING");
     localStorage.removeItem('name');
     localStorage.removeItem('token');
-    console.log(localStorage);
+    // console.log(localStorage);
   }
 
   /*---> BOOT RELATED STORAGE SERVICES <---*/
@@ -128,7 +128,7 @@ export class AuthService {
   }
 
   navigateTo(url: string) {
-    console.log("ZABARDASTI");
+    // console.log("ZABARDASTI");
     this.router.navigate(['./'+url]);
   }
 
@@ -136,13 +136,13 @@ export class AuthService {
     if(localStorage.getItem('boots') && localStorage.getItem('quantity')){
       this.boots = JSON.parse (localStorage.getItem ('boots'));
       this.bootQuantity = JSON.parse (localStorage.getItem (('quantity')));
-      console.log (JSON.parse (localStorage.getItem (('quantity'))));
+      // console.log (JSON.parse (localStorage.getItem (('quantity'))));
       this.cartContents = this.boots.length;
       if((this.boots.length >= 1) && (this.bootQuantity.length >= 1)) {
         return true;
       }
       else {
-        console.log("EMPTY");
+        // console.log("EMPTY");
         return false;
       }
     }
@@ -172,8 +172,11 @@ export class AuthService {
     console.log('Boot added');
     console.log(this.boots);
     console.log(JSON.stringify(this.boots[0]) ===  JSON.stringify(this.boots[1]));
-    console.log(this.getOrders());
+    // for (let order of this.getOrders()) {
+      // console.log(order.json());
+    // }
     // Make function to check for all boots with same ^ and collate the quantities
+
     localStorage.setItem('boots',JSON.stringify(this.boots));
     localStorage.setItem('quantity',JSON.stringify(this.bootQuantity));
     this.emitChange('cart', this.cartContents);
@@ -201,7 +204,7 @@ export class AuthService {
     return this.cart ;
   }
 
-  getOrders() {
+  getOrders(): BootOrder[] {
     this.bootOrders = [];
     for(let i in this.boots) {
       this.bootOrders.push(new BootOrder(this.boots[i].name,this.bootQuantity[i]));

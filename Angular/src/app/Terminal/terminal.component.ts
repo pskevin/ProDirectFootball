@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from "../Shared/http.service";
 import { AuthService } from "../Shared/auth.service";
-import { Boot } from "../Shared/boot.model";
+import { Boot, BootOrder } from "../Shared/boot.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { bootStateTrigger } from "../Shared/boot.animations";
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'pdf-terminal',
@@ -99,7 +100,23 @@ export class TerminalComponent implements OnInit {
       );
       console.log(this.quantity);
       console.log(this.boot);
-      this.auth.addToCart(this.boot,this.quantity);
+      swal(
+        'Good job!',
+        'You clicked the button!',
+        'success'
+      )
+      this.http.verifyStock([new BootOrder(this.boot.name, this.quantity).json()])
+        .subscribe( 
+          (res) => {
+            if (res.status === '1') {
+              console.log('Success');
+              this.auth.addToCart(this.boot,this.quantity);
+            } else {
+              console.log('Fail');
+              console.log(res.data);
+            }
+          }
+        );
     } else {
       this.comment = data.comment;
       this.rating = data.rating;

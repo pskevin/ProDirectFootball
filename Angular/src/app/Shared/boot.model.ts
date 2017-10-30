@@ -38,6 +38,13 @@ export class BootOrder {
     this.bname = bname;
     this.quantity = quantity;
   }
+
+  json() {
+    return {
+      bname: this.bname,
+      quantity: this.quantity
+    }
+  }
 }
 
 export class Order {
