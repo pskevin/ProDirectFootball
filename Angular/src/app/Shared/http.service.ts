@@ -145,4 +145,12 @@ export class HttpService {
     return this.http.post('https://localhost:3443/user/comment', body, {headers})
       .map((response: Response) => response.json());
   }
+
+  sendWallPaper(request: any) {
+    let headers = new Headers();
+    headers.append('x-access-token', this.auth.getToken());
+    const body = request;
+    return this.http.post('https://localhost:3443/wallpaper/add', body, {headers})
+      .map((response: Response) => response.json());
+  }
 }

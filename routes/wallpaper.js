@@ -20,6 +20,7 @@ router.get('/',function(request,response){
 });
 
 router.post('/',function(request,response){
+
     Wall.find({},function(err,data){
         if(err)
             response.json(err);
@@ -30,14 +31,16 @@ router.post('/',function(request,response){
             console.log(s.count);
             var x = Math.ceil(Math.random() * s.count);
             console.log(x-1);
-            response.json(data[x-1]);
+            response.json(data[x-1].image[0].data);
         }
     });
 
 });
 router.post('/add',function(request,response){
+    console.log(request.body);
+    console.log(request.files);
     Wall.create({},function(err,data){
-        var j ={name:request.files.image.name,"data":request.files.image.data.toString('base64')};
+        var j ={name:request.body.name,"data":request.body.data};
         data.image.push(j);
         data.save(function(err,result){
             if(err)

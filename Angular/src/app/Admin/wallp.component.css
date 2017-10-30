@@ -1,0 +1,65 @@
+.struct{
+  margin: 5%;
+}
+
+#msgbar{
+
+  padding-top:2px;
+  padding-bottom:2px;
+  border-right: 5px solid #191919;
+  border-left: 5px solid #191919;
+  border-top: 1px solid #191919;
+}
+
+ul{
+  padding-left: 0;
+  padding-top: 2%;
+  padding-bottom  : 2%;
+  padding-right: 2%;
+}
+li a{
+
+  display: block;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+}
+
+li:hover{
+  color: white;
+  background-color: #686c72;
+  text-decoration: none;
+}
+.ul-li{
+  background: #e3e3e3;
+  border-bottom: 1px solid #cfcfcf;
+  border-top: 1px solid #fff;
+  font-size: 12px;
+  font-weight: 400;
+  margin: 0;
+  text-transform: uppercase;
+  position: relative;
+  letter-spacing: 1px;
+  padding-right: 5%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  color: black;
+}
+
+input{
+  color: black;
+}
+
+#selected{
+  position: absolute;
+  right: -20px;
+  top: -1px;
+  width: 20px;
+  height: 100%;
+  display: block;
+}
+
+.selected{
+  background-color: #3F3F3F;
+  color: white;
+}
