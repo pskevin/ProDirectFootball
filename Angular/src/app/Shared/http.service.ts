@@ -8,7 +8,16 @@ import { AuthService } from "./auth.service";
 @Injectable()
 export class HttpService {
 
-  constructor(private http: Http, private auth: AuthService) {
+  constructor(private http: Http, private auth: AuthService) {}
+
+  verifyStock(query: any) {
+    console.log("Verify Stock");
+    const body = query;
+    console.log(JSON.stringify(body));
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('https://localhost:3443/user/checkStock', body)
+      .map((response: Response) => response.json());
   }
 
   fetchBoot(query: any){
@@ -142,6 +151,13 @@ export class HttpService {
     headers.append('x-access-token', this.auth.getToken());
     const body = request;
     return this.http.post('https://localhost:3443/wallpaper/add', body, {headers})
+      .map((response: Response) => response.json());
+  }
+
+  getWallPaper(){
+    let headers = new Headers();
+    headers.append('x-access-token', this.auth.getToken());
+    return this.http.post('https://localhost:3443/wallpaper', {headers})
       .map((response: Response) => response.json());
   }
 }

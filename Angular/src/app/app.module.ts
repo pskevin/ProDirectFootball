@@ -11,11 +11,8 @@ import { AuthService } from './Shared/auth.service';
 import {ActivateAdmin, PaymentActivateGuard} from './Shared/paymentActivate.guard';
 import { LocalStorageModule } from 'angular-2-local-storage';
 import { RouterModule } from '@angular/router';
-import { LoginComponent } from './Login/login.component';
 import { HttpService } from './Shared/http.service';
 import { ProductComponent } from './Product/product.component';
-import { BootsComponent } from './Boots/boots.component';
-import { BallsComponent } from './Balls/balls.component';
 import { ROUTES } from './app.routing';
 import { TerminalComponent } from './Terminal/terminal.component';
 import { BasketComponent } from './BasketPage/basket.component';
@@ -32,10 +29,7 @@ import { OrdersComponent } from './MyOrders/orders.component';
     AppComponent,
     NavbarComponent,
     HomeComponent,
-    LoginComponent,
     ProductComponent,
-    BootsComponent,
-    BallsComponent,
     TerminalComponent,
     BasketComponent,
     RegisterpComponent,

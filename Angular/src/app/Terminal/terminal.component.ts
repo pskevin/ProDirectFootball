@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpService } from "../Shared/http.service";
 import { AuthService } from "../Shared/auth.service";
-import { Boot } from "../Shared/boot.model";
+import { Boot, BootOrder } from "../Shared/boot.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { bootStateTrigger } from "../Shared/boot.animations";
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'pdf-terminal',
@@ -83,8 +84,7 @@ export class TerminalComponent implements OnInit {
       );
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onSubmit(data: any, flag: any) {
     if (flag === -1) {
@@ -100,9 +100,31 @@ export class TerminalComponent implements OnInit {
       );
       console.log(this.quantity);
       console.log(this.boot);
-      this.auth.addToCart(this.boot,this.quantity);
-    }
-    else {
+      this.http.verifyStock([new BootOrder(this.boot.name, this.quantity).json()])
+        .subscribe( 
+          (res) => {
+            if (res.status === '1') {
+              console.log('Success');
+              swal({
+                type: 'success',
+                title: 'Added to Cart!',
+                showConfirmButton: false,
+                timer: 1500
+              }).catch((dismiss) => {
+                  console.log(dismiss);
+                  this.auth.addToCart(this.boot,this.quantity);
+                });
+            } else {
+              console.log('Fail');
+              swal(
+                'Oops!',
+                'Only '+res.data[0].stock+' boots available!',
+                'error'
+              ).catch(swal.noop);
+            }
+          }
+        );
+    } else {
       this.comment = data.comment;
       this.rating = data.rating;
       let request: any;
@@ -118,8 +140,7 @@ export class TerminalComponent implements OnInit {
             console.log(result);
             if (result.status === '1') {
               alert('Comment Submitted! Thank you for the review.');
-            }
-            else{
+            } else {
               alert('Boot has not been purchased by user! ');
             }
           }

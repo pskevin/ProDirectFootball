@@ -21,10 +21,12 @@
     "@angular/platform-browser-dynamic": "^2.4.0",
     "@angular/router": "^3.4.0",
     "angular-2-local-storage": "^1.0.1",
+    "angular2-image-upload": "^1.0.0-rc.0",
     "chart.js": "^2.7.0",
     "core-js": "^2.4.1",
     "ng2-charts": "^1.6.0",
     "rxjs": "^5.1.0",
+    "sweetalert2": "^6.11.2",
     "zone.js": "^0.7.6"
   },
   "devDependencies": {

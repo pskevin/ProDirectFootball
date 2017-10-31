@@ -21,7 +21,9 @@
       <th>Price</th>
     </tr>
     <tr
-      *ngFor = "let boot of boots; let i = index">
+      @bootState
+      (@bootState.done) = "bootAnimated($event,i)"
+      *ngFor = "let boot of displayedBoots; let i = index">
       <td>
         <div class="imgholder">
           <a>

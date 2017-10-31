@@ -22,8 +22,10 @@ router.get('/',function(request,response){
 router.post('/',function(request,response){
 
     Wall.find({},function(err,data){
-        if(err)
+        if(err){
             response.json(err);
+            console.log('here!!');
+        }
         else {
             var s = _.countBy(data, function (num) {
                 return 'count';

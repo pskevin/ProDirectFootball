@@ -24,7 +24,7 @@ export class Query {
     this.priceband = priceband;
   }
   
-  makeQuery() {
+  json() {
     if(this.brands.length > 0) {
       this.sbrands = '{ "$in" : ' + JSON.stringify (this.brands) + '}';
     } else {
