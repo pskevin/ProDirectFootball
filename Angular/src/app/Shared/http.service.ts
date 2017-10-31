@@ -144,4 +144,11 @@ export class HttpService {
     return this.http.post('https://localhost:3443/wallpaper/add', body, {headers})
       .map((response: Response) => response.json());
   }
+
+  getWallPaper(){
+    let headers = new Headers();
+    headers.append('x-access-token', this.auth.getToken());
+    return this.http.post('https://localhost:3443/wallpaper', {headers})
+      .map((response: Response) => response.json());
+  }
 }
