@@ -5,6 +5,8 @@ import { Boot, BootOrder } from "../Shared/boot.model";
 import { bootStateTrigger } from "../Shared/boot.animations";
 import swal from 'sweetalert2';
 
+declare var $: any;
+
 @Component({
   selector: 'pdf-basket',
   templateUrl: './basket.component.html',
@@ -21,6 +23,7 @@ export class BasketComponent implements OnInit {
   displayedBoots: Boot[] = [];
   bootsQuantity: number[] = [];
   cart: any;
+  loadingComplete: boolean = false;
 
   constructor(
     private http: HttpService,
@@ -29,6 +32,7 @@ export class BasketComponent implements OnInit {
 
   ngOnInit() {
     this.displayedBoots = [];
+    this.loadingComplete = false;
     if (!this.auth.checkCache()) {
       this.isCartEmpty = true;
     }
@@ -96,9 +100,42 @@ export class BasketComponent implements OnInit {
       .subscribe(
         (res) => {
           if (res.status === '1') {
-            console.log('Succes');
+            console.log('Stock is available');
           } else {
-            console.log('Fail');
+            console.log('Stock is unavailable');
+            let html = '<i>The following boots have inadequate stock - </i>\
+              <table><thead><th>Name</th><th>Available Quantity</th></thead><tbody>';
+            res.data.forEach((boot) => {
+              html += '<tr><th>'+ boot.bname + '</th><th>' + boot.stock + '</th></tr><br/>'
+            });
+            html += '</tbody></table>';
+            swal({
+              type: 'error',
+              title: 'Oops!',
+              confirmButtonColor: '#f27474',
+              confirmButtonText: 'Remove boots from Basket',
+              html: html
+            }).then(
+              () => {
+                let faultyNames = res.data.map((faultyBoot) => (faultyBoot.bname)),
+                  acceptedIndices = this.boots.map((addedBoot) => {
+                    return !faultyNames.some((faultyName) => (faultyName === addedBoot.name));
+                  })
+                this.boots = this.boots.filter((boot,i) => (acceptedIndices[i]));
+                this.bootsQuantity = this.bootsQuantity.filter((quan,i) => (acceptedIndices[i]));
+                console.log(acceptedIndices);
+                console.log(this.boots);
+                console.log(this.bootsQuantity);
+                this.auth.removeFromCart(this.boots, this.bootsQuantity);
+                this.ngOnInit();
+              }
+            )
+            .catch(
+              (dismiss) => {
+                console.log(dismiss);
+                this.verifyStock();
+              }
+            );
           }
         }
       )
@@ -115,7 +152,9 @@ export class BasketComponent implements OnInit {
       this.displayedBoots = this.boots;
     }
     if (id === this.boots.length - 1) {
+      console.log('Finished animating');
       this.verifyStock();
+      this.loadingComplete = true;
     }
   }
 }

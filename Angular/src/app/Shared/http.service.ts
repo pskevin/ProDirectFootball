@@ -10,6 +10,11 @@ export class HttpService {
 
   constructor(private http: Http, private auth: AuthService) {}
 
+  getStatistics() {
+    return this.http.post('https://localhost:3443/boot/statistics', {})
+      .map((response: Response) => response.json());
+  }
+  
   verifyStock(query: any) {
     console.log("Verify Stock");
     const body = query;
@@ -17,6 +22,16 @@ export class HttpService {
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
     return this.http.post('https://localhost:3443/user/checkStock', body)
+      .map((response: Response) => response.json());
+  }
+
+  checkoutCart(query: any) {
+    console.log("Checkout Stock");
+    const body = query;
+    console.log(JSON.stringify(body));
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('https://localhost:3443/user/checkout', body)
       .map((response: Response) => response.json());
   }
 

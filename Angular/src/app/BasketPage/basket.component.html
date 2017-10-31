@@ -33,7 +33,7 @@
         <div class="textholder">
           <p>
             {{ boot.name }}<br>
-            <button type="button" (click)="removeBoot(i)">Remove</button>
+            <button type="button" [disabled]="!loadingComplete" (click)="removeBoot(i)">Remove</button>
           </p>
         </div>
       </td>

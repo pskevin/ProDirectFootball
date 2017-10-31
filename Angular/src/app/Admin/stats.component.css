@@ -63,3 +63,7 @@ input{
   background-color: #3F3F3F;
   color: white;
 }
+
+.UCanvas {
+  height: 30vh;
+}

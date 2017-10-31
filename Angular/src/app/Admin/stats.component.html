@@ -1,13 +1,43 @@
 <div class="row">
   <div id="msgbar" class="col-sm-4">
     <ul class="account-menu" style="list-style-type: none;">
-      <li class="selected ul-li"><a [routerLink]="['/admin/statistics']">Statistics</a></li>
-      <li class="ul-li"><a [routerLink]="['/admin/stock']">Stock Update</a></li>
-      <li class="ul-li"><a [routerLink]="['/admin/add_wallpaper']">Add Wall Paper</a></li>
-      <li class="ul-li"><a [routerLink]="['/admin/add_boots']">Add Boots</a></li>
+      <li class="selected ul-li">
+        <a [routerLink]="['/admin/statistics']">Statistics</a>
+      </li>
+      <li class="ul-li">
+        <a [routerLink]="['/admin/stock']">Stock Update</a>
+      </li>
+      <li class="ul-li">
+        <a [routerLink]="['/admin/add_wallpaper']">Add Wall Paper</a>
+      </li>
+      <li class="ul-li">
+        <a [routerLink]="['/admin/add_boots']">Add Boots</a>
+      </li>
     </ul>
   </div>
   <div id="msgbar" class="col-sm-8">
-    <h4>Sales Statistics</h4>
+    <div class="col-sm-12 UCanvas">
+      <div *ngIf="UloadCanvas">
+        <canvas baseChart *ngIf="Uloaded" [datasets]="UBarChartData" [labels]="UBarChartLabels" [options]="UBarChartOptions" [legend]="UBarChartLegend"
+          [chartType]='"bar"' style="display:block; width:100%; height:50vh;">
+        </canvas>
+      </div>
+    </div>
+    <!-- <div class="col-sm-12">
+      <div class="col-sm-6">
+        <div *ngIf="BLloadCanvas">
+          <canvas baseChart *ngIf="BLloaded" [datasets]="BLBarChartData" [labels]="BLBarChartLabels" [options]="BLBarChartOptions"
+            [legend]="BLBarChartLegend" [chartType]='"bar"' style="display:block; width:100%;">
+          </canvas>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div *ngIf="BRloadCanvas">
+          <canvas baseChart *ngIf="BRloaded" [datasets]="BRBarChartData" [labels]="BRBarChartLabels" [options]="BRBarChartOptions"
+            [legend]="BRBarChartLegend" [chartType]='"bar"' style="display:block; width:100%;">
+          </canvas>
+        </div>
+      </div>
+    </div> -->
   </div>
 </div>
