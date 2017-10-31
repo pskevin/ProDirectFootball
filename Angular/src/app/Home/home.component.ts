@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {HttpService} from '../Shared/http.service';
 
 @Component({
   selector: 'pdf-home',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { console.log("HOME");}
+  img_data: any;
+
+  constructor(
+    private http: HttpService
+  ) {}
 
   ngOnInit() {
+    console.log('home!');
+    this.http.getWallPaper()
+      .subscribe(
+        (result) => {
+          this.img_data = 'data:image/jpg;base64,' + result;
+        }
+      );
   }
-
 }

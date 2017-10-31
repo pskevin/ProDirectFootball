@@ -1,0 +1,67 @@
+<div class="row">
+  <div id="msgbar" class="col-sm-4">
+    <ul class="account-menu" style="list-style-type: none;">
+      <li class="ul-li"><a [routerLink]="['/admin/statistics']">Statistics<span></span></a></li>
+      <li class="ul-li"><a [routerLink]="['/admin/stock']">Stock Update</a></li>
+      <li class="ul-li"><a [routerLink]="['/admin/add_wallpaper']">Add Wall Paper</a></li>
+      <li class="selected ul-li"><a [routerLink]="['/admin/add_boots']">Add Boots</a></li>
+    </ul>
+  </div>
+  <div id="msgbar" class="col-sm-8"><br />
+    <label>Upload Thumbnail</label>
+    <image-upload
+      [preview]="true"
+      [extensions]="['jpg','png','gif']"
+      [max]="1"
+      (uploadFinished)="onSubmit($event.src,$event.file.name, 't')">
+    </image-upload><br />
+    <label>Upload Left View</label>
+    <image-upload
+      [preview]="true"
+      [extensions]="['jpg','png','gif']"
+      [max]="1"
+      (uploadFinished)="onSubmit($event.src,$event.file.name, 'l')">
+    </image-upload><br />
+    <label>Upload Right View</label>
+    <image-upload
+      [preview]="true"
+      [extensions]="['jpg','png','gif']"
+      [max]="1"
+      (uploadFinished)="onSubmit($event.src,$event.file.name, 'r')">
+    </image-upload><br />
+    <label>Upload Overview</label>
+    <image-upload
+      [preview]="true"
+      [extensions]="['jpg','png','gif']"
+      [max]="1"
+      (uploadFinished)="onSubmit($event.src,$event.file.name, 'o')">
+    </image-upload><br />
+    <form [formGroup]="myForm" method="post" (ngSubmit)="sendBoot(myForm.value)">
+      <label> Boot Name </label>
+      <input class="form-control" formControlName="bname" type="text" />
+      <label>Brand Name</label>
+      <input class="form-control" formControlName="brand"><br />
+      <label>Collection Name</label>
+      <input class="form-control" formControlName="coll"><br />
+      <label>Description</label>
+      <textarea rows="5" class="form-control" formControlName="description"></textarea><br />
+      <div class="small">
+        <label>£ Cost Price&nbsp;&nbsp;</label>
+        <input class="form-control" type="number" formControlName="costprice">
+      </div>
+      <div class="small">
+        <label>£ Sale Price&nbsp;&nbsp;</label>
+        <input class="form-control" type="number" formControlName="saleprice">
+      </div>
+      <div class="small">
+        <label>Status</label>
+        <select class="form-control" formControlName="status">
+          <option value="none" selected>None </option>
+          <option value="new" >New </option>
+          <option value="exclusive">Exclusive </option>
+        </select>
+      </div><br />
+      <button class="checkout" [disabled]="!myForm.valid" type="submit">Submit</button>
+    </form>
+  </div>
+</div>

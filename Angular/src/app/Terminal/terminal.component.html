@@ -43,10 +43,11 @@
       </div>
       <div class="topcomment">
         <div class="avgrating">
-          <h4>Average Rating: <span>3</span>&nbsp;/&nbsp;5</h4>
+          <h4>Average Rating: <span [innerHTML]="b_rating"></span>&nbsp;/&nbsp;5</h4>
         </div>
         <div>
-          <h4>Top Comment:&nbsp;</h4><p>Damn I love them bootsDamn I love them bootsDamn I love them bootsDamn I love them bootsDamn I love them bootsDamn I love them bootsDamn I love them boots</p>
+          <h4>Top Comment:&nbsp;</h4>
+          <p [innerHTML]="b_comment"></p>
         </div>
       </div>
     </div>

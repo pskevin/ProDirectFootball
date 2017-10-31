@@ -16,7 +16,7 @@ import swal from 'sweetalert2';
 })
 
 export class TerminalComponent implements OnInit {
-  //Declaring variables
+  // Declaring variables
   myForm: FormGroup;
   myComment: FormGroup;
   bootLoaded: boolean = false;
@@ -34,8 +34,8 @@ export class TerminalComponent implements OnInit {
   status: string;
   quantity: number = 0;
   boot: Boot;
-  rating: number;
-  comment: string;
+  b_rating: number;
+  b_comment: string;
 
   constructor (
     private http: HttpService,
@@ -80,6 +80,17 @@ export class TerminalComponent implements OnInit {
             }
           }
           this.bootLoaded = true;
+          const request: any = {
+            bname: this.name
+          };
+          this.http.getComment(request)
+            .subscribe(
+              (result) => {
+                console.log(result);
+                this.b_comment = result.comment;
+                this.b_rating = result.rating;
+              }
+            );
         }
       );
   }
@@ -101,7 +112,7 @@ export class TerminalComponent implements OnInit {
       console.log(this.quantity);
       console.log(this.boot);
       this.http.verifyStock([new BootOrder(this.boot.name, this.quantity).json()])
-        .subscribe( 
+        .subscribe(
           (res) => {
             if (res.status === '1') {
               console.log('Success');
@@ -125,13 +136,11 @@ export class TerminalComponent implements OnInit {
           }
         );
     } else {
-      this.comment = data.comment;
-      this.rating = data.rating;
       let request: any;
       request = {
         bname: this.name,
-        remarks: this.comment,
-        rating: this.rating
+        remarks: data.comment,
+        rating: data.rating
       };
       console.log(request);
       this.http.sendComment(request)

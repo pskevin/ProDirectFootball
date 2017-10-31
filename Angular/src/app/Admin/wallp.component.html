@@ -9,12 +9,12 @@
   </div>
   <div id="msgbar" class="col-sm-8">
     <br />
-    <image-upload
+    <image-upload id="exp"
       [preview]="true"
       [extensions]="['jpg','png','gif']"
       [max]="1"
       (uploadFinished)="onSubmit($event.src,$event.file.name)">
-    </image-upload>
-    <button (click)="sendWall();" class="btn checkout">Submit</button>
+    </image-upload><br/>
+    <button (click)="sendWall();" class="checkout">Submit</button>
   </div>
 </div>
