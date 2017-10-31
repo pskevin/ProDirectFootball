@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {AuthService} from '../Shared/auth.service';
 import {HttpService} from '../Shared/http.service';
 
 @Component({
@@ -10,24 +8,19 @@ import {HttpService} from '../Shared/http.service';
 })
 export class WallpComponent implements OnInit {
 
-  myForm: FormGroup;
   file: any;
   wname: any;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private auth: AuthService,
     private http: HttpService
   ) {
-    // this.myForm = formBuilder.group({
-    //     'wallp': ['', [Validators.required]],
-    //   }
-    // );
+
   }
 
   onSubmit(data: any, name: any) {
     this.file = data.substr(23);
     this.wname = name;
+    console.log(name);
   }
 
   sendWall() {

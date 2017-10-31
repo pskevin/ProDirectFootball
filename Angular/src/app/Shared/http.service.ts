@@ -160,4 +160,12 @@ export class HttpService {
     return this.http.post('https://localhost:3443/wallpaper', {headers})
       .map((response: Response) => response.json());
   }
+
+  sendBoot(request: any){
+    let headers = new Headers();
+    headers.append('x-access-token', this.auth.getToken());
+    const body = request;
+    return this.http.post('https://localhost:3443/wallpaper', body, {headers})
+      .map((response: Response) => response.json());
+  }
 }
