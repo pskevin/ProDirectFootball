@@ -28,11 +28,10 @@ export class NavbarComponent implements OnInit {
     private formBuilder: FormBuilder,
     private auth: AuthService
   ){
-    localStorage.setItem('admin', 'true');
-    auth.checkAdmin();
     auth.adminEmitted$.subscribe(
       (status) => {
         this.admin = status;
+        console.log('Change in admin status' + this.admin);
       }
     );
 
@@ -100,25 +99,39 @@ export class NavbarComponent implements OnInit {
       .subscribe(
         (data) => {
           console.log(data);
-          if(data === "Already logged in") {
+          if(data.message === "Already logged in") {
             console.log("Logged in");
             this.valid.check = false;
             this.valid.response = "Already Logged In!";
           }
           else
-          if(data === "Unauthorized"){
+          if(data.message === "Unauthorized"){
             console.log("Unauthorized");
             this.valid.check = false;
             this.valid.response = "Wrong Username or Password!";
           }
           else
-          if(data === "Unverified"){
+          if(data.message === "Unverified"){
             console.log("Unverified");
             this.valid.check = false;
             this.valid.response = "Unverified Account!";
           }
+          else if (data.status === '2') {
+            localStorage.setItem('admin', 'true');
+            this.auth.checkAdmin();
+            this.closeModal();
+            console.log("ASDAD");
+            this.valid.check = true;
+            this.valid.response = "Valid User!";
+            this.loggedIn = true;
+            this.logButton = "Logout";
+            this.auth.loggedIn({name: this.request.username, userdata: data});
+            this.auth.emitChange('login','true');
+          }
           else
-          if(data.success){
+          if (data.status === '1') {
+            localStorage.setItem('admin', 'false');
+            this.auth.checkAdmin();
             this.closeModal();
             console.log("ASDAD");
             this.valid.check = true;
@@ -135,12 +148,15 @@ export class NavbarComponent implements OnInit {
   logout(){
     this.http.logOut(this.auth.getToken()).subscribe(
       (response) => {
+        localStorage.setItem('admin', 'false');
+        this.auth.checkAdmin();
         console.log(response);
         this.auth.loggedOut();
         this.loggedIn = false;
         this.logButton = "Login";
         this.myForm.reset();
         this.auth.emitChange('login','false');
+        this.auth.navigateTo('/');
       }
     );
   }

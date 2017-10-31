@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from "./Shared/auth.service";
-
 @Component({
   selector: 'pdf-root',
   templateUrl: './app.component.html',
@@ -8,9 +6,9 @@ import { AuthService } from "./Shared/auth.service";
 })
 export class AppComponent implements OnInit {
   spaceScreens: any;
-  
+
   constructor() {}
-  
+
   ngOnInit() {
   }
 }

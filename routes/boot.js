@@ -25,21 +25,21 @@ router.get('/',function(request,response){
 });
 router.post('/add',function(request,response){
   console.log(request.body);
-  console.log(request.files);
-  Boot.create(request.body,function (err,data){
+  dat = request.body;
+  Boot.create({bname:dat.bname,coll:dat.coll,brand:dat.brand,description:dat.description,costprice:dat.costprice,saleprice:dat.saleprice,status:dat.status},function (err,data){
     if(err)
     console.log(err);
     else
     {
       console.log(data);
       var bname =data.bname;
-      var j ={name:bname+"-thumb","data":request.files.thumb.data.toString('base64')};
+      var j ={name:bname+"-thumb","data":dat.thumb};
       data.image.push(j);
-      j ={name:bname+"-left","data":request.files.left.data.toString('base64')};
+      j ={name:bname+"-left","data":dat.left};
       data.image.push(j);
-      j ={name:bname+"-over","data":request.files.over.data.toString('base64')};
+      j ={name:bname+"-over","data":dat.over};
       data.image.push(j);
-      j ={name:bname+"-right","data":request.files.right.data.toString('base64')};
+      j ={name:bname+"-right","data":dat.right};
       data.image.push(j);
       data.save(function(err,result){
         if(err)
@@ -47,7 +47,7 @@ router.post('/add',function(request,response){
         else
         {
           console.log(data.image[0]);
-          response.json(data);
+          response.json({status:"1",message:"Added boot successful!"});
         }
       });
     }

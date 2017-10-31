@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    console.log('home!');
     this.http.getWallPaper()
       .subscribe(
         (result) => {

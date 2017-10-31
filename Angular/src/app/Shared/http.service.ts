@@ -154,10 +154,17 @@ export class HttpService {
       .map((response: Response) => response.json());
   }
 
-  getWallPaper(){
+  getWallPaper() {
+    console.log('In wallpaper!');
+    return this.http.get('https://localhost:3443/wallpaper')
+      .map((response: Response) => response.json());
+  }
+
+  getComment(request: any) {
     let headers = new Headers();
+    const body = request;
     headers.append('x-access-token', this.auth.getToken());
-    return this.http.post('https://localhost:3443/wallpaper', {headers})
+    return this.http.post('https://localhost:3443/user/topComment', body, {headers})
       .map((response: Response) => response.json());
   }
 
@@ -165,7 +172,7 @@ export class HttpService {
     let headers = new Headers();
     headers.append('x-access-token', this.auth.getToken());
     const body = request;
-    return this.http.post('https://localhost:3443/wallpaper', body, {headers})
+    return this.http.post('https://localhost:3443/boot/add', body, {headers})
       .map((response: Response) => response.json());
   }
 }

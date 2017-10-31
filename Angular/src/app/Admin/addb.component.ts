@@ -61,7 +61,7 @@ export class AddbComponent implements OnInit {
     console.log(data);
     let request: any;
     request = {
-      banme: data.bname,
+      bname: data.bname,
       brand: data.brand,
       coll: data.coll,
       description: data.description,
@@ -73,10 +73,13 @@ export class AddbComponent implements OnInit {
       right: this.img_r,
       over: this.img_o
     };
+    console.log(request);
     this.http.sendBoot(request)
       .subscribe(
         (result ) => {
           console.log(result);
+          alert('Boot Added Successfully!');
+          window.location.reload();
       });
   }
 }

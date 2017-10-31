@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpService} from '../Shared/http.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'pdf-wallp',
@@ -12,7 +13,8 @@ export class WallpComponent implements OnInit {
   wname: any;
 
   constructor(
-    private http: HttpService
+    private http: HttpService,
+    private router: Router
   ) {
 
   }
@@ -35,6 +37,7 @@ export class WallpComponent implements OnInit {
         (result) => {
           console.log(result);
           alert('Wallpaper added! Clear and upload the next one.');
+          window.location.reload();
         }
       );
   }

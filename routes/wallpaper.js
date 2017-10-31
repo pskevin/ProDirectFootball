@@ -11,16 +11,16 @@ var fs = require('fs');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : false}));
 
+// router.get('/',function(request,response){
+//     var link="../public/html/addWallpaper.html";
+//     link = path.join(__dirname,link);
+//     console.log(link+"-"+fs.existsSync(link));
+//     var stream=fs.createReadStream(link);
+//     stream.pipe(response);
+// });
+
 router.get('/',function(request,response){
-    var link="../public/html/addWallpaper.html";
-    link = path.join(__dirname,link);
-    console.log(link+"-"+fs.existsSync(link));
-    var stream=fs.createReadStream(link);
-    stream.pipe(response);
-});
-
-router.post('/',function(request,response){
-
+    console.log('hererererQq!');
     Wall.find({},function(err,data){
         if(err){
             response.json(err);
