@@ -8,6 +8,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { WallpComponent } from './wallp.component';
 import { AddbComponent } from './addb.component';
 import {ImageUploadModule} from 'angular2-image-upload';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import {ImageUploadModule} from 'angular2-image-upload';
     CommonModule,
     adminRouting,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ChartsModule
   ],
   declarations: [StatsComponent, AdminComponent, StockComponent, WallpComponent, AddbComponent]
 })

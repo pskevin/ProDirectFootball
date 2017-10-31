@@ -23,21 +23,25 @@
         </canvas>
       </div>
     </div>
-    <!-- <div class="col-sm-12">
-      <div class="col-sm-6">
-        <div *ngIf="BLloadCanvas">
-          <canvas baseChart *ngIf="BLloaded" [datasets]="BLBarChartData" [labels]="BLBarChartLabels" [options]="BLBarChartOptions"
-            [legend]="BLBarChartLegend" [chartType]='"bar"' style="display:block; width:100%;">
-          </canvas>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div *ngIf="BRloadCanvas">
-          <canvas baseChart *ngIf="BRloaded" [datasets]="BRBarChartData" [labels]="BRBarChartLabels" [options]="BRBarChartOptions"
-            [legend]="BRBarChartLegend" [chartType]='"bar"' style="display:block; width:100%;">
-          </canvas>
-        </div>
-      </div>
-    </div> -->
+    <div class="col-sm-12" *ngIf="bootsLoaded">
+        <tr
+        *ngFor = "let boot of boots; let i = index">
+        <td>
+          <div class="imgholder">
+            <a>
+              <img [src]="'data:image/jpg;base64,'+boot.img"/>
+            </a>
+          </div>
+          <div class="textholder">
+            <p>
+              <a>{{ boot.name }}</a><br>
+            </p>
+          </div>
+        </td>
+        <td>
+          <h3 style="text-align: center;">£{{ boot.price }}</h3>
+        </td>
+      </tr>
+    </div>
   </div>
 </div>

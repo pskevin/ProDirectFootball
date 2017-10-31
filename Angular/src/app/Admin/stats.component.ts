@@ -11,6 +11,7 @@ import { Boot } from "../Shared/boot.model";
 })
 export class StatsComponent implements OnInit {
   boots: Boot[] = [];
+  bootsLoaded:boolean = false;
   // Montly Profit
   UBarChartData: any[] = [];
   UBarChartLabels: any[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -92,9 +93,11 @@ export class StatsComponent implements OnInit {
           this.boots.push(new Boot('', '', boot[0], '', '', boot[1], ''));
         }
         for (const icon of stats.icons) {
-          this.boots.find((boot) => (boot.name === icon[0])).img = icon[1];
+          for (const boot of this.boots.filter((boot) => (boot.name === icon[0]))) {
+            boot.img = icon[1];
+          }
         }
-        console.log(this.boots);
+        this.bootsLoaded = true;
       }
       );
   }
