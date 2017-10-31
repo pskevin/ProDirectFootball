@@ -492,9 +492,10 @@ router.post('/verifyOtpPayment',Verify.verifyLoggedUser,function(request,respons
   });
 });
 
-router.post('/comment',function(request,response){
+router.post('/comment',Verify.verifyLoggedUser,function(request,response){
   var token = request.body.token || request.query.token || request.headers['x-access-token'];
   var decoded = jwt.decode(token);
+  console.log('here!!');
   User.findOne({"username":decoded.data.username}, {"orders.orderId": "1"}).populate({path:"orders.orderId",select:["product.productId"],populate:{path:"product.productId",select:["bname"]}}).exec(function (err, result) {
     if (err)
     response.json(err);
