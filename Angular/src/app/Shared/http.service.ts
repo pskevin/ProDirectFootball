@@ -8,7 +8,16 @@ import { AuthService } from "./auth.service";
 @Injectable()
 export class HttpService {
 
-  constructor(private http: Http, private auth: AuthService) {
+  constructor(private http: Http, private auth: AuthService) {}
+
+  verifyStock(query: any) {
+    console.log("Verify Stock");
+    const body = query;
+    console.log(JSON.stringify(body));
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    return this.http.post('https://localhost:3443/user/checkStock', body)
+      .map((response: Response) => response.json());
   }
 
   fetchBoot(query: any){

@@ -8,5 +8,13 @@ export const bootStateTrigger = trigger('bootState', [
     animate('200ms', style({
       opacity: 1
     }))
+  ]),
+  transition(':leave', [
+    style({
+      opacity: 0
+    }),
+    animate('200ms', style({
+      opacity: 1
+    }))
   ])
 ]);
