@@ -7,12 +7,21 @@
       <li class="ul-li"><a [routerLink]="['/admin/add_boots']">Add Boots</a></li>
     </ul>
   </div>
-  <div id="msgbar" class="col-sm-8">
-    <form [formGroup]="myForm" method="post" (ngSubmit)="onSubmit(myForm)">
-      <label>Addition in Stock:
-        <input class="form-control" formControlName="addition" type="text"><br />
-      </label>
-      <button class="checkout" type="submit">Update Stock</button>
+  <div id="msgbar" class="col-sm-8"><br />
+    <form [formGroup]="myForm" method="post" (ngSubmit)="sendStock(myForm.value)">
+      <label>Boot Name</label>
+      <select class="form-control" formControlName="bname">
+        <option disabled selected>--Select a boot--</option>
+        <option *ngFor="let boot of boots;let i =index" [innerHTML]="boot[0]"></option>
+      </select>
+      <div class="small">
+        <label>Current Stock:&nbsp;<span style="color: white" [innerHTML]="current"></span></label>
+      </div>
+      <div class="small">
+        <label>Final Stock</label>
+          <input class="form-control" formControlName="addition" type="number">
+      </div><br />
+      <button [disabled]="!myForm.valid" class="checkout" type="submit">Update Stock</button>
     </form>
   </div>
 </div>

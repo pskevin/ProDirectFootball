@@ -63,3 +63,9 @@ input{
   background-color: #3F3F3F;
   color: white;
 }
+
+.small{
+  width: 40%;
+  display: inline-block;
+  padding-left: 3%;
+}
