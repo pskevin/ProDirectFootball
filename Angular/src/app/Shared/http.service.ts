@@ -155,7 +155,6 @@ export class HttpService {
   }
 
   getWallPaper() {
-    console.log('In wallpaper!');
     return this.http.get('https://localhost:3443/wallpaper')
       .map((response: Response) => response.json());
   }
@@ -173,6 +172,19 @@ export class HttpService {
     headers.append('x-access-token', this.auth.getToken());
     const body = request;
     return this.http.post('https://localhost:3443/boot/add', body, {headers})
+      .map((response: Response) => response.json());
+  }
+
+  getBootsForStock() {
+    return this.http.get('https://localhost:3443/boot/list')
+      .map((response: Response) => response.json());
+  }
+
+  sendStocks(request) {
+    let headers = new Headers();
+    headers.append('x-access-token', this.auth.getToken());
+    const body = request;
+    return this.http.post('https://localhost:3443/boot/updateStock', body, {headers})
       .map((response: Response) => response.json());
   }
 }

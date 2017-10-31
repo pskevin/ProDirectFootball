@@ -36,7 +36,7 @@ export class WallpComponent implements OnInit {
       .subscribe(
         (result) => {
           console.log(result);
-          alert('Wallpaper added! Clear and upload the next one.');
+          alert('Wallpaper added!');
           window.location.reload();
         }
       );
