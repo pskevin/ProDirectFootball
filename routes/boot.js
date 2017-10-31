@@ -12,6 +12,7 @@ var Order = require('../models/order');
 var _ = require('underscore');
 var Verify = require('./verify');
 var dateformat = require('dateformat');
+var _ = require('underscore');
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded({extended : false}));
 
@@ -24,6 +25,7 @@ router.get('/',function(request,response){
 });
 router.post('/add',function(request,response){
   console.log(request.body);
+  console.log(request.files);
   Boot.create(request.body,function (err,data){
     if(err)
     console.log(err);
@@ -173,12 +175,13 @@ router.post('/statistics',function(request,response){
   var profit = new HashMap();
   var total = new HashMap();
   var img = new HashMap();
+  var final_img = new HashMap();
   var total_monthly = [0,0,0,0,0,0,0,0,0,0,0,0];
   var profit_monthly = [0,0,0,0,0,0,0,0,0,0,0,0];
   if(request.body.year)
-    year = request.body.year;
+  year = request.body.year;
   else
-    year = dateformat(now,'yyyy');
+  year = dateformat(now,'yyyy');
   Order.find({}).populate({path:"product.productId",select:["bname","image"]}).exec(function(err,result){
     var x = async.each(result, function (data, callback){
       y = dateformat(data.createdAt,'yyyy');
@@ -208,9 +211,31 @@ router.post('/statistics',function(request,response){
       }
     },function(err){
       if(err)
-        response.json(err);
+      response.json(err);
       else {
-        response.json({'gross_profit':t_p,'gross_sales':t_s,'profit_monthly':profit_monthly,'total_monthly':total_monthly,profit_boot:profit.entries(),total_boot:total.entries(),icons:img.entries()});
+        var b = _.sortBy(total.entries(),function(data){return (-1*parseInt(data[1]))});
+        var a = _.sortBy(profit.entries(),function(data){return (-1*parseInt(data[1]))});
+        a = a.splice(0,7);
+        b = b.splice(0,7);
+        var b1;
+        var d = async.each(a,function(data,callback){
+          b1 = b[a.indexOf(data)][0];
+          final_img.set(data[0],img.get(data[0]));
+          final_img.set(b1,img.get(b1));
+          callback(null)
+        },function(err){
+          if(err)
+          response.json(err);
+          else {
+            console.log('---------------------');
+            console.log(a);
+            console.log('---------------------');
+            console.log(b);
+            console.log('---------------------');
+            console.log(final_img.entries().length);
+            response.json({'gross_profit':t_p,'gross_sales':t_s,'profit_monthly':profit_monthly,'total_monthly':total_monthly,profit_boot:a,total_boot:b,icons:final_img.entries()});
+          }
+        });
       }
     });
   });
