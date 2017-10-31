@@ -19,6 +19,6 @@ import { ChartsModule } from 'ng2-charts';
     ReactiveFormsModule,
     ChartsModule
   ],
-  declarations: [StatsComponent, AdminComponent, StockComponent, WallpComponent, AddbComponent]
+  declarations: [ StatsComponent, AdminComponent, StockComponent, WallpComponent, AddbComponent ]
 })
 export class AdminModule { }

@@ -14,7 +14,7 @@ export class HttpService {
     return this.http.post('https://localhost:3443/boot/statistics', {})
       .map((response: Response) => response.json());
   }
-  
+
   verifyStock(query: any) {
     console.log("Verify Stock");
     const body = query;
@@ -35,6 +35,15 @@ export class HttpService {
       .map((response: Response) => response.json());
   }
 
+    releaseCart(query: any) {
+      console.log("Release cart");
+      const body = query;
+      console.log(JSON.stringify(body));
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      return this.http.post('https://localhost:3443/user/release', body)
+        .map((response: Response) => response.json());
+    }
   fetchBoot(query: any){
     const body = query;
     console.log(body);

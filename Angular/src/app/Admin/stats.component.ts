@@ -11,6 +11,8 @@ import { Boot } from "../Shared/boot.model";
 })
 export class StatsComponent implements OnInit {
   boots: Boot[] = [];
+  boots1: Boot[] = [];
+  boots2: Boot[] = [];
   bootsLoaded:boolean = false;
   // Montly Profit
   UBarChartData: any[] = [];
@@ -85,7 +87,7 @@ export class StatsComponent implements OnInit {
         ];
         this.Uloaded = true;
         this.UloadCanvas = true;
-        console.log(this.UBarChartData);
+        console.log(stats);
         for (const boot of stats.profit_boot) {
           this.boots.push(new Boot('', '', boot[0], '', '', boot[1], ''));
         }
@@ -96,6 +98,15 @@ export class StatsComponent implements OnInit {
           for (const boot of this.boots.filter((boot) => (boot.name === icon[0]))) {
             boot.img = icon[1];
           }
+        }
+        console.log(this.boots);
+        let i: any, k: any;
+        for ( i = 0; i < this.boots.length / 2; i++){
+          this.boots1[i] = this.boots[i];
+        }
+        for ( k = 0; k < this.boots.length / 2; k++){
+          this.boots2[k] = this.boots[i];
+          i++;
         }
         this.bootsLoaded = true;
       }

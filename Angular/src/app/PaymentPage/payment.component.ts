@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Boot} from '../Shared/boot.model';
+import {Boot, BootOrder} from '../Shared/boot.model';
 import {AuthService} from '../Shared/auth.service';
 import {HttpService} from '../Shared/http.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Observable } from "rxjs/Observable";
 import { CanComponentDeactivate } from "../Shared/paymentDeactivate.guard";
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'pdf-payment',
@@ -24,7 +25,7 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
   request: any;
   valid: {response: string, check: string, type: string};
   cancelPayment: boolean = false;
-  
+
   constructor(
     private http: HttpService,
     private auth: AuthService,
@@ -63,13 +64,13 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
       response: '',
       check: '',
       type: ''
-      
+
     };
   }
-  
+
   ngOnInit() {
   }
-  
+
   onSubmit(data: any, flag: any) {
     if (flag !== 1) {
     } else {
@@ -79,7 +80,7 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
       this.verifyOtp(this.request);
     }
   }
-  
+
   generateOtp() {
     this.http.generateOtpPayment()
       .subscribe(
@@ -93,7 +94,7 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
         }
       );
   }
-  
+
   verifyOtp(otp: any) {
     this.http.verifyOtpPayment({otp: otp.otp, total: this.totalamount})
       .subscribe(
@@ -132,19 +133,46 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
         }
       );
   }
-  
+
   total() {
     this.totalamount = 0;
     for(let i in this.boots) {
       this.totalamount += ((+this.boots[i].price)*(+this.bootsQuantity[i]));
     }
   }
-  
+
   routeToHome() {
-    this.cancelPayment = true;
-    this.auth.navigateTo('home');
+    let query: any = [];
+    for(let i in this.boots) {
+      query.push(new BootOrder(this.boots[i].name, this.bootsQuantity[i]).json());
+    }
+    console.log('ROUTING TO HOME');
+    swal({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Cancel Payment!'
+    }).then(() => {
+        this.cancelPayment = true;
+        this.http.releaseCart(query)
+          .subscribe(
+            (data) => {
+              this.auth.navigateTo('home');
+            }
+          );
+    }).catch(
+      (dismiss) => {
+        if(dismiss !== 'cancel') {
+          console.log(dismiss);
+          this.routeToHome();
+        }
+      }
+    );
   }
-  
+
   removeBoot(i) {
     this.boots.splice(i,1);
     this.bootsQuantity.splice(i,1);
@@ -154,7 +182,7 @@ export class PaymentComponent implements OnInit, CanComponentDeactivate {
       this.isCartEmpty = true;
     }
   }
-  
+
   canDeactivate(): Observable<boolean> | boolean {
     if(!this.auth.isLoggedIn() || this.cancelPayment) {
       return true;

@@ -60,9 +60,59 @@ export class BasketComponent implements OnInit {
   }
 
   routeToPayment() {
+    console.log('SDFYGUHFDSFGGHJKHGFDFGHJHGFGDSFGHJKHGF');
     if (this.auth.isLoggedIn()) {
-
-      this.auth.navigateTo('payment');
+        let query: any = [];
+        for(let i in this.boots) {
+          query.push(new BootOrder(this.boots[i].name, this.bootsQuantity[i]).json());
+        }
+        console.log('Verifying stock');
+        console.log(query);
+        this.http.checkoutCart(query)
+          .subscribe(
+            (res) => {
+              console.log(res);
+              if (res.status === '1') {
+                console.log('Stock is available');
+                this.auth.navigateTo('payment');
+              } else {
+                console.log('Stock is unavailable');
+                let html = '<i>The following boots have inadequate stock - </i>\
+              <table><thead><th>Name</th><th>Available Quantity</th></thead><tbody>';
+                res.data.forEach((boot) => {
+                  html += '<tr><th>'+ boot.bname + '</th><th>' + boot.stock + '</th></tr><br/>'
+                });
+                html += '</tbody></table>';
+                swal({
+                  type: 'error',
+                  title: 'Oops!',
+                  confirmButtonColor: '#f27474',
+                  confirmButtonText: 'Remove boots from Basket',
+                  html: html
+                }).then(
+                  () => {
+                    let faultyNames = res.data.map((faultyBoot) => (faultyBoot.bname)),
+                      acceptedIndices = this.boots.map((addedBoot) => {
+                        return !faultyNames.some((faultyName) => (faultyName === addedBoot.name));
+                      })
+                    this.boots = this.boots.filter((boot,i) => (acceptedIndices[i]));
+                    this.bootsQuantity = this.bootsQuantity.filter((quan,i) => (acceptedIndices[i]));
+                    console.log(acceptedIndices);
+                    console.log(this.boots);
+                    console.log(this.bootsQuantity);
+                    this.auth.removeFromCart(this.boots, this.bootsQuantity);
+                    this.ngOnInit();
+                  }
+                )
+                  .catch(
+                    (dismiss) => {
+                      console.log(dismiss);
+                      this.routeToPayment();
+                    }
+                  );
+              }
+            }
+          )
     }
     else {
       this.auth.openModal();
